@@ -9,6 +9,7 @@ import NotFound from "./pages/NotFound";
 import MembershipForm from "./components/MembershipForm";
 import AuthPage from "./components/AuthPage";
 import AdminDashboard from "./components/AdminDashboard";
+import CodeOfConduct from "./components/CodeOfConduct";
 
 const queryClient = new QueryClient();
 
@@ -24,6 +25,7 @@ const App = () => (
             <Route path="/join" element={<MembershipForm />} />
             <Route path="/auth" element={<AuthPage />} />
             <Route path="/admin" element={<AdminDashboard />} />
+            <Route path="/code-of-conduct" element={<CodeOfConduct />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
