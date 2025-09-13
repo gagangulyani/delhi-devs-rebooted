@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { Users, Zap, Heart, Code, Calendar, MapPin, Quote, Star, ArrowRight, Github, Linkedin, Twitter } from "lucide-react";
 import { Link } from "react-router-dom";
 
@@ -17,6 +18,7 @@ export default function Landing() {
               <h1 className="text-2xl font-bold text-primary">Delhi Devs</h1>
             </div>
             <div className="flex items-center space-x-4">
+              <ThemeToggle />
               <Link to="/join">
                 <Button>Join Community</Button>
               </Link>
