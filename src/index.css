@@ -17,16 +17,16 @@ All colors MUST be HSL.
     --popover: 0 0% 100%;
     --popover-foreground: 220 15% 15%;
 
-    --primary: 260 80% 55%;
+    --primary: 22 89% 52%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 260 15% 95%;
-    --secondary-foreground: 260 80% 35%;
+    --secondary: 22 15% 95%;
+    --secondary-foreground: 22 80% 35%;
 
     --muted: 220 15% 96%;
     --muted-foreground: 220 10% 50%;
 
-    --accent: 280 65% 60%;
+    --accent: 22 65% 60%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84.2% 60.2%;
@@ -34,18 +34,18 @@ All colors MUST be HSL.
 
     --border: 220 15% 88%;
     --input: 220 15% 92%;
-    --ring: 260 80% 55%;
+    --ring: 22 89% 52%;
 
     --radius: 0.5rem;
 
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary: 22 89% 52%;
     --sidebar-primary-foreground: 0 0% 98%;
     --sidebar-accent: 240 4.8% 95.9%;
     --sidebar-accent-foreground: 240 5.9% 10%;
     --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-ring: 22 89% 52%;
   }
 
   .dark {
@@ -58,7 +58,7 @@ All colors MUST be HSL.
     --popover: 220 15% 10%;
     --popover-foreground: 220 20% 95%;
 
-    --primary: 260 80% 65%;
+    --primary: 22 89% 62%;
     --primary-foreground: 220 15% 8%;
 
     --secondary: 220 15% 15%;
@@ -67,7 +67,7 @@ All colors MUST be HSL.
     --muted: 220 15% 12%;
     --muted-foreground: 220 10% 60%;
 
-    --accent: 280 65% 70%;
+    --accent: 22 65% 70%;
     --accent-foreground: 220 15% 8%;
 
     --destructive: 0 75% 55%;
@@ -75,16 +75,16 @@ All colors MUST be HSL.
 
     --border: 220 15% 20%;
     --input: 220 15% 15%;
-    --ring: 260 80% 65%;
+    --ring: 22 89% 62%;
 
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary: 22 89% 62%;
     --sidebar-primary-foreground: 0 0% 100%;
     --sidebar-accent: 240 3.7% 15.9%;
     --sidebar-accent-foreground: 240 4.8% 95.9%;
     --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-ring: 22 89% 62%;
   }
 }
 
@@ -100,27 +100,5 @@ All colors MUST be HSL.
   /* Smooth transitions for theme switching */
   html {
     @apply transition-colors duration-300;
-  }
-
-  /* Better dark mode gradients */
-  .dark .bg-gradient-to-br {
-    background-image: linear-gradient(to bottom right, 
-      hsl(var(--background)), 
-      hsl(var(--secondary) / 0.3), 
-      hsl(var(--accent) / 0.1)
-    );
-  }
-
-  .dark .bg-gradient-to-r {
-    background-image: linear-gradient(to right, 
-      hsl(var(--primary) / 0.1), 
-      hsl(var(--accent) / 0.1)
-    );
-  }
-
-  /* Enhanced card styling for dark mode */
-  .dark .hover\:shadow-lg:hover {
-    box-shadow: 0 10px 15px -3px hsl(var(--primary) / 0.1), 
-                0 4px 6px -2px hsl(var(--primary) / 0.1);
   }
 }

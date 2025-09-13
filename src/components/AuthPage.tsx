@@ -205,7 +205,7 @@ export default function AuthPage() {
 
   if (user && userProfile) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-background via-secondary/20 to-accent/10 py-12 px-4">
+      <div className="min-h-screen bg-background py-12 px-4">
         <div className="container mx-auto max-w-md">
           <Card>
             <CardHeader className="text-center">
@@ -259,7 +259,7 @@ export default function AuthPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-secondary/20 to-accent/10 py-12 px-4">
+    <div className="min-h-screen bg-background py-12 px-4">
       <div className="container mx-auto max-w-md">
         {/* Header */}
         <div className="mb-8">

@@ -86,7 +86,7 @@ export default function MembershipForm() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-secondary/20 to-accent/10 py-12 px-4">
+    <div className="min-h-screen bg-background py-12 px-4">
       <div className="container mx-auto max-w-2xl">
         {/* Header */}
         <div className="mb-8">
