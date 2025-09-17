@@ -45,9 +45,7 @@ export default function Landing() {
       <nav className="fixed top-6 left-1/2 transform -translate-x-1/2 z-50 bg-card rounded-full px-8 py-4 border border-border shadow-lg">
         <div className="flex items-center justify-between gap-8">
           <div className="flex items-center space-x-2">
-            <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
-              <Code2 className="h-5 w-5 text-primary-foreground" />
-            </div>
+            <img src="/delhi-devs-rebooted.png" alt="Delhi Devs Rebooted" className="w-8 h-8" />
             <h1 className="text-xl font-bold text-foreground">Delhi Devs Rebooted</h1>
           </div>
           <div className="flex items-center space-x-4">
@@ -117,40 +115,16 @@ export default function Landing() {
               </div>
             </div>
 
-            {/* Tech Stack Visualization */}
-            <div className="relative h-96 lg:h-[500px]">
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="relative w-80 h-80">
-                  {/* Central Delhi Icon */}
-                  <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-20 h-20 bg-primary rounded-full flex items-center justify-center">
-                    <Building2 className="h-10 w-10 text-primary-foreground" />
-                  </div>
-
-                  {/* Orbiting Tech Icons */}
-                  {[
-                    { icon: Terminal, delay: 0 },
-                    { icon: Database, delay: 45 },
-                    { icon: Globe, delay: 90 },
-                    { icon: Code2, delay: 135 },
-                    { icon: Network, delay: 180 },
-                    { icon: Heart, delay: 225 },
-                    { icon: BookOpen, delay: 270 },
-                    { icon: Briefcase, delay: 315 },
-                  ].map(({ icon: Icon, delay }, index) => (
-                    <div
-                      key={index}
-                      className="absolute w-12 h-12 bg-secondary rounded-full flex items-center justify-center"
-                      style={{
-                        top: "50%",
-                        left: "50%",
-                        transform: `translate(-50%, -50%) rotate(${delay}deg) translateY(-120px) rotate(-${delay}deg)`,
-                      }}
-                    >
-                      <Icon className="h-6 w-6 text-secondary-foreground" />
-                    </div>
-                  ))}
-                </div>
-              </div>
+            {/* Hero Illustration */}
+            <div className="relative h-96 lg:h-[560px] flex items-center justify-center">
+              <img
+                src="/delhi-devs-rebooted.png"
+                alt="Delhi Devs Rebooted Illustration"
+                className="object-contain w-full h-full drop-shadow-xl"
+                loading="eager"
+                decoding="async"
+              />
+              <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-background/40 via-background/0 to-background/10" />
             </div>
           </div>
         </div>
@@ -377,9 +351,7 @@ export default function Landing() {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
             <div className="md:col-span-2">
               <div className="flex items-center space-x-3 mb-6">
-                <div className="w-10 h-10 bg-primary rounded-full flex items-center justify-center">
-                  <Code2 className="h-6 w-6 text-primary-foreground" />
-                </div>
+                <img src="/delhi-devs-rebooted.png" alt="Delhi Devs Rebooted" className="w-10 h-10" />
                 <span className="text-2xl font-bold text-foreground">Delhi Devs Rebooted</span>
               </div>
               <p className="text-muted-foreground mb-6 max-w-md leading-relaxed">
