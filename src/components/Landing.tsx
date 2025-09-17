@@ -33,88 +33,16 @@ import {
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useCommunityStats } from "@/hooks/use-community-stats";
-import { useEffect, useRef } from "react";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-
-gsap.registerPlugin(ScrollTrigger);
 
 export default function Landing() {
   const { data: stats, isLoading } = useCommunityStats();
-  const heroRef = useRef(null);
-  const statsRef = useRef(null);
-  const cardsRef = useRef(null);
-
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      // Hero animation
-      gsap.from(".hero-content", {
-        duration: 1.2,
-        y: 50,
-        opacity: 0,
-        ease: "power3.out",
-      });
-
-      gsap.from(".hero-badge", {
-        duration: 0.8,
-        scale: 0,
-        ease: "back.out(1.7)",
-        delay: 0.3,
-      });
-
-      gsap.from(".hero-buttons", {
-        duration: 1,
-        y: 30,
-        opacity: 0,
-        ease: "power2.out",
-        delay: 0.6,
-      });
-
-      // Stats counter animation
-      if (stats && !isLoading) {
-        gsap.fromTo(
-          ".stat-number",
-          { innerText: 0 },
-          {
-            innerText: (i, target) => {
-              const finalValue = parseInt(target.getAttribute("data-value") || "0");
-              return finalValue;
-            },
-            duration: 2,
-            ease: "power2.out",
-            snap: { innerText: 1 },
-            scrollTrigger: {
-              trigger: ".stats-section",
-              start: "top 80%",
-            },
-          }
-        );
-      }
-
-      // Cards stagger animation
-      gsap.from(".feature-card", {
-        duration: 0.8,
-        y: 50,
-        opacity: 0,
-        stagger: 0.2,
-        ease: "power2.out",
-        scrollTrigger: {
-          trigger: ".cards-section",
-          start: "top 80%",
-        },
-      });
-    }, heroRef);
-
-    return () => ctx.revert();
-  }, [stats, isLoading]);
 
   return (
-    <div className="min-h-screen bg-background relative overflow-hidden" ref={heroRef}>
-      {/* Background Elements */}
-      <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-background to-secondary/5"></div>
+    <div className="min-h-screen bg-background relative overflow-hidden">
+      {/* Background Elements - Removed to prevent covering content */}
 
       {/* Floating Navigation */}
-      <nav className="fixed top-6 left-1/2 transform -translate-x-1/2 z-50 bg-card/80 backdrop-blur-lg rounded-full px-8 py-4 border border-border shadow-lg">
+      <nav className="fixed top-6 left-1/2 transform -translate-x-1/2 z-50 bg-card rounded-full px-8 py-4 border border-border shadow-lg">
         <div className="flex items-center justify-between gap-8">
           <div className="flex items-center space-x-2">
             <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
@@ -229,7 +157,7 @@ export default function Landing() {
       </section>
 
       {/* Community Stats */}
-      <section className="py-20 px-4 relative stats-section" ref={statsRef}>
+      <section className="py-20 px-4 relative stats-section">
         <div className="container mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-foreground mb-4">
@@ -308,7 +236,7 @@ export default function Landing() {
       </section>
 
       {/* What We Offer */}
-      <section className="py-20 px-4 relative cards-section" ref={cardsRef}>
+      <section className="py-20 px-4 relative cards-section">
         <div className="container mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-foreground mb-4">
@@ -402,7 +330,7 @@ export default function Landing() {
       </section>
 
       {/* Call to Action */}
-      <section className="py-20 px-4 bg-card/50">
+      <section className="py-20 px-4 bg-card">
         <div className="container mx-auto text-center">
           <h2 className="text-4xl font-bold text-foreground mb-4">
             Ready to Code Together?
