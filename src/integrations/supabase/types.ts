@@ -82,7 +82,15 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      get_community_stats: {
+        Args: Record<string, never>
+        Returns: {
+          totalMembers: number
+          approvedMembers: number
+          pendingMembers: number
+          recentJoins: number
+        }
+      }
     }
     Enums: {
       [_ in never]: never
