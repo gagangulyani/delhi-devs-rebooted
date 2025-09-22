@@ -13,37 +13,37 @@ export function FeaturesSection() {
     {
       icon: Network,
       title: "Professional Networking",
-      description: "Connect with developers from startups to MNCs across Delhi, Gurgaon, Noida, and beyond.",
+      description: "Connect directly with developers from startups to MNCs across Delhi NCR through genuine conversations and shared experiences.",
       color: "primary",
     },
     {
       icon: Briefcase,
       title: "Job Opportunities",
-      description: "Access exclusive job postings and referrals from top tech companies in the NCR region.",
+      description: "Get job referrals and opportunities shared by community members who know your work and want to help you succeed.",
       color: "green-500",
     },
     {
       icon: BookOpen,
       title: "Knowledge Sharing",
-      description: "Learn from tech talks, workshops, and hands-on sessions by industry experts.",
+      description: "Learn from community members who voluntarily share their expertise through talks, workshops, and hands-on sessions.",
       color: "blue-500",
     },
     {
       icon: Calendar,
       title: "Regular Meetups",
-      description: "Join monthly meetups, hackathons, and social events across different NCR locations.",
+      description: "Join meetups and events organized by fellow community members across different NCR locations.",
       color: "purple-500",
     },
     {
       icon: Code2,
       title: "Project Collaboration",
-      description: "Find project partners, form teams, and work on exciting side projects together.",
+      description: "Find project partners and form teams with other developers who are passionate about building together.",
       color: "orange-500",
     },
     {
       icon: Heart,
       title: "Mentorship",
-      description: "Get guidance from senior developers and contribute by mentoring newcomers.",
+      description: "Receive guidance from senior developers and give back by mentoring newcomers in this supportive community.",
       color: "red-500",
     },
   ];
@@ -56,9 +56,9 @@ export function FeaturesSection() {
             Why Join Delhi Devs Rebooted?
           </h2>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            From quick help with debugging to finding your next co-founder,
-            from job referrals to weekend hackathon partners - this is how
-            Delhi NCR developers connect, collaborate, and grow together
+            This is a community where developers help each other grow. No paid services,
+            no corporate handouts - just real people sharing knowledge, opportunities,
+            and support to build something amazing together in Delhi NCR.
           </p>
         </div>
 

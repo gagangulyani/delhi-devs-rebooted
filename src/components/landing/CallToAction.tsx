@@ -10,7 +10,7 @@ export function CallToAction() {
   ];
 
   return (
-    <section className="py-20 bg-card">
+    <section className="py-20 border-t">
       <div className="container mx-auto px-4 text-center">
         <h2 className="text-4xl font-bold text-foreground mb-4">
           Ready to Code Together?
@@ -35,7 +35,7 @@ export function CallToAction() {
           </Link>
         </div>
 
-        <div className="flex items-center justify-center gap-6 text-sm text-muted-foreground">
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 text-sm text-muted-foreground mx-4">
           {features.map((feature, index) => {
             const dotColor = feature.color === "primary" ? "bg-primary" : `bg-${feature.color}`;
             
