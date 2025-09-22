@@ -7,7 +7,6 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { ThemeToggle } from "@/components/ui/theme-toggle";
 import {
   Code2,
   Users,
@@ -33,57 +32,26 @@ import {
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useCommunityStats } from "@/hooks/use-community-stats";
+import useReveal from '@/hooks/use-reveal';
 
 export default function Landing() {
   const { data: stats, isLoading } = useCommunityStats();
+  useReveal('.reveal');
 
   return (
     <div className="min-h-screen bg-background relative overflow-hidden">
-      {/* Background Elements - Removed to prevent covering content */}
-
-      {/* Floating Navigation */}
-      <nav className="fixed top-6 left-1/2 transform -translate-x-1/2 z-50 bg-card rounded-full px-8 py-4 border border-border shadow-lg">
-        <div className="flex items-center justify-between gap-8">
-          <div className="flex items-center space-x-2">
-            <img src="/delhi-devs-rebooted.png" alt="Delhi Devs Rebooted" className="w-8 h-8" />
-            <h1 className="text-xl font-bold text-foreground">Delhi Devs Rebooted</h1>
-          </div>
-          <div className="flex items-center space-x-4">
-            <ThemeToggle />
-            <Link to="/code-of-conduct">
-              <Button variant="ghost" size="sm" className="rounded-full">
-                Code of Conduct
-              </Button>
-            </Link>
-            <Link to="/join">
-              <Button className="bg-primary hover:bg-primary/90 text-primary-foreground rounded-full">
-                Join Community
-              </Button>
-            </Link>
-            <Link to="/auth">
-              <Button
-                variant="outline"
-                className="border-border text-foreground hover:bg-accent rounded-full"
-              >
-                Login
-              </Button>
-            </Link>
-          </div>
-        </div>
-      </nav>
-
       {/* Hero Section */}
-      <section className="min-h-screen flex items-center relative z-10 pt-20">
+      <section className="min-h-screen flex items-center pt-16 md:pt-8 pb-20">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="text-left hero-content">
-              <div className="flex items-center gap-2 mb-6 hero-badge">
+              <div className="flex items-center gap-2 mb-6 hero-badge reveal">
                 <Badge className="bg-primary text-primary-foreground border-0 rounded-full px-4 py-2">
                   <MapPin className="w-4 h-4 mr-2" />
                   Delhi NCR Tech Hub
                 </Badge>
               </div>
-              <h1 className="text-6xl font-bold text-foreground mb-6 leading-tight">
+              <h1 className="text-6xl font-bold text-foreground mb-6 leading-tight reveal">
                 Connect.
                 <span className="text-primary block">Collaborate.</span>
                 <span className="text-secondary-foreground">Code.</span>
@@ -94,7 +62,7 @@ export default function Landing() {
                 from junior developers to tech leads, we're united by code.
               </p>
 
-              <div className="flex flex-col sm:flex-row gap-4 hero-buttons">
+              <div className="flex flex-col sm:flex-row gap-4 hero-buttons reveal">
                 <Link to="/join">
                   <Button
                     size="lg"
@@ -116,7 +84,7 @@ export default function Landing() {
             </div>
 
             {/* Hero Illustration */}
-            <div className="relative h-96 lg:h-[560px] flex items-center justify-center">
+            <div className="relative h-96 lg:h-[560px] flex items-center justify-center reveal">
               <img
                 src="/delhi-devs-rebooted.png"
                 alt="Delhi Devs Rebooted Illustration"
@@ -131,8 +99,8 @@ export default function Landing() {
       </section>
 
       {/* Community Stats */}
-      <section className="py-20 px-4 relative stats-section">
-        <div className="container mx-auto">
+      <section className="py-20 relative stats-section">
+        <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-foreground mb-4">
               Growing Strong Together
@@ -143,7 +111,7 @@ export default function Landing() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <Card className="text-center">
+            <Card className="text-center reveal">
               <CardContent className="p-6">
                 <div className="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto mb-4">
                   <Users className="h-8 w-8 text-primary" />
@@ -160,7 +128,7 @@ export default function Landing() {
               </CardContent>
             </Card>
 
-            <Card className="text-center">
+            <Card className="text-center reveal">
               <CardContent className="p-6">
                 <div className="w-16 h-16 bg-green-500/10 rounded-2xl flex items-center justify-center mx-auto mb-4">
                   <TrendingUp className="h-8 w-8 text-green-500" />
@@ -177,7 +145,7 @@ export default function Landing() {
               </CardContent>
             </Card>
 
-            <Card className="text-center">
+            <Card className="text-center reveal">
               <CardContent className="p-6">
                 <div className="w-16 h-16 bg-blue-500/10 rounded-2xl flex items-center justify-center mx-auto mb-4">
                   <Calendar className="h-8 w-8 text-blue-500" />
@@ -194,7 +162,7 @@ export default function Landing() {
               </CardContent>
             </Card>
 
-            <Card className="text-center">
+            <Card className="text-center reveal">
               <CardContent className="p-6">
                 <div className="w-16 h-16 bg-orange-500/10 rounded-2xl flex items-center justify-center mx-auto mb-4">
                   <MapPin className="h-8 w-8 text-orange-500" />
@@ -210,8 +178,8 @@ export default function Landing() {
       </section>
 
       {/* What We Offer */}
-      <section className="py-20 px-4 relative cards-section">
-        <div className="container mx-auto">
+      <section className="py-20 relative cards-section">
+        <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-foreground mb-4">
               Why Join Delhi Devs Rebooted?
@@ -223,7 +191,7 @@ export default function Landing() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {/* Networking */}
-            <Card className="feature-card group hover:shadow-lg transition-all duration-300">
+            <Card className="feature-card group hover:shadow-lg transition-all duration-300 reveal">
               <CardHeader>
                 <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
                   <Network className="h-6 w-6 text-primary" />
@@ -236,7 +204,7 @@ export default function Landing() {
             </Card>
 
             {/* Job Opportunities */}
-            <Card className="feature-card group hover:shadow-lg transition-all duration-300">
+            <Card className="feature-card group hover:shadow-lg transition-all duration-300 reveal">
               <CardHeader>
                 <div className="w-12 h-12 bg-green-500/10 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
                   <Briefcase className="h-6 w-6 text-green-500" />
@@ -249,7 +217,7 @@ export default function Landing() {
             </Card>
 
             {/* Knowledge Sharing */}
-            <Card className="feature-card group hover:shadow-lg transition-all duration-300">
+            <Card className="feature-card group hover:shadow-lg transition-all duration-300 reveal">
               <CardHeader>
                 <div className="w-12 h-12 bg-blue-500/10 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
                   <BookOpen className="h-6 w-6 text-blue-500" />
@@ -262,7 +230,7 @@ export default function Landing() {
             </Card>
 
             {/* Community Events */}
-            <Card className="feature-card group hover:shadow-lg transition-all duration-300">
+            <Card className="feature-card group hover:shadow-lg transition-all duration-300 reveal">
               <CardHeader>
                 <div className="w-12 h-12 bg-purple-500/10 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
                   <Calendar className="h-6 w-6 text-purple-500" />
@@ -275,7 +243,7 @@ export default function Landing() {
             </Card>
 
             {/* Collaboration */}
-            <Card className="feature-card group hover:shadow-lg transition-all duration-300">
+            <Card className="feature-card group hover:shadow-lg transition-all duration-300 reveal">
               <CardHeader>
                 <div className="w-12 h-12 bg-orange-500/10 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
                   <Code2 className="h-6 w-6 text-orange-500" />
@@ -288,7 +256,7 @@ export default function Landing() {
             </Card>
 
             {/* Mentorship */}
-            <Card className="feature-card group hover:shadow-lg transition-all duration-300">
+            <Card className="feature-card group hover:shadow-lg transition-all duration-300 reveal">
               <CardHeader>
                 <div className="w-12 h-12 bg-red-500/10 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
                   <Heart className="h-6 w-6 text-red-500" />
@@ -304,8 +272,8 @@ export default function Landing() {
       </section>
 
       {/* Call to Action */}
-      <section className="py-20 px-4 bg-card">
-        <div className="container mx-auto text-center">
+      <section className="py-20 bg-card">
+        <div className="container mx-auto px-4 text-center">
           <h2 className="text-4xl font-bold text-foreground mb-4">
             Ready to Code Together?
           </h2>
@@ -346,8 +314,8 @@ export default function Landing() {
       </section>
 
       {/* Footer */}
-      <footer className="py-16 px-4 bg-card border-t border-border">
-        <div className="container mx-auto">
+      <footer className="py-16 bg-card border-t border-border">
+        <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
             <div className="md:col-span-2">
               <div className="flex items-center space-x-3 mb-6">

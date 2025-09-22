@@ -89,6 +89,46 @@ All colors MUST be HSL.
     --sidebar-border: 15 35% 25%;
     --sidebar-ring: 22 90% 58%;
   }
+
+  /* Reveal animations and utility tokens */
+  :root {
+    --reveal-duration: 600ms;
+    --reveal-ease: cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  @keyframes reveal-up {
+    from {
+      opacity: 0;
+      transform: translateY(12px) scale(0.995);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(12px) scale(0.995);
+    will-change: opacity, transform;
+    transition: opacity var(--reveal-duration) var(--reveal-ease), transform var(--reveal-duration) var(--reveal-ease);
+  }
+
+  .reveal.is-revealed {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    animation: reveal-up var(--reveal-duration) var(--reveal-ease) both;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .reveal,
+    .reveal.is-revealed {
+      transition: none;
+      animation: none;
+      transform: none;
+      opacity: 1;
+    }
+  }
 }
 
 @layer base {
