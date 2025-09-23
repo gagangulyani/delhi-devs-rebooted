@@ -2,27 +2,27 @@ export const navigationItems = [
   {
     title: "Home",
     url: "/",
-    icon: "Home",
+    icon: "faHome",
   },
   {
     title: "Join Community",
     url: "/join",
-    icon: "UserPlus",
+    icon: "faUserPlus",
   },
   {
     title: "Login",
     url: "/auth",
-    icon: "LogIn",
+    icon: "faSignInAlt",
   },
   {
     title: "Code of Conduct",
     url: "/code-of-conduct",
-    icon: "Shield",
+    icon: "faShieldAlt",
   },
   {
     title: "Admin",
     url: "/admin",
-    icon: "Settings",
+    icon: "faCog",
   },
 ];
 

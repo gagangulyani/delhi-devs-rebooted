@@ -38,7 +38,7 @@ export function CallToAction() {
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 text-sm text-muted-foreground mx-4">
           {features.map((feature, index) => {
             const dotColor = feature.color === "primary" ? "bg-primary" : `bg-${feature.color}`;
-            
+
             return (
               <div key={index} className="flex items-center gap-2">
                 <div className={`w-2 h-2 ${dotColor} rounded-full animate-pulse`}></div>

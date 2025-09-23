@@ -47,10 +47,6 @@ export default function AdminPage() {
   const [loading, setLoading] = useState(true);
   const [actionLoading, setActionLoading] = useState<string | null>(null);
 
-  useEffect(() => {
-    fetchMembers();
-  }, []);
-
   const fetchMembers = useCallback(async () => {
     try {
       const { data, error } = await supabase
@@ -73,6 +69,10 @@ export default function AdminPage() {
       setLoading(false);
     }
   }, []);
+
+  useEffect(() => {
+    fetchMembers();
+  }, [fetchMembers]);
 
   const calculateStats = (data: Member[]) => {
     const now = new Date();

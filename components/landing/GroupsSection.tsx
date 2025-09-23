@@ -5,6 +5,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import Image from "next/image";
 
 export function GroupsSection() {
   const groups = [
@@ -100,10 +101,11 @@ export function GroupsSection() {
               <div className="relative">
                 {/* Large rectangular image section */}
                 <div className="relative h-64 overflow-hidden bg-gradient-to-br from-primary/5 to-primary/10">
-                  <img
+                  <Image
                     src={group.image}
                     alt={group.name}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform duration-500"
                   />
                   {/* Overlay gradient for better text readability */}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>

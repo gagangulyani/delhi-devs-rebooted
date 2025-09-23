@@ -33,8 +33,6 @@ const signupSchema = z.object({
 type LoginData = z.infer<typeof loginSchema>;
 type SignupData = z.infer<typeof signupSchema>;
 
-export const dynamic = 'force-dynamic';
-
 export default function AuthenticationPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [user, setUser] = useState<User | null>(null);

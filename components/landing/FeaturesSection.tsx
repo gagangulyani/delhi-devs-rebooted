@@ -30,8 +30,8 @@ export function FeaturesSection() {
     },
     {
       icon: Calendar,
-      title: "Regular Meetups",
-      description: "Join meetups and events organized by fellow community members across different NCR locations.",
+      title: "Community Events",
+      description: "Participate in diverse community-driven events from hackathons to casual coffee chats, fostering creativity and connections.",
       color: "purple-500",
     },
     {
@@ -67,10 +67,10 @@ export function FeaturesSection() {
             const IconComponent = feature.icon;
             const bgColor = feature.color === "primary" ? "bg-primary/10" : `bg-${feature.color}/10`;
             const textColor = feature.color === "primary" ? "text-primary" : `text-${feature.color}`;
-            
+
             return (
-              <Card 
-                key={index} 
+              <Card
+                key={index}
                 className="feature-card group hover:shadow-lg transition-all duration-300"
               >
                 <CardHeader>
