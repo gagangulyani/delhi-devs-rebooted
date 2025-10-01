@@ -427,6 +427,40 @@ export default function ProfilePage({ params }: ProfilePageProps) {
 
   return (
     <div className="min-h-screen bg-background">
+      {/* Mobile Settings Button - Floating in header area */}
+      {isViewingOwnProfile && (
+        <Dialog
+          open={showSettings}
+          onOpenChange={(open) => {
+            if (!open) {
+              handleCloseSettings();
+            } else {
+              setShowSettings(true);
+            }
+          }}
+        >
+          <DialogTrigger asChild>
+            <Button 
+              variant="ghost" 
+              size="icon"
+              className="fixed top-3 right-14 z-50 md:hidden h-9 w-9 bg-transparent hover:bg-white/10 dark:hover:bg-white/5"
+            >
+              <Settings className="h-5 w-5" />
+            </Button>
+          </DialogTrigger>
+          <Suspense fallback={<div />}>
+            <SettingsDialog
+              isOpen={showSettings}
+              user={user}
+              form={profileForm}
+              isLoading={isLoading}
+              onClose={handleCloseSettings}
+              onSubmit={onProfileSubmit}
+            />
+          </Suspense>
+        </Dialog>
+      )}
+      
       <div className="container mx-auto px-4 py-8 max-w-6xl">
         {/* Header - Static content loads immediately */}
         <div className="flex items-center justify-between mb-8">
@@ -443,7 +477,7 @@ export default function ProfilePage({ params }: ProfilePageProps) {
               }}
             >
               <DialogTrigger asChild>
-                <Button variant="outline" className="gap-2">
+                <Button variant="outline" className="gap-2 hidden md:flex">
                   <Settings className="h-4 w-4" />
                   Settings
                 </Button>

@@ -14,7 +14,7 @@ export const navigationItems = [
   {
     title: "About",
     url: "/about",
-    icon: "faHome",
+    icon: "faInfoCircle",
     isPublic: true,
   },
   {
