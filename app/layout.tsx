@@ -7,7 +7,7 @@ import { SidebarProvider } from "@/components/ui/sidebar";
 import { DesktopSidebar } from "@/components/DesktopSidebar";
 import { MobileHeader } from "@/components/MobileHeader";
 import { MobileBottomNavigation } from "@/components/MobileBottomNavigation";
-import { navigationItems } from "@/constants/navigation";
+import { getPublicNavigationItems } from "@/constants/navigation";
 
 export const metadata: Metadata = {
   title: {
@@ -125,6 +125,8 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
+  const publicNavigationItems = getPublicNavigationItems();
+
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Organization',
@@ -186,7 +188,7 @@ export default function RootLayout({
           <SidebarProvider>
             <div className="flex min-h-screen w-full bg-background">
               {/* Desktop Sidebar - Hidden on mobile */}
-              <DesktopSidebar navigationItems={navigationItems} />
+              <DesktopSidebar navigationItems={publicNavigationItems} />
               
               <main className="flex-1 flex flex-col min-h-screen w-full md:ml-0">
                 {/* Mobile header - Sticky with glassmorphism */}
@@ -199,7 +201,7 @@ export default function RootLayout({
               </main>
               
               {/* Mobile Bottom Navigation - Floating glassmorphism design */}
-              <MobileBottomNavigation navigationItems={navigationItems} />
+              <MobileBottomNavigation navigationItems={publicNavigationItems} />
             </div>
           </SidebarProvider>
         </Providers>

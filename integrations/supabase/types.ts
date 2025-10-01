@@ -77,6 +77,177 @@ export type Database = {
         }
         Relationships: []
       }
+      user_profiles: {
+        Row: {
+          id: string
+          display_name: string
+          bio: string | null
+          location: string | null
+          job_title: string | null
+          company: string | null
+          github_url: string | null
+          linkedin_url: string | null
+          twitter_url: string | null
+          website_url: string | null
+          avatar_url: string | null
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id: string
+          display_name: string
+          bio?: string | null
+          location?: string | null
+          job_title?: string | null
+          company?: string | null
+          github_url?: string | null
+          linkedin_url?: string | null
+          twitter_url?: string | null
+          website_url?: string | null
+          avatar_url?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          display_name?: string
+          bio?: string | null
+          location?: string | null
+          job_title?: string | null
+          company?: string | null
+          github_url?: string | null
+          linkedin_url?: string | null
+          twitter_url?: string | null
+          website_url?: string | null
+          avatar_url?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      user_projects: {
+        Row: {
+          id: string
+          user_id: string
+          title: string
+          description: string
+          technologies: string[]
+          github_url: string | null
+          live_url: string | null
+          looking_for_collaborators: boolean
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          title: string
+          description: string
+          technologies?: string[]
+          github_url?: string | null
+          live_url?: string | null
+          looking_for_collaborators?: boolean
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          title?: string
+          description?: string
+          technologies?: string[]
+          github_url?: string | null
+          live_url?: string | null
+          looking_for_collaborators?: boolean
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      events: {
+        Row: {
+          id: string
+          created_by: string
+          title: string
+          description: string
+          event_date: string
+          end_date: string | null
+          location: string
+          location_type: string
+          event_link: string | null
+          max_attendees: number | null
+          current_attendees: number
+          tags: string[]
+          image_url: string | null
+          is_featured: boolean
+          status: string
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          created_by: string
+          title: string
+          description: string
+          event_date: string
+          end_date?: string | null
+          location: string
+          location_type?: string
+          event_link?: string | null
+          max_attendees?: number | null
+          current_attendees?: number
+          tags?: string[]
+          image_url?: string | null
+          is_featured?: boolean
+          status?: string
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          created_by?: string
+          title?: string
+          description?: string
+          event_date?: string
+          end_date?: string | null
+          location?: string
+          location_type?: string
+          event_link?: string | null
+          max_attendees?: number | null
+          current_attendees?: number
+          tags?: string[]
+          image_url?: string | null
+          is_featured?: boolean
+          status?: string
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      event_attendees: {
+        Row: {
+          id: string
+          event_id: string
+          user_id: string
+          joined_at: string
+          status: string
+        }
+        Insert: {
+          id?: string
+          event_id: string
+          user_id: string
+          joined_at?: string
+          status?: string
+        }
+        Update: {
+          id?: string
+          event_id?: string
+          user_id?: string
+          joined_at?: string
+          status?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

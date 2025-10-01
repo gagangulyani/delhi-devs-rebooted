@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -13,7 +13,8 @@ import { toast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { ArrowLeft, Users } from "lucide-react";
+import { ArrowLeft, Users, CheckCircle2, Loader2 } from "lucide-react";
+import { User as SupabaseUser } from "@supabase/supabase-js";
 
 const formSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
@@ -30,6 +31,10 @@ export const dynamic = 'force-dynamic';
 
 export default function JoinPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [user, setUser] = useState<SupabaseUser | null>(null);
+  const [isCheckingAuth, setIsCheckingAuth] = useState(true);
+  const [isMember, setIsMember] = useState(false);
+  const [userProfile, setUserProfile] = useState<any>(null);
   const router = useRouter();
 
   const form = useForm<FormData>({
@@ -43,6 +48,91 @@ export default function JoinPage() {
       join_mailing_list: false,
     },
   });
+
+  useEffect(() => {
+    const checkAuthAndMembership = async () => {
+      setIsCheckingAuth(true);
+      
+      const { data: { user } } = await supabase.auth.getUser();
+      setUser(user);
+
+      if (user) {
+        // Check if user already has a member record
+        const { data: memberData } = await supabase
+          .from('members')
+          .select('*')
+          .eq('email', user.email)
+          .single();
+
+        if (memberData) {
+          setIsMember(true);
+        }
+
+        // Get user profile
+        const { data: profileData } = await supabase
+          .from('user_profiles')
+          .select('*')
+          .eq('id', user.id)
+          .single();
+
+        setUserProfile(profileData);
+      }
+
+      setIsCheckingAuth(false);
+    };
+
+    checkAuthAndMembership();
+  }, []);
+
+  const handleOneClickJoin = async () => {
+    if (!user) return;
+    
+    setIsSubmitting(true);
+    
+    try {
+      // Create member record with user's existing info
+      const { error } = await supabase
+        .from("members")
+        .insert({
+          name: userProfile?.display_name || user.email?.split('@')[0] || 'Member',
+          phone: userProfile?.phone || '',
+          email: user.email!,
+          linkedin_profile: userProfile?.linkedin_url || null,
+          agreed_to_terms: true,
+          join_mailing_list: true,
+        });
+
+      if (error) {
+        if (error.code === '23505') {
+          toast({
+            title: "Already a member",
+            description: "You're already a member of Delhi Devs!",
+            variant: "destructive",
+          });
+          setIsMember(true);
+        } else {
+          throw error;
+        }
+      } else {
+        setIsMember(true);
+        toast({
+          title: "Welcome to Delhi Devs! 🎉",
+          description: "You've successfully joined the community. Let's build something amazing together!",
+        });
+        
+        setTimeout(() => router.push("/"), 2000);
+      }
+    } catch (error) {
+      console.error("Error joining community:", error);
+      toast({
+        title: "Join Failed",
+        description: "There was an error joining the community. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   const onSubmit = async (values: FormData) => {
     setIsSubmitting(true);
@@ -90,6 +180,52 @@ export default function JoinPage() {
     }
   };
 
+  if (isCheckingAuth) {
+    return (
+      <div className="min-h-screen bg-background py-12 px-4 flex items-center justify-center">
+        <div className="text-center">
+          <Loader2 className="h-12 w-12 animate-spin text-primary mx-auto mb-4" />
+          <p className="text-muted-foreground">Checking your status...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (user && isMember) {
+    return (
+      <div className="min-h-screen bg-background py-12 px-4">
+        <div className="container mx-auto max-w-2xl">
+          <Link href="/" className="inline-flex items-center text-muted-foreground hover:text-foreground mb-6">
+            <ArrowLeft className="mr-2 h-4 w-4" />
+            Back to Home
+          </Link>
+          
+          <Card className="text-center">
+            <CardContent className="pt-12 pb-12">
+              <div className="flex justify-center mb-6">
+                <div className="p-4 bg-green-500/10 rounded-full">
+                  <CheckCircle2 className="h-16 w-16 text-green-500" />
+                </div>
+              </div>
+              <h2 className="text-3xl font-bold mb-4">You're Already a Member! 🎉</h2>
+              <p className="text-lg text-muted-foreground mb-8">
+                Welcome back! You're already part of the Delhi Devs community.
+              </p>
+              <div className="flex gap-4 justify-center">
+                <Button onClick={() => router.push("/events")}>
+                  Browse Events
+                </Button>
+                <Button variant="outline" onClick={() => router.push("/profile")}>
+                  View Profile
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-background py-12 px-4">
       <div className="container mx-auto max-w-2xl">
@@ -108,22 +244,73 @@ export default function JoinPage() {
             </div>
             <h1 className="text-4xl font-bold mb-2 text-foreground">Join Delhi Devs</h1>
             <p className="text-xl text-muted-foreground">
-              Apply to become a member of our vibrant developer community
+              {user 
+                ? "One click away from joining our vibrant developer community" 
+                : "Apply to become a member of our vibrant developer community"}
             </p>
           </div>
         </div>
 
-        {/* Form */}
-        <Card>
-          <CardHeader>
-            <CardTitle>Membership Application</CardTitle>
-            <CardDescription>
-              Fill out the form below to apply for membership. All fields marked with * are required.
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+        {/* One-click join for authenticated users */}
+        {user && !isMember && (
+          <Card className="mb-6 border-primary/50 bg-gradient-to-br from-primary/5 to-accent/5">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <CheckCircle2 className="h-5 w-5 text-primary" />
+                Quick Join Available
+              </CardTitle>
+              <CardDescription>
+                You're logged in as <strong>{user.email}</strong>. Join the community instantly!
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Button 
+                onClick={handleOneClickJoin} 
+                disabled={isSubmitting}
+                size="lg"
+                className="w-full"
+              >
+                {isSubmitting ? (
+                  <>
+                    <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                    Joining Community...
+                  </>
+                ) : (
+                  <>
+                    <Users className="mr-2 h-5 w-5" />
+                    Join Delhi Devs Community Now
+                  </>
+                )}
+              </Button>
+              <p className="text-xs text-center text-muted-foreground mt-4">
+                By clicking, you agree to our terms and conditions and will be subscribed to community updates.
+              </p>
+            </CardContent>
+          </Card>
+        )}
+
+        {/* Traditional form for non-authenticated users */}
+        {!user && (
+          <>
+            <div className="mb-6 p-4 bg-blue-500/10 border border-blue-500/20 rounded-lg text-center">
+              <p className="text-sm text-muted-foreground">
+                Already have an account?{" "}
+                <Link href="/auth" className="text-primary font-semibold hover:underline">
+                  Sign in for one-click join
+                </Link>
+              </p>
+            </div>
+            
+            <Card>
+              <CardHeader>
+                <CardTitle>Membership Application</CardTitle>
+                <CardDescription>
+                  Fill out the form below to apply for membership. All fields marked with * are required.
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <Form {...form}>
+                  <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
                 <FormField
                   control={form.control}
                   name="name"
@@ -235,18 +422,20 @@ export default function JoinPage() {
                   />
                 </div>
 
-                <Button 
-                  type="submit" 
-                  className="w-full" 
-                  size="lg"
-                  disabled={isSubmitting}
-                >
-                  {isSubmitting ? "Submitting..." : "Submit Application"}
-                </Button>
-              </form>
-            </Form>
-          </CardContent>
-        </Card>
+                    <Button 
+                      type="submit" 
+                      className="w-full" 
+                      size="lg"
+                      disabled={isSubmitting}
+                    >
+                      {isSubmitting ? "Submitting..." : "Submit Application"}
+                    </Button>
+                  </form>
+                </Form>
+              </CardContent>
+            </Card>
+          </>
+        )}
       </div>
     </div>
   );
