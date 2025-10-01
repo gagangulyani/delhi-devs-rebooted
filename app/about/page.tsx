@@ -4,20 +4,17 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
-import { ArrowLeft, Users, CalendarDays, Sparkles, MapPin } from 'lucide-react'
+import { Users, CalendarDays, Sparkles, MapPin } from 'lucide-react'
+import { BackButton } from '@/components/BackButton'
 
 export default function AboutPage() {
   return (
     <div className="min-h-screen bg-background py-8 px-4">
       <div className="max-w-5xl mx-auto">
         {/* Back link */}
-        <Link
-          href="/"
-          className="inline-flex items-center text-muted-foreground hover:text-primary transition-colors duration-200 mb-6 group"
-        >
-          <ArrowLeft className="mr-2 h-4 w-4 group-hover:-translate-x-1 transition-transform duration-200" />
-          Back to Home
-        </Link>
+        <div className="mb-6">
+          <BackButton fallbackUrl="/" />
+        </div>
 
         {/* Hero */}
         <div className="flex flex-col md:flex-row items-start md:items-center gap-6 md:gap-10 mb-10">

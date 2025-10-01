@@ -13,8 +13,9 @@ import { toast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { ArrowLeft, Users, CheckCircle2, Loader2 } from "lucide-react";
+import { Users, CheckCircle2, Loader2 } from "lucide-react";
 import { User as SupabaseUser } from "@supabase/supabase-js";
+import { BackButton } from "@/components/BackButton";
 
 const formSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
@@ -195,10 +196,9 @@ export default function JoinPage() {
     return (
       <div className="min-h-screen bg-background py-12 px-4">
         <div className="container mx-auto max-w-2xl">
-          <Link href="/" className="inline-flex items-center text-muted-foreground hover:text-foreground mb-6">
-            <ArrowLeft className="mr-2 h-4 w-4" />
-            Back to Home
-          </Link>
+          <div className="mb-6">
+            <BackButton fallbackUrl="/" />
+          </div>
           
           <Card className="text-center">
             <CardContent className="pt-12 pb-12">
@@ -231,10 +231,9 @@ export default function JoinPage() {
       <div className="container mx-auto max-w-2xl">
         {/* Header */}
         <div className="mb-8">
-          <Link href="/" className="inline-flex items-center text-muted-foreground hover:text-foreground mb-6">
-            <ArrowLeft className="mr-2 h-4 w-4" />
-            Back to Home
-          </Link>
+          <div className="mb-6">
+            <BackButton fallbackUrl="/" />
+          </div>
           
           <div className="text-center">
             <div className="flex justify-center mb-4">

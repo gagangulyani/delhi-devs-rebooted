@@ -14,7 +14,8 @@ import { supabase } from "@/integrations/supabase/client";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { ArrowLeft, Users, LogOut, Shield, Home, Mail, Lock, User as UserIcon, Phone, Linkedin, Sparkles, CheckCircle2 } from "lucide-react";
+import { Users, LogOut, Shield, Home, Mail, Lock, User as UserIcon, Phone, Linkedin, Sparkles, CheckCircle2 } from "lucide-react";
+import { BackButton } from "@/components/BackButton";
 import { User, Session } from "@supabase/supabase-js";
 
 const loginSchema = z.object({
@@ -253,10 +254,9 @@ export default function AuthenticationPage() {
     return (
       <div className="min-h-screen bg-background py-8 px-4">
         <div className="container mx-auto max-w-lg">
-          <Link href="/" className="inline-flex items-center text-muted-foreground hover:text-primary transition-colors mb-8">
-            <ArrowLeft className="mr-2 h-4 w-4" />
-            Back to Home
-          </Link>
+          <div className="mb-8">
+            <BackButton fallbackUrl="/" />
+          </div>
 
           <Card className="shadow-lg">
             <CardHeader className="text-center space-y-4 pb-8">
@@ -334,10 +334,7 @@ export default function AuthenticationPage() {
       {/* Header */}
       <div className="py-4 px-4">
         <div className="container mx-auto max-w-6xl">
-          <Link href="/" className="inline-flex items-center text-sm text-muted-foreground hover:text-primary transition-colors group">
-            <ArrowLeft className="mr-2 h-4 w-4 transition-transform group-hover:-translate-x-1" />
-            Back to Home
-          </Link>
+          <BackButton fallbackUrl="/" />
         </div>
       </div>
 

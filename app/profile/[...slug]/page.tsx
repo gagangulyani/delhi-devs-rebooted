@@ -20,8 +20,9 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
-import { ArrowLeft, Settings } from "lucide-react";
+import { Settings } from "lucide-react";
 import { User as SupabaseUser } from "@supabase/supabase-js";
+import { BackButton } from "@/components/BackButton";
 
 // Import refactored components
 import {
@@ -385,13 +386,7 @@ export default function ProfilePage({ params }: ProfilePageProps) {
       <div className="container mx-auto px-4 py-8 max-w-6xl">
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
-          <Link
-            href="/"
-            className="inline-flex items-center text-muted-foreground hover:text-primary transition-colors group"
-          >
-            <ArrowLeft className="mr-2 h-4 w-4 transition-transform group-hover:-translate-x-1" />
-            Back to Home
-          </Link>
+          <BackButton fallbackUrl="/" />
           {isViewingOwnProfile && (
             <Dialog
               open={showSettings}

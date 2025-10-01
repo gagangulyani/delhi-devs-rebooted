@@ -50,7 +50,7 @@ export function EventCard({
   const glassPanelClass = "rounded-3xl border border-white/20 dark:border-white/10 bg-white/70 dark:bg-black/40 shadow-lg backdrop-blur-2xl transition-all duration-200";
 
   return (
-    <Link href={`/events/${event.id}`} target="_blank" rel="noopener noreferrer">
+    <Link href={`/events/${event.id}`}>
       <Card
         className={`${glassPanelClass} group hover:shadow-xl hover:scale-[1.02] overflow-hidden cursor-pointer`}
       >
