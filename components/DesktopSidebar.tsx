@@ -15,7 +15,8 @@ import {
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { NavigationItem } from "./NavigationItem";
 import { Brand } from "./Brand";
-import { NavigationItem as NavigationItemType } from "@/constants/navigation";
+import { SidebarBreadcrumb } from "./SidebarBreadcrumb";
+import { NavigationItem as NavigationItemType, findParentNavItem } from "@/constants/navigation";
 import { getIcon } from "@/lib/icon-utils";
 
 interface DesktopSidebarProps {
@@ -24,6 +25,7 @@ interface DesktopSidebarProps {
 
 export function DesktopSidebar({ navigationItems }: DesktopSidebarProps) {
   const pathname = usePathname();
+  const parentItem = findParentNavItem(pathname);
 
   return (
     <div className="hidden md:block">
@@ -32,12 +34,19 @@ export function DesktopSidebar({ navigationItems }: DesktopSidebarProps) {
           <Brand variant="desktop" />
         </SidebarHeader>
         
+        {/* Breadcrumb for child pages */}
+        <SidebarBreadcrumb />
+        
         <SidebarContent className="flex-1 px-3 py-4">
           <SidebarGroup>
             <SidebarGroupContent>
               <SidebarMenu className="space-y-1">
                 {navigationItems.map((item) => {
-                  const isActive = pathname === item.url;
+                  // Check if this item or its children are active
+                  const isParentActive = parentItem?.url === item.url;
+                  const isExactMatch = pathname === item.url;
+                  const isActive = isExactMatch || isParentActive;
+                  
                   return (
                     <SidebarMenuItem key={item.title}>
                       <SidebarMenuButton 
@@ -49,7 +58,8 @@ export function DesktopSidebar({ navigationItems }: DesktopSidebarProps) {
                       >
                         <NavigationItem 
                           item={item}
-                          isActive={isActive}
+                          isActive={isExactMatch}
+                          isParentActive={isParentActive}
                           variant="desktop"
                         />
                       </SidebarMenuButton>
