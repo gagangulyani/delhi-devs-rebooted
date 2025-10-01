@@ -7,6 +7,7 @@ import { SidebarProvider } from "@/components/ui/sidebar";
 import { DesktopSidebar } from "@/components/DesktopSidebar";
 import { MobileHeader } from "@/components/MobileHeader";
 import { MobileBottomNavigation } from "@/components/MobileBottomNavigation";
+import { GlobalLoader } from "@/components/GlobalLoader";
 import { getPublicNavigationItems } from "@/constants/navigation";
 
 export const metadata: Metadata = {
@@ -204,6 +205,7 @@ export default function RootLayout({
               <MobileBottomNavigation navigationItems={publicNavigationItems} />
             </div>
           </SidebarProvider>
+          <GlobalLoader />
         </Providers>
       </body>
     </html>

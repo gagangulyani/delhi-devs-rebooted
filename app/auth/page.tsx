@@ -352,6 +352,7 @@ export default function AuthenticationPage() {
                   src="/delhi-devs-community.png" 
                   alt="Delhi Devs Community" 
                   fill
+                  sizes="(max-width: 768px) 100vw, 448px"
                   className="object-contain rounded-2xl shadow-2xl"
                   priority
                 />
