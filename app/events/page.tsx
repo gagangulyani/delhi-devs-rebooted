@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense, lazy } from "react";
 import { Button } from "@/components/ui/button";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -9,14 +9,16 @@ import { dateUtils } from '@/lib/date-utils';
 import { 
   EventCard, 
   EventFilters, 
-  CreateEventForm, 
-  AttendeesDialog, 
-  EmptyEventsState,
   eventSchema,
   EventFormData
 } from '@/components/events';
 import { EventsGridSkeleton, EventsListSkeleton } from '@/components/skeletons';
 import { useEvents, useEventFilters } from '@/hooks/events';
+
+// Lazy load heavy components
+const CreateEventForm = lazy(() => import('@/components/events').then(m => ({ default: m.CreateEventForm })));
+const AttendeesDialog = lazy(() => import('@/components/events').then(m => ({ default: m.AttendeesDialog })));
+const EmptyEventsState = lazy(() => import('@/components/events').then(m => ({ default: m.EmptyEventsState })));
 
 const locationTypes = [
   { value: "physical", label: "In-Person" },
@@ -28,7 +30,7 @@ export default function EventsPage() {
   const { 
     user, 
     events, 
-    isLoading, 
+    isLoading: isEventsLoading, 
     createEvent, 
     registerForEvent, 
     unregisterFromEvent,
@@ -48,6 +50,7 @@ export default function EventsPage() {
   const [attendeesOpen, setAttendeesOpen] = useState(false);
   const [attendeesLoading, setAttendeesLoading] = useState(false);
   const [attendees, setAttendees] = useState<Array<{ id: string; display_name: string; avatar_url: string | null }>>([]);
+  const [isUserLoading, setIsUserLoading] = useState(true);
 
   const eventForm = useForm<EventFormData>({
     resolver: zodResolver(eventSchema),
@@ -63,6 +66,13 @@ export default function EventsPage() {
       tags: "",
     },
   });
+
+  // Handle user loading state
+  useEffect(() => {
+    if (user !== null) {
+      setIsUserLoading(false);
+    }
+  }, [user]);
 
   // Open create form when hash is #create
   useEffect(() => {
@@ -99,35 +109,12 @@ export default function EventsPage() {
     ] : [])
   ];
 
-  if (isLoading) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-background via-background/95 to-muted/20 py-8 px-4 sm:py-12 sm:px-6">
-        <div className="mx-auto w-full max-w-7xl space-y-6">
-          {/* Header Skeleton */}
-          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-            <div className="space-y-2">
-              <div className="h-10 w-32 bg-muted/50 rounded-lg animate-pulse" />
-              <div className="h-4 w-64 bg-muted/30 rounded animate-pulse" />
-            </div>
-          </div>
-          
-          {/* Filters Skeleton */}
-          <div className="rounded-2xl border border-white/20 dark:border-white/10 bg-white/70 dark:bg-black/40 shadow-lg backdrop-blur-2xl p-4">
-            <div className="h-10 w-full bg-muted/30 rounded-lg animate-pulse" />
-          </div>
-          
-          {/* Content Skeleton */}
-          {viewMode === 'grid' ? <EventsGridSkeleton /> : <EventsListSkeleton />}
-        </div>
-      </div>
-    );
-  }
   const glassPanelClass = "rounded-3xl border border-white/20 dark:border-white/10 bg-white/70 dark:bg-black/40 shadow-lg backdrop-blur-2xl transition-all duration-200";
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-background/95 to-muted/20 py-8 px-4 sm:py-12 sm:px-6">
       <div className="mx-auto w-full max-w-7xl space-y-6">
-        {/* Header */}
+        {/* Header - Always visible, never shows skeleton */}
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div className="space-y-1">
             <h1 className="text-3xl sm:text-4xl font-light tracking-tight text-foreground">Events</h1>
@@ -135,7 +122,7 @@ export default function EventsPage() {
               Discover upcoming meetups and workshops
             </p>
           </div>
-          {user && (
+          {!isUserLoading && user && (
             <Button 
               onClick={() => setShowCreateEvent(true)} 
               className="rounded-full self-start sm:self-auto group"
@@ -147,7 +134,7 @@ export default function EventsPage() {
           )}
         </div>
 
-        {/* Search and Filters */}
+        {/* Search and Filters - Always visible, never shows skeleton */}
         <EventFilters
           searchQuery={searchQuery}
           onSearchChange={setSearchQuery}
@@ -158,24 +145,45 @@ export default function EventsPage() {
           filters={filters}
         />
 
-        {/* Create Event Form */}
+        {/* Create Event Form - Lazy loaded */}
         {showCreateEvent && (
-          <CreateEventForm
-            form={eventForm}
-            onSubmit={onEventSubmit}
-            onCancel={() => setShowCreateEvent(false)}
-            isLoading={isLoading}
-          />
+          <Suspense fallback={
+            <div className="rounded-2xl border border-white/20 dark:border-white/10 bg-white/70 dark:bg-black/40 shadow-lg backdrop-blur-2xl p-6">
+              <div className="space-y-4">
+                <div className="h-6 w-48 bg-muted animate-pulse rounded" />
+                <div className="h-32 w-full bg-muted animate-pulse rounded" />
+              </div>
+            </div>
+          }>
+            <CreateEventForm
+              form={eventForm}
+              onSubmit={onEventSubmit}
+              onCancel={() => setShowCreateEvent(false)}
+              isLoading={isEventsLoading}
+            />
+          </Suspense>
         )}
 
-        {/* Events */}
-        {filteredEvents.length === 0 ? (
-          <EmptyEventsState
-            searchQuery={searchQuery}
-            selectedFilter={selectedFilter}
-            showCreateButton={!!user}
-            onCreateClick={() => setShowCreateEvent(true)}
-          />
+        {/* Events - Show skeleton while loading */}
+        {isEventsLoading ? (
+          viewMode === 'grid' ? <EventsGridSkeleton /> : <EventsListSkeleton />
+        ) : filteredEvents.length === 0 ? (
+          <Suspense fallback={
+            <div className="rounded-2xl border border-white/20 dark:border-white/10 bg-white/70 dark:bg-black/40 shadow-lg backdrop-blur-2xl p-12">
+              <div className="flex flex-col items-center space-y-4">
+                <div className="h-16 w-16 bg-muted animate-pulse rounded-full" />
+                <div className="h-6 w-48 bg-muted animate-pulse rounded" />
+                <div className="h-4 w-64 bg-muted animate-pulse rounded" />
+              </div>
+            </div>
+          }>
+            <EmptyEventsState
+              searchQuery={searchQuery}
+              selectedFilter={selectedFilter}
+              showCreateButton={!!user}
+              onCreateClick={() => setShowCreateEvent(true)}
+            />
+          </Suspense>
         ) : (
           <div className={viewMode === 'grid' ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" : "grid grid-cols-1 gap-3"}>
             {filteredEvents.map((event) => {
@@ -203,13 +211,15 @@ export default function EventsPage() {
         )}
       </div>
       
-      {/* Attendees Dialog */}
-      <AttendeesDialog
-        open={attendeesOpen}
-        onOpenChange={setAttendeesOpen}
-        attendees={attendees}
-        isLoading={attendeesLoading}
-      />
+      {/* Attendees Dialog - Lazy loaded */}
+      <Suspense fallback={<div />}>
+        <AttendeesDialog
+          open={attendeesOpen}
+          onOpenChange={setAttendeesOpen}
+          attendees={attendees}
+          isLoading={attendeesLoading}
+        />
+      </Suspense>
     </div>
   );
 }

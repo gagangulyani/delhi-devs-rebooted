@@ -1,3 +1,4 @@
+import React from "react";
 import { ProfileStats } from "@/types/profile";
 import { Card, CardContent } from "@/components/ui/card";
 import { FileText, Calendar, Users, Eye } from "lucide-react";
@@ -6,7 +7,7 @@ interface StatsCardsProps {
   stats: ProfileStats;
 }
 
-export function StatsCards({ stats }: StatsCardsProps) {
+export const StatsCards = React.memo(function StatsCards({ stats }: StatsCardsProps) {
   const statItems = [
     { icon: FileText, label: "Total Blogs", value: stats.totalBlogs },
     { icon: Calendar, label: "Events Hosted", value: stats.totalEvents },
@@ -32,4 +33,4 @@ export function StatsCards({ stats }: StatsCardsProps) {
       })}
     </div>
   );
-}
+});

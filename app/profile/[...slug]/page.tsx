@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, Suspense, lazy } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
@@ -24,17 +24,22 @@ import { Settings } from "lucide-react";
 import { User as SupabaseUser } from "@supabase/supabase-js";
 import { BackButton } from "@/components/BackButton";
 
-// Import refactored components
-import {
-  ProfileHeader,
-  StatsCards,
-  ProfileActionButtons,
-  ProjectsList,
-  RecentActivity,
-  AddProjectDialog,
-  SettingsDialog,
-} from "@/components/profile";
-import { ProfilePageSkeleton } from "@/components/skeletons";
+// Import static components immediately
+import { ProfileHeader } from "@/components/profile";
+import { 
+  ProfileHeaderSkeleton,
+  StatsCardsSkeleton, 
+  ProjectsListSkeleton,
+  ProfilePageSkeleton 
+} from "@/components/skeletons";
+
+// Lazy load non-critical components
+const StatsCards = lazy(() => import("@/components/profile").then(m => ({ default: m.StatsCards })));
+const ProfileActionButtons = lazy(() => import("@/components/profile").then(m => ({ default: m.ProfileActionButtons })));
+const ProjectsList = lazy(() => import("@/components/profile").then(m => ({ default: m.ProjectsList })));
+const RecentActivity = lazy(() => import("@/components/profile").then(m => ({ default: m.RecentActivity })));
+const AddProjectDialog = lazy(() => import("@/components/profile").then(m => ({ default: m.AddProjectDialog })));
+const SettingsDialog = lazy(() => import("@/components/profile").then(m => ({ default: m.SettingsDialog })));
 
 // Import types
 import { UserProfile, Project, ProfileStats } from "@/types/profile";
@@ -65,6 +70,11 @@ export default function ProfilePage({ params }: ProfilePageProps) {
   const [resolvedParams, setResolvedParams] = useState<{
     slug: string[];
   } | null>(null);
+  
+  // Separate loading states for different sections
+  const [isProfileLoading, setIsProfileLoading] = useState(true);
+  const [isProjectsLoading, setIsProjectsLoading] = useState(true);
+  const [isStatsLoading, setIsStatsLoading] = useState(true);
 
   const { showLoader, hideLoader, isLoading } = useLoading();
   const { toast } = useToast();
@@ -158,74 +168,94 @@ export default function ProfilePage({ params }: ProfilePageProps) {
 
   const fetchProfile = useCallback(
     async (userId: string) => {
-      // Mock profile data for demonstration
-      const mockProfile = {
-        id: userId,
-        display_name: "Gagan Deep Singh",
-        bio: "Full-stack developer passionate about building communities and open-source projects. Founder of Delhi Devs, focused on creating inclusive spaces for developers in Delhi NCR. Love working with React, Node.js, and Python.",
-        location: "Delhi, India",
-        job_title: "Software Engineer",
-        company: "Tech Startup",
-        github_url: "https://github.com/gagangulyani",
-        linkedin_url: "https://linkedin.com/in/gagangulyani",
-        twitter_url: "https://twitter.com/gagangulyani",
-        website_url: "https://gagangulyani.com",
-        avatar_url: "",
-        created_at: "2025-08-01T10:00:00Z",
-      };
-      setProfile(mockProfile);
-      profileForm.reset(mockProfile);
+      setIsProfileLoading(true);
+      try {
+        // Simulate API delay for demonstration
+        await new Promise(resolve => setTimeout(resolve, 800));
+        
+        // Mock profile data for demonstration
+        const mockProfile = {
+          id: userId,
+          display_name: "Gagan Deep Singh",
+          bio: "Full-stack developer passionate about building communities and open-source projects. Founder of Delhi Devs, focused on creating inclusive spaces for developers in Delhi NCR. Love working with React, Node.js, and Python.",
+          location: "Delhi, India",
+          job_title: "Software Engineer",
+          company: "Tech Startup",
+          github_url: "https://github.com/gagangulyani",
+          linkedin_url: "https://linkedin.com/in/gagangulyani",
+          twitter_url: "https://twitter.com/gagangulyani",
+          website_url: "https://gagangulyani.com",
+          avatar_url: "",
+          created_at: "2025-08-01T10:00:00Z",
+        };
+        setProfile(mockProfile);
+        profileForm.reset(mockProfile);
+      } catch (error) {
+        console.error("Error fetching profile:", error);
+      } finally {
+        setIsProfileLoading(false);
+      }
     },
     [profileForm]
   );
 
   const fetchProjects = useCallback(async (userId: string) => {
-    // Mock project data for demonstration
-    const mockProjects: Project[] = [
-      {
-        id: "1",
-        title: "Delhi Devs Community Website",
-        description:
-          "A modern, responsive website for the Delhi Devs community built with Next.js, TypeScript, and Tailwind CSS. Features include event listings, member profiles, and blog posts.",
-        technologies: ["Next.js", "TypeScript", "Tailwind CSS", "Supabase"],
-        github_url: "https://github.com/delhi-devs/community-website",
-        live_url: "https://delhi-devs.com",
-        looking_for_collaborators: true,
-        created_at: "2025-09-15T10:00:00Z",
-      },
-      {
-        id: "2",
-        title: "React Native Meetup App",
-        description:
-          "A mobile app for organizing and managing tech meetups in Delhi NCR. Built with React Native and Expo, featuring real-time updates and community engagement features.",
-        technologies: ["React Native", "Expo", "Firebase", "Node.js"],
-        github_url: "https://github.com/delhi-devs/meetup-app",
-        looking_for_collaborators: true,
-        created_at: "2025-08-20T14:30:00Z",
-      },
-      {
-        id: "3",
-        title: "Open Source Contribution Tracker",
-        description:
-          "A dashboard to track and visualize open source contributions across different platforms. Helps developers showcase their impact in the open source community.",
-        technologies: ["Vue.js", "D3.js", "Python", "FastAPI"],
-        github_url: "https://github.com/delhi-devs/contrib-tracker",
-        live_url: "https://contrib-tracker.delhi-devs.com",
-        looking_for_collaborators: false,
-        created_at: "2025-07-10T09:15:00Z",
-      },
-      {
-        id: "4",
-        title: "AI-Powered Code Review Tool",
-        description:
-          "An intelligent code review assistant that uses machine learning to suggest improvements and catch potential bugs. Currently in early development phase.",
-        technologies: ["Python", "TensorFlow", "FastAPI", "React"],
-        github_url: "https://github.com/delhi-devs/ai-code-review",
-        looking_for_collaborators: true,
-        created_at: "2025-09-01T16:45:00Z",
-      },
-    ];
-    setProjects(mockProjects);
+    setIsProjectsLoading(true);
+    try {
+      // Simulate API delay for demonstration
+      await new Promise(resolve => setTimeout(resolve, 1200));
+      
+      // Mock project data for demonstration
+      const mockProjects: Project[] = [
+        {
+          id: "1",
+          title: "Delhi Devs Community Website",
+          description:
+            "A modern, responsive website for the Delhi Devs community built with Next.js, TypeScript, and Tailwind CSS. Features include event listings, member profiles, and blog posts.",
+          technologies: ["Next.js", "TypeScript", "Tailwind CSS", "Supabase"],
+          github_url: "https://github.com/delhi-devs/community-website",
+          live_url: "https://delhi-devs.com",
+          looking_for_collaborators: true,
+          created_at: "2025-09-15T10:00:00Z",
+        },
+        {
+          id: "2",
+          title: "React Native Meetup App",
+          description:
+            "A mobile app for organizing and managing tech meetups in Delhi NCR. Built with React Native and Expo, featuring real-time updates and community engagement features.",
+          technologies: ["React Native", "Expo", "Firebase", "Node.js"],
+          github_url: "https://github.com/delhi-devs/meetup-app",
+          looking_for_collaborators: true,
+          created_at: "2025-08-20T14:30:00Z",
+        },
+        {
+          id: "3",
+          title: "Open Source Contribution Tracker",
+          description:
+            "A dashboard to track and visualize open source contributions across different platforms. Helps developers showcase their impact in the open source community.",
+          technologies: ["Vue.js", "D3.js", "Python", "FastAPI"],
+          github_url: "https://github.com/delhi-devs/contrib-tracker",
+          live_url: "https://contrib-tracker.delhi-devs.com",
+          looking_for_collaborators: false,
+          created_at: "2025-07-10T09:15:00Z",
+        },
+        {
+          id: "4",
+          title: "AI-Powered Code Review Tool",
+          description:
+            "An intelligent code review assistant that uses machine learning to suggest improvements and catch potential bugs. Currently in early development phase.",
+          technologies: ["Python", "TensorFlow", "FastAPI", "React"],
+          github_url: "https://github.com/delhi-devs/ai-code-review",
+          looking_for_collaborators: true,
+          created_at: "2025-09-01T16:45:00Z",
+        },
+      ];
+      setProjects(mockProjects);
+    } catch (error) {
+      console.error("Error fetching projects:", error);
+    } finally {
+      setIsProjectsLoading(false);
+    }
   }, []);
 
   const handleCloseSettings = useCallback(() => {
@@ -259,6 +289,20 @@ export default function ProfilePage({ params }: ProfilePageProps) {
     setPendingAction(null);
   };
 
+  // Fetch stats separately
+  const fetchStats = useCallback(async (userId: string) => {
+    setIsStatsLoading(true);
+    try {
+      // Simulate API delay for demonstration
+      await new Promise(resolve => setTimeout(resolve, 600));
+      // Stats are computed in the component, so this is just for simulation
+    } catch (error) {
+      console.error("Error fetching stats:", error);
+    } finally {
+      setIsStatsLoading(false);
+    }
+  }, []);
+
   useEffect(() => {
     const fetchUserAndProfile = async () => {
       try {
@@ -274,8 +318,13 @@ export default function ProfilePage({ params }: ProfilePageProps) {
         } as SupabaseUser;
 
         setUser(mockUser);
-        await fetchProfile(mockUser.id);
-        await fetchProjects(mockUser.id);
+        
+        // Fetch data in parallel for better performance
+        await Promise.all([
+          fetchProfile(mockUser.id),
+          fetchProjects(mockUser.id),
+          fetchStats(mockUser.id)
+        ]);
       } catch (error) {
         console.error("Error fetching user:", error);
       } finally {
@@ -284,7 +333,7 @@ export default function ProfilePage({ params }: ProfilePageProps) {
     };
 
     fetchUserAndProfile();
-  }, [hideLoader, fetchProfile, fetchProjects]);
+  }, [hideLoader, fetchProfile, fetchProjects, fetchStats]);
 
   const onProfileSubmit = async (values: ProfileFormData) => {
     if (!user) return;
@@ -371,14 +420,15 @@ export default function ProfilePage({ params }: ProfilePageProps) {
     totalViews: 3542,
   };
 
-  if (isLoading || !resolvedParams) {
+  // Only show full page skeleton if params are not resolved or user is not loaded
+  if (isLoading || !resolvedParams || !user) {
     return <ProfilePageSkeleton />;
   }
 
   return (
     <div className="min-h-screen bg-background">
       <div className="container mx-auto px-4 py-8 max-w-6xl">
-        {/* Header */}
+        {/* Header - Static content loads immediately */}
         <div className="flex items-center justify-between mb-8">
           <BackButton fallbackUrl="/" />
           {isViewingOwnProfile && (
@@ -398,19 +448,21 @@ export default function ProfilePage({ params }: ProfilePageProps) {
                   Settings
                 </Button>
               </DialogTrigger>
-              <SettingsDialog
-                isOpen={showSettings}
-                user={user}
-                form={profileForm}
-                isLoading={isLoading}
-                onClose={handleCloseSettings}
-                onSubmit={onProfileSubmit}
-              />
+              <Suspense fallback={<div />}>
+                <SettingsDialog
+                  isOpen={showSettings}
+                  user={user}
+                  form={profileForm}
+                  isLoading={isLoading}
+                  onClose={handleCloseSettings}
+                  onSubmit={onProfileSubmit}
+                />
+              </Suspense>
             </Dialog>
           )}
         </div>
 
-        {/* Unsaved Changes Dialog */}
+        {/* Unsaved Changes Dialog - Static */}
         <AlertDialog
           open={showUnsavedChangesDialog}
           onOpenChange={setShowUnsavedChangesDialog}
@@ -439,47 +491,96 @@ export default function ProfilePage({ params }: ProfilePageProps) {
           </AlertDialogContent>
         </AlertDialog>
 
-        {/* Profile Header */}
-        <ProfileHeader user={user} profile={profile} />
+        {/* Profile Header - Show skeleton while loading */}
+        {isProfileLoading ? (
+          <ProfileHeaderSkeleton />
+        ) : (
+          <ProfileHeader user={user} profile={profile} />
+        )}
 
-        {/* Stats - Only for own profile */}
-        {isViewingOwnProfile && <StatsCards stats={stats} />}
+        {/* Stats - Only for own profile, show skeleton while loading */}
+        {isViewingOwnProfile && (
+          <div className="mb-8">
+            {isStatsLoading ? (
+              <StatsCardsSkeleton />
+            ) : (
+              <Suspense fallback={<StatsCardsSkeleton />}>
+                <StatsCards stats={stats} />
+              </Suspense>
+            )}
+          </div>
+        )}
 
-        {/* Action Buttons - Only for own profile */}
-        {isViewingOwnProfile && <ProfileActionButtons />}
+        {/* Action Buttons - Only for own profile, lazy loaded */}
+        {isViewingOwnProfile && (
+          <div className="mb-8">
+            <Suspense fallback={<div className="h-12" />}>
+              <ProfileActionButtons />
+            </Suspense>
+          </div>
+        )}
 
-        {/* Projects Section */}
-        <ProjectsList
-          projects={projects}
-          isOwnProfile={isViewingOwnProfile}
-          profileName={profile?.display_name}
-          onAddProject={
-            isViewingOwnProfile ? () => setShowAddProject(true) : undefined
-          }
-          onDeleteProject={isViewingOwnProfile ? deleteProject : undefined}
-        />
+        {/* Projects Section - Show skeleton while loading */}
+        <div className="mb-8">
+          {isProjectsLoading ? (
+            <div className="space-y-4">
+              <div className="flex items-center justify-between">
+                <div className="h-7 w-32 bg-muted animate-pulse rounded" />
+                {isViewingOwnProfile && (
+                  <div className="h-10 w-32 bg-muted animate-pulse rounded-full" />
+                )}
+              </div>
+              <ProjectsListSkeleton count={4} />
+            </div>
+          ) : (
+            <Suspense fallback={<ProjectsListSkeleton count={4} />}>
+              <ProjectsList
+                projects={projects}
+                isOwnProfile={isViewingOwnProfile}
+                profileName={profile?.display_name}
+                onAddProject={
+                  isViewingOwnProfile ? () => setShowAddProject(true) : undefined
+                }
+                onDeleteProject={isViewingOwnProfile ? deleteProject : undefined}
+              />
+            </Suspense>
+          )}
+        </div>
 
-        {/* Recent Activity */}
-        <RecentActivity />
+        {/* Recent Activity - Lazy loaded */}
+        <div className="mb-8">
+          <Suspense fallback={
+            <div className="space-y-4">
+              <div className="h-7 w-40 bg-muted animate-pulse rounded" />
+              <div className="rounded-2xl border border-white/20 dark:border-white/10 bg-white/70 dark:bg-black/40 shadow-lg backdrop-blur-2xl p-6">
+                <div className="h-32 w-full bg-muted animate-pulse rounded" />
+              </div>
+            </div>
+          }>
+            <RecentActivity />
+          </Suspense>
+        </div>
 
-        {/* Add Project Dialog */}
-        <AddProjectDialog
-          isOpen={showAddProject}
-          form={projectForm}
-          techInput={techInput}
-          technologies={technologies}
-          isLoading={isLoading}
-          onClose={() => {
-            setShowAddProject(false);
-            setTechnologies([]);
-            setTechInput("");
-            projectForm.reset();
-          }}
-          onSubmit={onProjectSubmit}
-          onTechInputChange={handleTechInputChange}
-          onTechKeyDown={handleTechKeyDown}
-          onRemoveTechnology={removeTechnology}
-        />
+        {/* Add Project Dialog - Lazy loaded */}
+        <Suspense fallback={<div />}>
+          <AddProjectDialog
+            isOpen={showAddProject}
+            form={projectForm}
+            techInput={techInput}
+            technologies={technologies}
+            isLoading={isLoading}
+            onClose={() => {
+              setShowAddProject(false);
+              setTechnologies([]);
+              setTechInput("");
+              projectForm.reset();
+            }}
+            onSubmit={onProjectSubmit}
+            onTechInputChange={handleTechInputChange}
+            onTechKeyDown={handleTechKeyDown}
+            onRemoveTechnology={removeTechnology}
+          />
+        </Suspense>
       </div>
     </div>
   );

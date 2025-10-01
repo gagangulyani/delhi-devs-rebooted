@@ -1,3 +1,4 @@
+import React from "react";
 import { User as SupabaseUser } from "@supabase/supabase-js";
 import { UserProfile } from "@/types/profile";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -10,7 +11,7 @@ interface ProfileHeaderProps {
   profile: UserProfile | null;
 }
 
-export function ProfileHeader({ user, profile }: ProfileHeaderProps) {
+export const ProfileHeader = React.memo(function ProfileHeader({ user, profile }: ProfileHeaderProps) {
   return (
     <Card className="mb-8">
       <CardContent className="pt-6">
@@ -127,4 +128,4 @@ export function ProfileHeader({ user, profile }: ProfileHeaderProps) {
       </CardContent>
     </Card>
   );
-}
+});

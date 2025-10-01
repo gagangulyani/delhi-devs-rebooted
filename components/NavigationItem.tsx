@@ -89,7 +89,7 @@ export const NavigationItem = React.forwardRef<HTMLAnchorElement, NavigationItem
             ? 'text-primary font-semibold' 
             : showIndicator
             ? 'text-primary/80'
-            : 'text-sidebar-foreground group-hover:text-primary'
+            : 'text-sidebar-foreground'
         }`}>
           {item.title}
         </span>

@@ -16,7 +16,6 @@ import {
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { NavigationItem } from "./NavigationItem";
 import { Brand } from "./Brand";
-import { SidebarBreadcrumb } from "./SidebarBreadcrumb";
 import { NavigationItem as NavigationItemType, findParentNavItem } from "@/constants/navigation";
 import { getIcon } from "@/lib/icon-utils";
 
@@ -34,9 +33,6 @@ export const DesktopSidebar = React.memo(function DesktopSidebar({ navigationIte
         <SidebarHeader className="border-b border-sidebar-border p-6">
           <Brand variant="desktop" />
         </SidebarHeader>
-        
-        {/* Breadcrumb for child pages */}
-        <SidebarBreadcrumb />
         
         <SidebarContent className="flex-1 px-3 py-4">
           <SidebarGroup>

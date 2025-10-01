@@ -103,18 +103,11 @@ export function HeroSection() {
                 <span className="text-secondary-foreground">Code.</span>
               </h1>
               <p className="text-xl sm:text-2xl text-muted-foreground leading-relaxed max-w-2xl mx-auto lg:mx-0">
-                Join Delhi Devs Rebooted - founded by{" "}
-                <a
-                  href="https://gagangulyani.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-primary hover:underline font-semibold relative"
-                >
-                  Gagan Deep Singh
-                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 hover:w-full"></span>
-                </a>
-                . Where passionate developers unite to build, learn, and
-                innovate together.
+                Where passionate developers unite to build, learn, and innovate
+                together -{" "}
+                <span className="text-orange-500 font-bold">
+                  Made in Delhi for the world.
+                </span>
               </p>
             </div>
 
@@ -135,7 +128,7 @@ export function HeroSection() {
                 <Button
                   variant="outline"
                   size="lg"
-                  className="rounded-full px-8 py-6 text-lg border-2 border-border hover:border-primary/50 hover:bg-primary/5 transition-all duration-300 w-full sm:w-auto"
+                  className="rounded-full px-8 py-6 text-lg border-2 border-border hover:border-primary/50 hover:bg-primary/5 transition-all duration-300 w-full sm:w-auto hover:text-white"
                 >
                   Learn More
                 </Button>

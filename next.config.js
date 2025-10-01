@@ -19,8 +19,6 @@ const nextConfig = {
       exclude: ['error', 'warn'],
     } : false,
   },
-  // Enable SWC minification
-  swcMinify: true,
   // Optimize bundle size
   modularizeImports: {
     'lucide-react': {

@@ -1,24 +1,39 @@
 import { Skeleton } from "@/components/ui/skeleton";
+import { Button } from "@/components/ui/button";
+import { Plus } from "lucide-react";
+import { EventFilters } from '@/components/events';
 
 export default function EventsLoading() {
+  // Show static content immediately, only skeleton for dynamic events
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-background/95 to-muted/20 py-8 px-4 sm:py-12 sm:px-6">
       <div className="mx-auto w-full max-w-7xl space-y-6">
-        {/* Header Skeleton */}
+        {/* Static Header - Loads immediately */}
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <div className="space-y-2">
-            <Skeleton className="h-10 w-32" />
-            <Skeleton className="h-4 w-64" />
+          <div className="space-y-1">
+            <h1 className="text-3xl sm:text-4xl font-light tracking-tight text-foreground">Events</h1>
+            <p className="text-sm text-muted-foreground">
+              Discover upcoming meetups and workshops
+            </p>
           </div>
-          <Skeleton className="h-10 w-32 rounded-full" />
         </div>
         
-        {/* Filters Skeleton */}
-        <div className="rounded-2xl border border-white/20 dark:border-white/10 bg-white/70 dark:bg-black/40 shadow-lg backdrop-blur-2xl p-4">
-          <Skeleton className="h-10 w-full rounded-lg" />
-        </div>
+        {/* Static Filters - Load immediately */}
+        <EventFilters
+          searchQuery=""
+          onSearchChange={() => {}}
+          selectedFilter="all"
+          onFilterChange={() => {}}
+          viewMode="grid"
+          onViewModeChange={() => {}}
+          filters={[
+            { value: "all", label: "All" },
+            { value: "upcoming", label: "Upcoming" },
+            { value: "past", label: "Past" },
+          ]}
+        />
         
-        {/* Grid Skeleton */}
+        {/* Only events grid shows skeleton */}
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {Array.from({ length: 6 }).map((_, i) => (
             <div

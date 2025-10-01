@@ -1,7 +1,8 @@
+import React from "react";
 import { Button } from "@/components/ui/button";
 import { PenTool, Calendar } from "lucide-react";
 
-export function ProfileActionButtons() {
+export const ProfileActionButtons = React.memo(function ProfileActionButtons() {
   return (
     <div className="flex flex-col sm:flex-row gap-4 mb-8">
       <Button size="lg" className="flex-1 gap-2">
@@ -14,4 +15,4 @@ export function ProfileActionButtons() {
       </Button>
     </div>
   );
-}
+});
