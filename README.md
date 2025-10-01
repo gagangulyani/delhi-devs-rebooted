@@ -1,73 +1,200 @@
-# Welcome to your Lovable project
+# Delhi Devs Rebooted 🚀
 
-## Project info
+A modern, responsive community platform for Delhi developers built with Next.js 15, TypeScript, and Supabase. This platform brings together developers from Delhi NCR to connect, collaborate, and grow together.
 
-**URL**: https://lovable.dev/projects/0b532e03-a23b-4def-b4d9-12bd9179a0d1
+## 🌟 Features
 
-## How can I edit this code?
+- **Community Profiles**: Create and manage professional developer profiles
+- **Event Management**: Discover, create, and attend tech meetups and workshops
+- **Project Showcase**: Share your projects and find collaborators
+- **Responsive Design**: Beautiful glassmorphism UI that works on all devices
+- **Real-time Updates**: Live event registrations and community interactions
+- **Admin Dashboard**: Manage community members and moderate content
 
-There are several ways of editing your application.
+## 🏗️ Architecture
 
-**Use Lovable**
+This is a **Next.js 15** application with a modern three-tier navigation system:
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/0b532e03-a23b-4def-b4d9-12bd9179a0d1) and start prompting.
+- **Desktop**: Collapsible sidebar with icon-only collapse mode
+- **Mobile**: Fixed bottom glassmorphism navigation with floating action button
+- **Authentication**: Supabase auth with session persistence and RLS policies
 
-Changes made via Lovable will be committed automatically to this repo.
+## 🛠️ Tech Stack
 
-**Use your preferred IDE**
+### Frontend
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+- **Next.js 15** - React framework with App Router
+- **TypeScript** - Type-safe development
+- **React 18.3** - Latest React features
+- **Tailwind CSS** - Utility-first CSS framework
+- **shadcn/ui** - Modern React component library (40+ components)
+- **Framer Motion** - Smooth animations and transitions
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+### Backend & Database
 
-Follow these steps:
+- **Supabase** - PostgreSQL database with real-time subscriptions
+- **Row Level Security (RLS)** - Secure data access policies
+- **Supabase Auth** - Authentication and user management
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+### State Management & Data
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+- **React Query (@tanstack/react-query)** - Server state management
+- **React Hook Form** - Form handling with validation
+- **Zod** - Schema validation
 
-# Step 3: Install the necessary dependencies.
-npm i
+### Development Tools
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+- **Bun** - Fast JavaScript runtime and package manager
+- **ESLint** - Code linting and formatting
+- **TypeScript** - Static type checking
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- **Bun** runtime installed - [Install Bun](https://bun.sh/docs/installation)
+- **Node.js** (for compatibility) - [Install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+
+### Installation
+
+```bash
+# Clone the repository
+git clone https://github.com/gagangulyani/community-welcome-app.git
+
+# Navigate to the project directory
+cd delhi-devs-rebooted
+
+# Install dependencies with Bun (recommended)
+bun install
+
+# Or with npm
+npm install
+```
+
+### Environment Setup
+
+Create a `.env.local` file in the root directory:
+
+```env
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+```
+
+### Development
+
+```bash
+# Start the development server (Bun recommended)
+bun run dev
+
+# Or with npm
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+Open [http://localhost:3000](http://localhost:3000) to view the application.
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+### Available Scripts
 
-**Use GitHub Codespaces**
+```bash
+# Development
+bun run dev          # Start development server
+bun run build        # Build for production
+bun run start        # Start production server
+bun run lint         # Run ESLint
+```
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+## 📁 Project Structure
 
-## What technologies are used for this project?
+```text
+delhi-devs-rebooted/
+├── app/                    # Next.js 15 App Router
+│   ├── globals.css        # Global styles
+│   ├── layout.tsx         # Root layout
+│   ├── page.tsx          # Landing page
+│   ├── profile/[...slug]/ # Dynamic profile pages
+│   ├── events/           # Event management
+│   ├── admin/            # Admin dashboard
+│   └── auth/             # Authentication flow
+├── components/
+│   ├── ui/               # shadcn/ui components
+│   ├── profile/          # Profile-related components
+│   ├── events/           # Event-related components
+│   ├── landing/          # Landing page components
+│   └── skeletons/        # Loading skeletons
+├── contexts/             # React contexts
+├── hooks/                # Custom React hooks
+├── lib/                  # Utility functions
+├── supabase/            # Database migrations
+├── types/               # TypeScript type definitions
+└── constants/           # App constants and config
+```
 
-This project is built with:
+## 🎨 Design System
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+### Glassmorphism Theme
 
-## How can I deploy this project?
+The application features a beautiful glassmorphism design with:
 
-Simply open [Lovable](https://lovable.dev/projects/0b532e03-a23b-4def-b4d9-12bd9179a0d1) and click on Share -> Publish.
+- Frosted glass effects with backdrop blur
+- Minimalist and elegant layouts
+- Smooth transitions and subtle animations
+- Dark/light mode support with `next-themes`
 
-## Can I connect a custom domain to my Lovable project?
+### Color Palette
 
-Yes, you can!
+- Custom orange accent colors (50-950 scale)
+- Sidebar-specific color variables
+- Semantic color tokens for consistent theming
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+## 🔐 Authentication & Security
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+- **Supabase Auth** with email/password authentication
+- **Row Level Security (RLS)** policies on all database tables
+- **Session persistence** and automatic token refresh
+- **Protected routes** with authentication middleware
+
+## 📊 Database Schema
+
+Key tables:
+
+- `user_profiles` - Extended user information
+- `user_projects` - Community member projects
+- `events` - Event management with attendance tracking
+- `event_attendees` - Join table for event registrations
+
+## 🚀 Performance Optimizations
+
+- **Code Splitting** - Lazy loading for non-critical components
+- **React.memo** - Optimized component re-renders
+- **Skeleton Loaders** - Improved perceived performance
+- **Parallel Data Fetching** - Concurrent API calls
+- **Static Content First** - Instant page load feedback
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🙏 Acknowledgments
+
+- Originally started with [Lovable.dev](https://lovable.dev)
+- Built for the Delhi developer community
+- Inspired by modern developer collaboration platforms
+
+## 📞 Support
+
+For support and questions:
+
+- Create an issue in the repository
+- Join our community discussions
+- Reach out to the maintainers
+
+---
+
+## Made with ❤️ for the Delhi Developer Community
