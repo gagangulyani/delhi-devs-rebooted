@@ -1,12 +1,9 @@
 "use client";
 
+import React from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import {
-  MagnifyingGlassIcon,
-  Squares2X2Icon,
-  ListBulletIcon,
-} from "@heroicons/react/24/outline";
+import { Search, Grid3x3, List } from "lucide-react";
 
 interface Filter {
   value: string;
@@ -23,7 +20,7 @@ interface EventFiltersProps {
   filters: Filter[];
 }
 
-export function EventFilters({
+export const EventFilters = React.memo(function EventFilters({
   searchQuery,
   onSearchChange,
   selectedFilter,
@@ -46,7 +43,7 @@ export function EventFilters({
             onChange={(e) => onSearchChange(e.target.value)}
             className="h-10 rounded-full border-0 bg-background/50 pl-10 text-sm shadow-sm backdrop-blur focus-visible:ring-0 focus-visible:ring-offset-0"
           />
-          <MagnifyingGlassIcon className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-white" />
+          <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-white" />
         </div>
 
         {/* Filters and View Mode */}
@@ -78,7 +75,7 @@ export function EventFilters({
               onClick={() => onViewModeChange("grid")}
               aria-label="Grid view"
             >
-              <Squares2X2Icon className="h-4 w-4" />
+              <Grid3x3 className="h-4 w-4" />
             </Button>
             <Button
               type="button"
@@ -88,11 +85,11 @@ export function EventFilters({
               onClick={() => onViewModeChange("list")}
               aria-label="List view"
             >
-              <ListBulletIcon className="h-4 w-4" />
+              <List className="h-4 w-4" />
             </Button>
           </div>
         </div>
       </div>
     </div>
   );
-}
+});

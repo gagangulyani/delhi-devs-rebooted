@@ -15,6 +15,7 @@ import {
   eventSchema,
   EventFormData
 } from '@/components/events';
+import { EventsGridSkeleton, EventsListSkeleton } from '@/components/skeletons';
 import { useEvents, useEventFilters } from '@/hooks/events';
 
 const locationTypes = [
@@ -100,10 +101,23 @@ export default function EventsPage() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20 flex items-center justify-center">
-        <div className="text-center space-y-4">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
-          <p className="text-sm text-muted-foreground">Loading events...</p>
+      <div className="min-h-screen bg-gradient-to-br from-background via-background/95 to-muted/20 py-8 px-4 sm:py-12 sm:px-6">
+        <div className="mx-auto w-full max-w-7xl space-y-6">
+          {/* Header Skeleton */}
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+            <div className="space-y-2">
+              <div className="h-10 w-32 bg-muted/50 rounded-lg animate-pulse" />
+              <div className="h-4 w-64 bg-muted/30 rounded animate-pulse" />
+            </div>
+          </div>
+          
+          {/* Filters Skeleton */}
+          <div className="rounded-2xl border border-white/20 dark:border-white/10 bg-white/70 dark:bg-black/40 shadow-lg backdrop-blur-2xl p-4">
+            <div className="h-10 w-full bg-muted/30 rounded-lg animate-pulse" />
+          </div>
+          
+          {/* Content Skeleton */}
+          {viewMode === 'grid' ? <EventsGridSkeleton /> : <EventsListSkeleton />}
         </div>
       </div>
     );

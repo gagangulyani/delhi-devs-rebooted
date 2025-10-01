@@ -1,5 +1,6 @@
 "use client";
 
+import React from "react";
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { usePathname } from "next/navigation";
@@ -12,7 +13,7 @@ interface MobileBottomNavigationProps {
   navigationItems: NavigationItemType[];
 }
 
-export function MobileBottomNavigation({
+export const MobileBottomNavigation = React.memo(function MobileBottomNavigation({
   navigationItems,
 }: MobileBottomNavigationProps) {
   const pathname = usePathname();
@@ -58,7 +59,7 @@ export function MobileBottomNavigation({
       .slice(0, 4);
   }, [navigationItems, isAuthed]);
 
-  const parentItem = findParentNavItem(pathname);
+  const parentItem = useMemo(() => findParentNavItem(pathname), [pathname]);
 
   return (
     <nav className="fixed bottom-4 left-4 right-4 z-50 md:hidden">
@@ -95,4 +96,4 @@ export function MobileBottomNavigation({
       </div>
     </nav>
   );
-}
+});

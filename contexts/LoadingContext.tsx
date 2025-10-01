@@ -34,13 +34,16 @@ export const LoadingProvider: React.FC<LoadingProviderProps> = ({ children }) =>
     setLoadingMessage(message);
   }, []);
 
-  const value: LoadingContextType = {
-    isLoading,
-    loadingMessage,
-    showLoader,
-    hideLoader,
-    setLoadingMessage: setLoadingMessageCallback,
-  };
+  const value = React.useMemo<LoadingContextType>(
+    () => ({
+      isLoading,
+      loadingMessage,
+      showLoader,
+      hideLoader,
+      setLoadingMessage: setLoadingMessageCallback,
+    }),
+    [isLoading, loadingMessage, showLoader, hideLoader, setLoadingMessageCallback]
+  );
 
   return (
     <LoadingContext.Provider value={value}>

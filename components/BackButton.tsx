@@ -1,5 +1,6 @@
 "use client";
 
+import React from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 import { useNavigation } from "@/contexts/NavigationContext";
@@ -12,7 +13,7 @@ interface BackButtonProps {
   className?: string;
 }
 
-export function BackButton({
+export const BackButton = React.memo(function BackButton({
   fallbackUrl = "/",
   label = "Back",
   variant = "ghost",
@@ -37,4 +38,4 @@ export function BackButton({
       {label}
     </Button>
   );
-}
+});

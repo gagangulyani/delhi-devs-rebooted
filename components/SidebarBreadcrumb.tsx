@@ -1,11 +1,12 @@
 "use client";
 
+import React from "react";
 import { usePathname } from "next/navigation";
 import { findParentNavItem, getPageTitle } from "@/constants/navigation";
 import { getIcon } from "@/lib/icon-utils";
 import { ChevronRight } from "lucide-react";
 
-export function SidebarBreadcrumb() {
+export const SidebarBreadcrumb = React.memo(function SidebarBreadcrumb() {
   const pathname = usePathname();
   const parentItem = findParentNavItem(pathname);
   const pageTitle = getPageTitle(pathname);
@@ -29,4 +30,4 @@ export function SidebarBreadcrumb() {
       </div>
     </div>
   );
-}
+});

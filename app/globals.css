@@ -170,6 +170,15 @@ All colors MUST be HSL.
     }
   }
   
+  @keyframes shimmer {
+    0% {
+      background-position: -200% 0;
+    }
+    100% {
+      background-position: 200% 0;
+    }
+  }
+  
   /* Enhanced mobile navigation animations */
   .mobile-nav-enter {
     animation: slideUpFade 0.3s ease-out;

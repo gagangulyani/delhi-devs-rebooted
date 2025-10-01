@@ -1,5 +1,6 @@
 'use client'
 
+import React, { useMemo } from "react";
 import { usePathname } from "next/navigation";
 import {
   Sidebar,
@@ -23,9 +24,9 @@ interface DesktopSidebarProps {
   navigationItems: NavigationItemType[];
 }
 
-export function DesktopSidebar({ navigationItems }: DesktopSidebarProps) {
+export const DesktopSidebar = React.memo(function DesktopSidebar({ navigationItems }: DesktopSidebarProps) {
   const pathname = usePathname();
-  const parentItem = findParentNavItem(pathname);
+  const parentItem = useMemo(() => findParentNavItem(pathname), [pathname]);
 
   return (
     <div className="hidden md:block">
@@ -84,4 +85,4 @@ export function DesktopSidebar({ navigationItems }: DesktopSidebarProps) {
       </Sidebar>
     </div>
   );
-}
+});
