@@ -51,3 +51,9 @@ out
 coverage/
 *.lcov
 .env
+
+# Github
+.github/
+
+# VS Code
+.vscode/*
