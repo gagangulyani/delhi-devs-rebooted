@@ -1,7 +1,4 @@
 import { Skeleton } from "@/components/ui/skeleton";
-import { Button } from "@/components/ui/button";
-import { Plus } from "lucide-react";
-import { EventFilters } from '@/components/events';
 
 export default function EventsLoading() {
   // Show static content immediately, only skeleton for dynamic events
@@ -18,20 +15,10 @@ export default function EventsLoading() {
           </div>
         </div>
         
-        {/* Static Filters - Load immediately */}
-        <EventFilters
-          searchQuery=""
-          onSearchChange={() => {}}
-          selectedFilter="all"
-          onFilterChange={() => {}}
-          viewMode="grid"
-          onViewModeChange={() => {}}
-          filters={[
-            { value: "all", label: "All" },
-            { value: "upcoming", label: "Upcoming" },
-            { value: "past", label: "Past" },
-          ]}
-        />
+        {/* Static Filters Placeholder - Shows while loading */}
+        <div className="rounded-2xl border border-white/20 dark:border-white/10 bg-white/70 dark:bg-black/40 shadow-lg backdrop-blur-2xl p-4">
+          <Skeleton className="h-10 w-full rounded-lg" />
+        </div>
         
         {/* Only events grid shows skeleton */}
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
