@@ -37,8 +37,9 @@ export function EventFilters({
 
   return (
     <div className={`${glassPanelClass} p-4`}>
-      <div className="flex flex-col gap-3 lg:flex-row lg:items-center">
-        <div className="relative flex-1">
+      <div className="space-y-3">
+        {/* Search Input */}
+        <div className="relative w-full">
           <Input
             placeholder="Search events..."
             value={searchQuery}
@@ -47,44 +48,49 @@ export function EventFilters({
           />
           <MagnifyingGlassIcon className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-white" />
         </div>
-        <div className="flex flex-wrap items-center gap-2">
-          {filters.map((filter) => (
+
+        {/* Filters and View Mode */}
+        <div className="flex items-center justify-between gap-2">
+          <div className="flex flex-wrap items-center gap-2 flex-1">
+            {filters.map((filter) => (
+              <Button
+                key={filter.value}
+                variant={selectedFilter === filter.value ? "default" : "ghost"}
+                size="sm"
+                className={`rounded-full text-xs font-medium transition-all duration-200 ${
+                  selectedFilter === filter.value
+                    ? "shadow-sm"
+                    : "hover:bg-background/80"
+                }`}
+                onClick={() => onFilterChange(filter.value)}
+              >
+                {filter.label}
+              </Button>
+            ))}
+          </div>
+          
+          <div className="flex items-center gap-1 rounded-full border border-border/50 bg-background/30 p-0.5 backdrop-blur shrink-0">
             <Button
-              key={filter.value}
-              variant={selectedFilter === filter.value ? "default" : "ghost"}
-              size="sm"
-              className={`rounded-full text-xs font-medium transition-all duration-200 ${
-                selectedFilter === filter.value
-                  ? "shadow-sm"
-                  : "hover:bg-background/80"
-              }`}
-              onClick={() => onFilterChange(filter.value)}
+              type="button"
+              size="icon"
+              variant={viewMode === "grid" ? "default" : "ghost"}
+              className="h-8 w-8 rounded-full transition-all duration-200"
+              onClick={() => onViewModeChange("grid")}
+              aria-label="Grid view"
             >
-              {filter.label}
+              <Squares2X2Icon className="h-4 w-4" />
             </Button>
-          ))}
-        </div>
-        <div className="flex items-center gap-1 self-start rounded-full border border-border/50 bg-background/30 p-0.5 backdrop-blur">
-          <Button
-            type="button"
-            size="icon"
-            variant={viewMode === "grid" ? "default" : "ghost"}
-            className="h-8 w-8 rounded-full transition-all duration-200"
-            onClick={() => onViewModeChange("grid")}
-            aria-label="Grid view"
-          >
-            <Squares2X2Icon className="h-4 w-4" />
-          </Button>
-          <Button
-            type="button"
-            size="icon"
-            variant={viewMode === "list" ? "default" : "ghost"}
-            className="h-8 w-8 rounded-full transition-all duration-200"
-            onClick={() => onViewModeChange("list")}
-            aria-label="List view"
-          >
-            <ListBulletIcon className="h-4 w-4" />
-          </Button>
+            <Button
+              type="button"
+              size="icon"
+              variant={viewMode === "list" ? "default" : "ghost"}
+              className="h-8 w-8 rounded-full transition-all duration-200"
+              onClick={() => onViewModeChange("list")}
+              aria-label="List view"
+            >
+              <ListBulletIcon className="h-4 w-4" />
+            </Button>
+          </div>
         </div>
       </div>
     </div>
