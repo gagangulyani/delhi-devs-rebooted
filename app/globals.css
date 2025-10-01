@@ -178,6 +178,49 @@ All colors MUST be HSL.
       background-position: 200% 0;
     }
   }
+
+  /* Hero entrance animation */
+  @keyframes heroEntrance {
+    0% {
+      opacity: 0;
+      transform: translateY(10px) scale(0.995);
+    }
+    60% {
+      opacity: 1;
+      transform: translateY(-2px) scale(1.01);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+
+  .hero-entrance {
+    /* faster, short entrance */
+    animation: heroEntrance 360ms cubic-bezier(.2,.9,.2,1) both;
+  }
+
+  /* Small pop specifically for accent text */
+  @keyframes accentPop {
+    0% {
+      opacity: 0;
+      transform: translateY(8px) scale(0.96);
+    }
+    70% {
+      transform: translateY(-4px) scale(1.06);
+      text-shadow: 0 6px 18px rgba(255,140,30,0.12);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+  .accent-pop {
+    display: inline-block;
+    /* stronger single pop for visibility */
+    animation: accentPop 320ms cubic-bezier(.2,.9,.2,1) both 80ms;
+    will-change: transform, opacity;
+  }
   
   /* Enhanced mobile navigation animations */
   .mobile-nav-enter {

@@ -103,11 +103,12 @@ export function HeroSection() {
                 <span className="text-secondary-foreground">Code.</span>
               </h1>
               <p className="text-xl sm:text-2xl text-muted-foreground leading-relaxed max-w-2xl mx-auto lg:mx-0">
-                Where passionate developers unite to build, learn, and innovate
-                together -{" "}
-                <span className="text-orange-500 font-bold">
-                  Made in Delhi for the world.
-                </span>
+                Join a community of builders, learners, and makers;
+                collaborating to ship projects, share knowledge, and level up
+                together.{" "}
+              </p>
+              <p className="text-xl sm:text-2xl leading-relaxed max-w-2xl mx-auto lg:mx-0 text-orange-500 font-bold hero-entrance">
+                <span className="accent-pop">Born in Delhi. Built for the world.</span>
               </p>
             </div>
 
