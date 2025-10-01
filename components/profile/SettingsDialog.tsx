@@ -22,6 +22,13 @@ import {
   FormMessage,
   FormDescription,
 } from "@/components/ui/form";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { User, Key, Shield, Bell, Palette } from "lucide-react";
 
 interface SettingsDialogProps {
@@ -55,17 +62,40 @@ export function SettingsDialog({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-4xl max-h-[80vh] overflow-hidden">
-        <DialogHeader>
+      <DialogContent className="max-w-4xl max-h-[85vh] sm:max-h-[80vh] overflow-hidden p-0 gap-0">
+        <DialogHeader className="px-4 sm:px-6 pt-4 sm:pt-6 pb-4 border-b">
           <DialogTitle>Account Settings</DialogTitle>
           <DialogDescription>
             Manage your account preferences and profile information
           </DialogDescription>
         </DialogHeader>
-        <div className="flex h-[600px]">
-          {/* Settings Sidebar */}
-          <div className="w-64 border-r pr-6">
-            <nav className="space-y-2">
+        
+        {/* Mobile Section Selector */}
+        <div className="md:hidden px-4 pt-4 border-b pb-4">
+          <Select value={section} onValueChange={(value) => setSection(value as SettingsSection)}>
+            <SelectTrigger className="w-full">
+              <SelectValue placeholder="Select section" />
+            </SelectTrigger>
+            <SelectContent>
+              {sections.map((item) => {
+                const Icon = item.icon;
+                return (
+                  <SelectItem key={item.id} value={item.id}>
+                    <div className="flex items-center gap-2">
+                      <Icon className="h-4 w-4" />
+                      <span>{item.label}</span>
+                    </div>
+                  </SelectItem>
+                );
+              })}
+            </SelectContent>
+          </Select>
+        </div>
+
+        <div className="flex flex-col md:flex-row h-[calc(85vh-8rem)] sm:h-[calc(80vh-8rem)]">
+          {/* Settings Sidebar - Desktop Only */}
+          <div className="hidden md:block md:w-64 border-r">
+            <nav className="space-y-2 p-4">
               {sections.map((item) => {
                 const Icon = item.icon;
                 return (
@@ -79,7 +109,7 @@ export function SettingsDialog({
                     }`}
                   >
                     <Icon className="h-4 w-4" />
-                    {item.label}
+                    <span className="text-sm">{item.label}</span>
                   </button>
                 );
               })}
@@ -87,13 +117,13 @@ export function SettingsDialog({
           </div>
 
           {/* Settings Content */}
-          <div className="flex-1 pl-6 overflow-y-auto">
+          <div className="flex-1 overflow-y-auto px-4 sm:px-6 py-4">
             {section === "profile" && (
               <div className="space-y-6">
                 <div>
                   <h3 className="text-lg font-semibold mb-4">Profile Information</h3>
                   <Form {...form}>
-                    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 sm:space-y-6">
                       <FormField
                         control={form.control}
                         name="display_name"
@@ -117,11 +147,11 @@ export function SettingsDialog({
                             <FormControl>
                               <Textarea
                                 placeholder="Tell us about yourself..."
-                                className="min-h-[100px]"
+                                className="min-h-[80px] sm:min-h-[100px]"
                                 {...field}
                               />
                             </FormControl>
-                            <FormDescription>
+                            <FormDescription className="text-xs sm:text-sm">
                               Brief description about yourself (max 500 characters)
                             </FormDescription>
                             <FormMessage />
@@ -129,7 +159,7 @@ export function SettingsDialog({
                         )}
                       />
 
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <FormField
                           control={form.control}
                           name="job_title"
@@ -175,7 +205,7 @@ export function SettingsDialog({
 
                       <div className="space-y-4">
                         <h4 className="text-sm font-medium">Social Links</h4>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                           <FormField
                             control={form.control}
                             name="github_url"
@@ -234,7 +264,7 @@ export function SettingsDialog({
                         </div>
                       </div>
 
-                      <Button type="submit" disabled={isLoading}>
+                      <Button type="submit" disabled={isLoading} className="w-full sm:w-auto">
                         {isLoading ? "Saving..." : "Save Changes"}
                       </Button>
                     </form>
@@ -247,22 +277,22 @@ export function SettingsDialog({
               <div className="space-y-6">
                 <h3 className="text-lg font-semibold">Account Settings</h3>
                 <div className="space-y-4">
-                  <div className="p-4 border rounded-lg">
-                    <h4 className="font-medium mb-2">Email Address</h4>
-                    <p className="text-sm text-muted-foreground mb-2">{user?.email}</p>
-                    <Button variant="outline" size="sm">Change Email</Button>
+                  <div className="p-3 sm:p-4 border rounded-lg">
+                    <h4 className="font-medium mb-2 text-sm sm:text-base">Email Address</h4>
+                    <p className="text-xs sm:text-sm text-muted-foreground mb-2 break-all">{user?.email}</p>
+                    <Button variant="outline" size="sm" className="w-full sm:w-auto">Change Email</Button>
                   </div>
-                  <div className="p-4 border rounded-lg">
-                    <h4 className="font-medium mb-2">Password</h4>
-                    <p className="text-sm text-muted-foreground mb-2">Last changed 30 days ago</p>
-                    <Button variant="outline" size="sm">Change Password</Button>
+                  <div className="p-3 sm:p-4 border rounded-lg">
+                    <h4 className="font-medium mb-2 text-sm sm:text-base">Password</h4>
+                    <p className="text-xs sm:text-sm text-muted-foreground mb-2">Last changed 30 days ago</p>
+                    <Button variant="outline" size="sm" className="w-full sm:w-auto">Change Password</Button>
                   </div>
-                  <div className="p-4 border rounded-lg border-destructive/20">
-                    <h4 className="font-medium mb-2 text-destructive">Danger Zone</h4>
-                    <p className="text-sm text-muted-foreground mb-2">
+                  <div className="p-3 sm:p-4 border rounded-lg border-destructive/20">
+                    <h4 className="font-medium mb-2 text-destructive text-sm sm:text-base">Danger Zone</h4>
+                    <p className="text-xs sm:text-sm text-muted-foreground mb-2">
                       Permanently delete your account and all associated data
                     </p>
-                    <Button variant="destructive" size="sm">Delete Account</Button>
+                    <Button variant="destructive" size="sm" className="w-full sm:w-auto">Delete Account</Button>
                   </div>
                 </div>
               </div>
@@ -272,32 +302,32 @@ export function SettingsDialog({
               <div className="space-y-6">
                 <h3 className="text-lg font-semibold">Privacy & Security</h3>
                 <div className="space-y-4">
-                  <div className="flex items-center justify-between p-4 border rounded-lg">
-                    <div>
-                      <h4 className="font-medium">Profile Visibility</h4>
-                      <p className="text-sm text-muted-foreground">
+                  <div className="flex items-start sm:items-center justify-between gap-4 p-3 sm:p-4 border rounded-lg">
+                    <div className="flex-1 min-w-0">
+                      <h4 className="font-medium text-sm sm:text-base">Profile Visibility</h4>
+                      <p className="text-xs sm:text-sm text-muted-foreground">
                         Make your profile visible to other community members
                       </p>
                     </div>
-                    <Switch defaultChecked />
+                    <Switch defaultChecked className="flex-shrink-0" />
                   </div>
-                  <div className="flex items-center justify-between p-4 border rounded-lg">
-                    <div>
-                      <h4 className="font-medium">Show Email</h4>
-                      <p className="text-sm text-muted-foreground">
+                  <div className="flex items-start sm:items-center justify-between gap-4 p-3 sm:p-4 border rounded-lg">
+                    <div className="flex-1 min-w-0">
+                      <h4 className="font-medium text-sm sm:text-base">Show Email</h4>
+                      <p className="text-xs sm:text-sm text-muted-foreground">
                         Display your email address on your profile
                       </p>
                     </div>
-                    <Switch />
+                    <Switch className="flex-shrink-0" />
                   </div>
-                  <div className="flex items-center justify-between p-4 border rounded-lg">
-                    <div>
-                      <h4 className="font-medium">Two-Factor Authentication</h4>
-                      <p className="text-sm text-muted-foreground">
+                  <div className="flex items-start sm:items-center justify-between gap-4 p-3 sm:p-4 border rounded-lg">
+                    <div className="flex-1 min-w-0">
+                      <h4 className="font-medium text-sm sm:text-base">Two-Factor Authentication</h4>
+                      <p className="text-xs sm:text-sm text-muted-foreground">
                         Add an extra layer of security to your account
                       </p>
                     </div>
-                    <Switch />
+                    <Switch className="flex-shrink-0" />
                   </div>
                 </div>
               </div>
@@ -307,32 +337,32 @@ export function SettingsDialog({
               <div className="space-y-6">
                 <h3 className="text-lg font-semibold">Notification Preferences</h3>
                 <div className="space-y-4">
-                  <div className="flex items-center justify-between p-4 border rounded-lg">
-                    <div>
-                      <h4 className="font-medium">Email Notifications</h4>
-                      <p className="text-sm text-muted-foreground">
+                  <div className="flex items-start sm:items-center justify-between gap-4 p-3 sm:p-4 border rounded-lg">
+                    <div className="flex-1 min-w-0">
+                      <h4 className="font-medium text-sm sm:text-base">Email Notifications</h4>
+                      <p className="text-xs sm:text-sm text-muted-foreground">
                         Receive email updates about events and community news
                       </p>
                     </div>
-                    <Switch defaultChecked />
+                    <Switch defaultChecked className="flex-shrink-0" />
                   </div>
-                  <div className="flex items-center justify-between p-4 border rounded-lg">
-                    <div>
-                      <h4 className="font-medium">Event Reminders</h4>
-                      <p className="text-sm text-muted-foreground">
+                  <div className="flex items-start sm:items-center justify-between gap-4 p-3 sm:p-4 border rounded-lg">
+                    <div className="flex-1 min-w-0">
+                      <h4 className="font-medium text-sm sm:text-base">Event Reminders</h4>
+                      <p className="text-xs sm:text-sm text-muted-foreground">
                         Get reminded about upcoming events
                       </p>
                     </div>
-                    <Switch defaultChecked />
+                    <Switch defaultChecked className="flex-shrink-0" />
                   </div>
-                  <div className="flex items-center justify-between p-4 border rounded-lg">
-                    <div>
-                      <h4 className="font-medium">Project Updates</h4>
-                      <p className="text-sm text-muted-foreground">
+                  <div className="flex items-start sm:items-center justify-between gap-4 p-3 sm:p-4 border rounded-lg">
+                    <div className="flex-1 min-w-0">
+                      <h4 className="font-medium text-sm sm:text-base">Project Updates</h4>
+                      <p className="text-xs sm:text-sm text-muted-foreground">
                         Notifications about your project collaborations
                       </p>
                     </div>
-                    <Switch defaultChecked />
+                    <Switch defaultChecked className="flex-shrink-0" />
                   </div>
                 </div>
               </div>
@@ -342,23 +372,23 @@ export function SettingsDialog({
               <div className="space-y-6">
                 <h3 className="text-lg font-semibold">Appearance</h3>
                 <div className="space-y-4">
-                  <div className="p-4 border rounded-lg">
-                    <h4 className="font-medium mb-2">Theme</h4>
-                    <p className="text-sm text-muted-foreground mb-4">
+                  <div className="p-3 sm:p-4 border rounded-lg">
+                    <h4 className="font-medium mb-2 text-sm sm:text-base">Theme</h4>
+                    <p className="text-xs sm:text-sm text-muted-foreground mb-4">
                       Choose your preferred theme
                     </p>
-                    <div className="flex gap-2">
-                      <Button variant="outline" size="sm">Light</Button>
-                      <Button variant="outline" size="sm">Dark</Button>
-                      <Button variant="outline" size="sm">System</Button>
+                    <div className="flex flex-wrap gap-2">
+                      <Button variant="outline" size="sm" className="flex-1 sm:flex-none">Light</Button>
+                      <Button variant="outline" size="sm" className="flex-1 sm:flex-none">Dark</Button>
+                      <Button variant="outline" size="sm" className="flex-1 sm:flex-none">System</Button>
                     </div>
                   </div>
-                  <div className="p-4 border rounded-lg">
-                    <h4 className="font-medium mb-2">Language</h4>
-                    <p className="text-sm text-muted-foreground mb-4">
+                  <div className="p-3 sm:p-4 border rounded-lg">
+                    <h4 className="font-medium mb-2 text-sm sm:text-base">Language</h4>
+                    <p className="text-xs sm:text-sm text-muted-foreground mb-4">
                       Select your preferred language
                     </p>
-                    <select className="w-full p-2 border rounded-md">
+                    <select className="w-full p-2 border rounded-md text-sm">
                       <option>English</option>
                       <option>Hindi</option>
                     </select>
