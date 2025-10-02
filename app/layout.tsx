@@ -9,7 +9,7 @@ import { MobileHeader } from "@/components/MobileHeader";
 import { MobileBottomNavigation } from "@/components/MobileBottomNavigation";
 import { GlobalLoader } from "@/components/GlobalLoader";
 import { getPublicNavigationItems } from "@/constants/navigation";
-import { ClerkProvider } from "@clerk/nextjs";
+import { ClerkThemeProvider } from "@/components/ClerkThemeProvider";
 
 export const metadata: Metadata = {
   title: {
@@ -181,16 +181,16 @@ export default function RootLayout({
   };
 
   return (
-    <ClerkProvider>
-      <html lang="en" suppressHydrationWarning>
-        <head>
-          <script
-            type="application/ld+json"
-            dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-          />
-        </head>
-        <body>
-          <Providers>
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      </head>
+      <body>
+        <Providers>
+          <ClerkThemeProvider>
             <Toaster />
             <Sonner />
             <SidebarProvider>
@@ -215,9 +215,9 @@ export default function RootLayout({
               </div>
             </SidebarProvider>
             <GlobalLoader />
-          </Providers>
-        </body>
-      </html>
-    </ClerkProvider>
+          </ClerkThemeProvider>
+        </Providers>
+      </body>
+    </html>
   );
 }
