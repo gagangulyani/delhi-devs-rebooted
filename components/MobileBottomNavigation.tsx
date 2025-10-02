@@ -9,7 +9,7 @@ import {
   NavigationItem as NavigationItemType,
   findParentNavItem,
 } from "@/constants/navigation";
-import { isUserAdmin } from "@/lib/clerk-utils";
+import { isUserAdmin } from "@/lib/clerk-utils.client";
 
 interface MobileBottomNavigationProps {
   navigationItems: NavigationItemType[];

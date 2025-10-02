@@ -48,7 +48,8 @@ Open [http://localhost:3000](http://localhost:3000)
 **Backend**: Supabase (PostgreSQL + Auth)  
 **Auth**: Clerk  
 **State**: React Query, React Hook Form, Zod  
-**Icons**: Lucide React + Font Awesome
+**Icons**: Lucide React + Font Awesome  
+**Monitoring**: Sentry (Error Tracking, Performance Monitoring, Logs)
 
 ## 🛠️ Setup
 
@@ -67,6 +68,33 @@ cp .env.local.example .env.local
 # Run
 bun run dev  # Development
 bun run build && bun run start  # Production
+```
+
+## 🔍 Sentry Monitoring
+
+This project includes comprehensive error tracking and performance monitoring with Sentry:
+
+- ✅ **Error Tracking**: Automatic exception capture
+- ✅ **Performance Monitoring**: API calls, database queries, and UI interactions
+- ✅ **Structured Logging**: Searchable logs with context
+- ✅ **Session Replay**: Replay user sessions when errors occur
+- ✅ **User Context**: Track errors by user for better debugging
+
+**Quick Usage**:
+
+```typescript
+// Error capture
+import * as Sentry from "@sentry/nextjs";
+Sentry.captureException(error);
+
+// Performance tracking
+await withTracing("db.query", "Fetch Events", async (span) => {
+  return await fetchEvents();
+});
+
+// Logging
+import { log } from "@/lib/sentry-utils";
+log.info("Operation completed", { eventId: "123" });
 ```
 
 ## 📁 Project Structure

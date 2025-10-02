@@ -13,7 +13,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Users, Clock, CheckCircle, XCircle, Ban, TrendingUp, ShieldAlert } from "lucide-react";
 import { format } from "date-fns";
 import { mockMembers } from '@/lib/mock-data';
-import { isUserAdmin } from '@/lib/clerk-utils';
+import { isUserAdmin } from '@/lib/clerk-utils.client';
 
 interface Member {
   id: string;

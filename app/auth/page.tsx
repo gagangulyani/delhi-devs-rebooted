@@ -10,7 +10,7 @@ import { Users, Shield, Home, User as UserIcon, CheckCircle2 } from "lucide-reac
 import { BackButton } from "@/components/BackButton"
 import { useRouter, useSearchParams } from "next/navigation"
 import { useEffect } from "react"
-import { isUserAdmin } from "@/lib/clerk-utils"
+import { isUserAdmin } from "@/lib/clerk-utils.client"
 
 export default function AuthenticationPage() {
   const { user, isLoaded } = useUser()

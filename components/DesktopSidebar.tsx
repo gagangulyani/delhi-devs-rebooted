@@ -19,7 +19,7 @@ import { NavigationItem } from "./NavigationItem";
 import { Brand } from "./Brand";
 import { NavigationItem as NavigationItemType, findParentNavItem } from "@/constants/navigation";
 import { getIcon } from "@/lib/icon-utils";
-import { isUserAdmin } from "@/lib/clerk-utils";
+import { isUserAdmin } from "@/lib/clerk-utils.client";
 
 interface DesktopSidebarProps {
   navigationItems: NavigationItemType[];
