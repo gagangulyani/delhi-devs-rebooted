@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Plus } from "lucide-react";
+import { isFeatureEnabled } from "@/constants/features";
 import { dateUtils } from '@/lib/date-utils';
 import { 
   EventCard, 
@@ -122,7 +123,7 @@ export default function EventsPage() {
               Discover upcoming meetups and workshops
             </p>
           </div>
-          {!isUserLoading && user && (
+          {!isUserLoading && user && isFeatureEnabled('events') && (
             <Button 
               onClick={() => setShowCreateEvent(true)} 
               className="rounded-full self-start sm:self-auto group"
@@ -146,7 +147,7 @@ export default function EventsPage() {
         />
 
         {/* Create Event Form - Lazy loaded */}
-        {showCreateEvent && (
+        {isFeatureEnabled('events') && showCreateEvent && (
           <Suspense fallback={
             <div className="rounded-2xl border border-white/20 dark:border-white/10 bg-white/70 dark:bg-black/40 shadow-lg backdrop-blur-2xl p-6">
               <div className="space-y-4">
@@ -180,8 +181,8 @@ export default function EventsPage() {
             <EmptyEventsState
               searchQuery={searchQuery}
               selectedFilter={selectedFilter}
-              showCreateButton={!!user}
-              onCreateClick={() => setShowCreateEvent(true)}
+              showCreateButton={!!user && isFeatureEnabled('events')}
+              onCreateClick={isFeatureEnabled('events') ? () => setShowCreateEvent(true) : undefined}
             />
           </Suspense>
         ) : (

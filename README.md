@@ -104,7 +104,7 @@ bun run lint         # Run ESLint
 
 ## 📁 Project Structure
 
-```text
+````text
 delhi-devs-rebooted/
 ├── app/                    # Next.js 15 App Router
 │   ├── globals.css        # Global styles
@@ -126,6 +126,26 @@ delhi-devs-rebooted/
 ├── supabase/            # Database migrations
 ├── types/               # TypeScript type definitions
 └── constants/           # App constants and config
+
+## Feature Flags
+
+There's a single place to toggle major features used across the app:
+
+- `constants/features.ts` - toggles for `events`, `blogs`, and `admin`.
+
+Set a feature to `false` to hide related navigation items across the site. Note: routes remain accessible via URL even if the navigation item is hidden.
+
+Example:
+
+```ts
+// constants/features.ts
+export const features = {
+  events: true,
+  blogs: false, // hide blogs from navigation
+  admin: true,
+}
+````
+
 ```
 
 ## 🎨 Design System
@@ -198,3 +218,4 @@ For support and questions:
 ---
 
 ## Made with ❤️ for the Delhi Developer Community
+```

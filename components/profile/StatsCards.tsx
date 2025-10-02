@@ -2,18 +2,23 @@ import React from "react";
 import { ProfileStats } from "@/types/profile";
 import { Card, CardContent } from "@/components/ui/card";
 import { FileText, Calendar, Users, Eye } from "lucide-react";
+import { isFeatureEnabled } from "@/constants/features";
 
 interface StatsCardsProps {
   stats: ProfileStats;
 }
 
 export const StatsCards = React.memo(function StatsCards({ stats }: StatsCardsProps) {
-  const statItems = [
-    { icon: FileText, label: "Total Blogs", value: stats.totalBlogs },
-    { icon: Calendar, label: "Events Hosted", value: stats.totalEvents },
-    { icon: Users, label: "Total Attendees", value: stats.totalAttendees },
-    { icon: Eye, label: "Blog Views", value: stats.totalViews },
+  const allItems = [
+    { icon: FileText, label: "Total Blogs", value: stats.totalBlogs, feature: 'blogs' as const },
+    { icon: Calendar, label: "Events Hosted", value: stats.totalEvents, feature: 'events' as const },
+    { icon: Users, label: "Total Attendees", value: stats.totalAttendees, feature: 'events' as const },
+    { icon: Eye, label: "Blog Views", value: stats.totalViews, feature: 'blogs' as const },
   ];
+
+  const statItems = allItems.filter(item => isFeatureEnabled(item.feature));
+
+  if (statItems.length === 0) return null;
 
   return (
     <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">

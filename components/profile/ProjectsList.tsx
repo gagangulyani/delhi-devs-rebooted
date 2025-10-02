@@ -3,6 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { ProjectCard } from "./ProjectCard";
 import { Plus, Code } from "lucide-react";
+import { isFeatureEnabled } from "@/constants/features";
 
 interface ProjectsListProps {
   projects: Project[];
@@ -34,7 +35,7 @@ export function ProjectsList({
             }
           </CardDescription>
         </div>
-        {isOwnProfile && onAddProject && (
+        {isOwnProfile && onAddProject && isFeatureEnabled('projects') && (
           <Button onClick={onAddProject} className="gap-2">
             <Plus className="h-4 w-4" />
             Add Project
@@ -54,7 +55,7 @@ export function ProjectsList({
                 : "This community member hasn't shared any projects yet"
               }
             </p>
-            {isOwnProfile && onAddProject && (
+            {isOwnProfile && onAddProject && isFeatureEnabled('projects') && (
               <Button onClick={onAddProject} size="lg">
                 Add Your First Project
               </Button>

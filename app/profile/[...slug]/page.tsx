@@ -10,7 +10,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useLoading } from "@/contexts/LoadingContext";
 import { Button } from "@/components/ui/button";
 import {
-  AlertDialog,
+  AlertDialog, 
   AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
@@ -49,6 +49,7 @@ import {
   ProfileFormData,
   ProjectFormData,
 } from "@/lib/profile/schemas";
+import { isFeatureEnabled } from "@/constants/features";
 
 interface ProfilePageProps {
   params: Promise<{
@@ -532,8 +533,8 @@ export default function ProfilePage({ params }: ProfilePageProps) {
           <ProfileHeader user={user} profile={profile} />
         )}
 
-        {/* Stats - Only for own profile, show skeleton while loading */}
-        {isViewingOwnProfile && (
+        {/* Stats - Only for own profile and when blog/events features are enabled */}
+        {isViewingOwnProfile && (isFeatureEnabled('blogs') || isFeatureEnabled('events')) && (
           <div className="mb-8">
             {isStatsLoading ? (
               <StatsCardsSkeleton />
@@ -555,66 +556,76 @@ export default function ProfilePage({ params }: ProfilePageProps) {
         )}
 
         {/* Projects Section - Show skeleton while loading */}
-        <div className="mb-8">
-          {isProjectsLoading ? (
-            <div className="space-y-4">
-              <div className="flex items-center justify-between">
-                <div className="h-7 w-32 bg-muted animate-pulse rounded" />
-                {isViewingOwnProfile && (
-                  <div className="h-10 w-32 bg-muted animate-pulse rounded-full" />
-                )}
+        {isFeatureEnabled('projects') && (
+          <div className="mb-8">
+            {isProjectsLoading ? (
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <div className="h-7 w-32 bg-muted animate-pulse rounded" />
+                  {isViewingOwnProfile && (
+                    <div className="h-10 w-32 bg-muted animate-pulse rounded-full" />
+                  )}
+                </div>
+                <ProjectsListSkeleton count={4} />
               </div>
-              <ProjectsListSkeleton count={4} />
-            </div>
-          ) : (
-            <Suspense fallback={<ProjectsListSkeleton count={4} />}>
-              <ProjectsList
-                projects={projects}
-                isOwnProfile={isViewingOwnProfile}
-                profileName={profile?.display_name}
-                onAddProject={
-                  isViewingOwnProfile ? () => setShowAddProject(true) : undefined
-                }
-                onDeleteProject={isViewingOwnProfile ? deleteProject : undefined}
-              />
-            </Suspense>
-          )}
-        </div>
+            ) : (
+              <Suspense fallback={<ProjectsListSkeleton count={4} />}>
+                <ProjectsList
+                  projects={projects}
+                  isOwnProfile={isViewingOwnProfile}
+                  profileName={profile?.display_name}
+                  onAddProject={
+                    // only wire add project action when the 'projects' feature is enabled
+                    isViewingOwnProfile && isFeatureEnabled('projects')
+                      ? () => setShowAddProject(true)
+                      : undefined
+                  }
+                  onDeleteProject={isViewingOwnProfile ? deleteProject : undefined}
+                />
+              </Suspense>
+            )}
+          </div>
+        )}
 
         {/* Recent Activity - Lazy loaded */}
-        <div className="mb-8">
-          <Suspense fallback={
-            <div className="space-y-4">
-              <div className="h-7 w-40 bg-muted animate-pulse rounded" />
-              <div className="rounded-2xl border border-white/20 dark:border-white/10 bg-white/70 dark:bg-black/40 shadow-lg backdrop-blur-2xl p-6">
-                <div className="h-32 w-full bg-muted animate-pulse rounded" />
+        {isFeatureEnabled('activity') && (
+          <div className="mb-8">
+            <Suspense fallback={
+              <div className="space-y-4">
+                <div className="h-7 w-40 bg-muted animate-pulse rounded" />
+                <div className="rounded-2xl border border-white/20 dark:border-white/10 bg-white/70 dark:bg-black/40 shadow-lg backdrop-blur-2xl p-6">
+                  <div className="h-32 w-full bg-muted animate-pulse rounded" />
+                </div>
               </div>
-            </div>
-          }>
-            <RecentActivity />
-          </Suspense>
-        </div>
+            }>
+              <RecentActivity />
+            </Suspense>
+          </div>
+        )}
 
         {/* Add Project Dialog - Lazy loaded */}
-        <Suspense fallback={<div />}>
-          <AddProjectDialog
-            isOpen={showAddProject}
-            form={projectForm}
-            techInput={techInput}
-            technologies={technologies}
-            isLoading={isLoading}
-            onClose={() => {
-              setShowAddProject(false);
-              setTechnologies([]);
-              setTechInput("");
-              projectForm.reset();
-            }}
-            onSubmit={onProjectSubmit}
-            onTechInputChange={handleTechInputChange}
-            onTechKeyDown={handleTechKeyDown}
-            onRemoveTechnology={removeTechnology}
-          />
-        </Suspense>
+        {/* Add Project Dialog - only render when projects feature is enabled */}
+        {isFeatureEnabled('projects') && (
+          <Suspense fallback={<div />}>
+            <AddProjectDialog
+              isOpen={showAddProject}
+              form={projectForm}
+              techInput={techInput}
+              technologies={technologies}
+              isLoading={isLoading}
+              onClose={() => {
+                setShowAddProject(false);
+                setTechnologies([]);
+                setTechInput("");
+                projectForm.reset();
+              }}
+              onSubmit={onProjectSubmit}
+              onTechInputChange={handleTechInputChange}
+              onTechKeyDown={handleTechKeyDown}
+              onRemoveTechnology={removeTechnology}
+            />
+          </Suspense>
+        )}
       </div>
     </div>
   );

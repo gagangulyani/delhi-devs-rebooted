@@ -8,7 +8,7 @@ interface EmptyEventsStateProps {
   searchQuery: string;
   selectedFilter: string;
   showCreateButton: boolean;
-  onCreateClick: () => void;
+  onCreateClick?: () => void;
 }
 
 export function EmptyEventsState({
@@ -29,7 +29,7 @@ export function EmptyEventsState({
           : "Be the first to create an event for the community!"
         }
       </p>
-      {showCreateButton && (
+      {showCreateButton && onCreateClick && (
         <Button 
           onClick={onCreateClick}
           className="rounded-full"
