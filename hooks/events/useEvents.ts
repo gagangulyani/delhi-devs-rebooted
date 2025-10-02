@@ -1,9 +1,9 @@
 'use client'
 
 import { useState, useEffect, useCallback } from "react";
+import { useUser } from "@clerk/nextjs";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
-import { User as SupabaseUser } from "@supabase/supabase-js";
 import { mockEvents } from '@/lib/mock-data';
 import { EventFormData } from '@/components/events';
 
@@ -34,7 +34,7 @@ export interface Event {
 }
 
 export function useEvents() {
-  const [user, setUser] = useState<SupabaseUser | null>(null);
+  const { user: clerkUser, isLoaded } = useUser();
   const [events, setEvents] = useState<Event[]>(mockEvents);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -59,12 +59,12 @@ export function useEvents() {
             .single();
 
           let is_registered = false;
-          if (user) {
+          if (clerkUser) {
             const { data: attendeeData } = await supabase
               .from('event_attendees')
               .select('id')
               .eq('event_id', event.id)
-              .eq('user_id', user.id)
+              .eq('user_id', clerkUser.id)
               .single();
             is_registered = !!attendeeData;
           }
@@ -80,21 +80,17 @@ export function useEvents() {
       
       setEvents(eventsWithData);
     }
-  }, [user]);
+  }, [clerkUser]);
 
   useEffect(() => {
-    const getUser = async () => {
-      const { data: { user } } = await supabase.auth.getUser();
-      setUser(user);
-      await fetchEvents();
+    if (isLoaded) {
+      fetchEvents();
       setIsLoading(false);
-    };
-
-    getUser();
-  }, [fetchEvents]);
+    }
+  }, [isLoaded, fetchEvents]);
 
   const createEvent = async (values: EventFormData) => {
-    if (!user) {
+    if (!clerkUser) {
       toast({
         title: "Authentication Required",
         description: "Please sign in to create events.",
@@ -106,7 +102,7 @@ export function useEvents() {
     const { error } = await supabase
       .from('events')
       .insert({
-        created_by: user.id,
+        created_by: clerkUser.id,
         ...values,
         tags: values.tags.split(',').map(t => t.trim()),
         max_attendees: values.max_attendees || null,
@@ -130,7 +126,7 @@ export function useEvents() {
   };
 
   const registerForEvent = async (eventId: string) => {
-    if (!user) {
+    if (!clerkUser) {
       toast({
         title: "Authentication Required",
         description: "Please sign in to register for events.",
@@ -143,7 +139,7 @@ export function useEvents() {
       .from('event_attendees')
       .insert({
         event_id: eventId,
-        user_id: user.id,
+        user_id: clerkUser.id,
       });
 
     if (error) {
@@ -170,13 +166,13 @@ export function useEvents() {
   };
 
   const unregisterFromEvent = async (eventId: string) => {
-    if (!user) return;
+    if (!clerkUser) return;
 
     const { error } = await supabase
       .from('event_attendees')
       .delete()
       .eq('event_id', eventId)
-      .eq('user_id', user.id);
+      .eq('user_id', clerkUser.id);
 
     if (error) {
       toast({
@@ -235,7 +231,7 @@ export function useEvents() {
   };
 
   return {
-    user,
+    user: clerkUser,
     events,
     isLoading,
     createEvent,

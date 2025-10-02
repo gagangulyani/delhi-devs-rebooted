@@ -1,6 +1,8 @@
 'use client'
 
 import { useState, useEffect, useCallback } from "react";
+import { useUser } from "@clerk/nextjs";
+import { useRouter } from "next/navigation";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -8,9 +10,10 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
-import { Users, Clock, CheckCircle, XCircle, Ban, TrendingUp } from "lucide-react";
+import { Users, Clock, CheckCircle, XCircle, Ban, TrendingUp, ShieldAlert } from "lucide-react";
 import { format } from "date-fns";
 import { mockMembers } from '@/lib/mock-data';
+import { isUserAdmin } from '@/lib/clerk-utils';
 
 interface Member {
   id: string;
@@ -36,6 +39,8 @@ interface Stats {
 export const dynamic = 'force-dynamic';
 
 export default function AdminPage() {
+  const { user, isLoaded } = useUser();
+  const router = useRouter();
   const [members, setMembers] = useState<Member[]>([]);
   const [stats, setStats] = useState<Stats>({
     total: 0,
@@ -47,6 +52,18 @@ export default function AdminPage() {
   });
   const [loading, setLoading] = useState(true);
   const [actionLoading, setActionLoading] = useState<string | null>(null);
+
+  // Check if user is admin
+  useEffect(() => {
+    if (isLoaded && (!user || !isUserAdmin(user))) {
+      toast({
+        title: "Access Denied",
+        description: "You don't have permission to access this page.",
+        variant: "destructive",
+      });
+      router.push('/');
+    }
+  }, [user, isLoaded, router]);
 
   const fetchMembers = useCallback(async () => {
     try {
@@ -154,7 +171,8 @@ export default function AdminPage() {
     }
   };
 
-  if (loading) {
+  // Show loading state while checking auth and role
+  if (!isLoaded || loading) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
         <div className="text-center">
@@ -163,6 +181,11 @@ export default function AdminPage() {
         </div>
       </div>
     );
+  }
+
+  // Don't render anything if not admin (middleware will redirect)
+  if (!user || !isUserAdmin(user)) {
+    return null;
   }
 
   return (

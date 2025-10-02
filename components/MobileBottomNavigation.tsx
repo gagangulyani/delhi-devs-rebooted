@@ -1,14 +1,15 @@
 "use client";
 
 import React from "react";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo } from "react";
 import { usePathname } from "next/navigation";
+import { useUser } from "@clerk/nextjs";
 import { NavigationItem } from "./NavigationItem";
 import {
   NavigationItem as NavigationItemType,
   findParentNavItem,
 } from "@/constants/navigation";
-import { supabase } from "@/integrations/supabase/client";
+import { isUserAdmin } from "@/lib/clerk-utils";
 
 interface MobileBottomNavigationProps {
   navigationItems: NavigationItemType[];
@@ -19,52 +20,40 @@ export const MobileBottomNavigation = React.memo(
     navigationItems,
   }: MobileBottomNavigationProps) {
     const pathname = usePathname();
-    const [isAuthed, setIsAuthed] = useState<boolean>(false);
-
-    useEffect(() => {
-      let mounted = true;
-      const init = async () => {
-        const {
-          data: { user },
-        } = await supabase.auth.getUser();
-        if (mounted) setIsAuthed(!!user);
-      };
-      init();
-      const {
-        data: { subscription },
-      } = supabase.auth.onAuthStateChange((_e, session) => {
-        setIsAuthed(!!session?.user);
-      });
-      return () => {
-        mounted = false;
-        subscription.unsubscribe();
-      };
-    }, []);
+    const { isSignedIn, user } = useUser();
+    const isAuthed = !!isSignedIn;
+    const isAdmin = user ? isUserAdmin(user) : false;
 
     // Curate a modern, focused set of tabs for mobile
     const tabs = useMemo(() => {
+      // Filter out admin items if user is not admin
+      const filteredItems = navigationItems.filter(item => {
+        if (item.isPublic) return true;
+        return isAdmin;
+      });
+      
       const preferredOrder = isAuthed
         ? ["Home", "Events", "About", "Profile"]
         : ["Home", "Events", "About", "Profile"]; // Show Profile for both states, it will redirect to login if needed
       const exclude = new Set([
         "Login",
         "Code of Conduct",
-        "Admin",
+        "Admin", // Admin excluded from mobile nav for space
         "Join Community",
       ]);
       const byTitle: Record<string, NavigationItemType> = {};
-      for (const item of navigationItems) byTitle[item.title] = item;
+      for (const item of filteredItems) byTitle[item.title] = item;
       const ordered = preferredOrder
         .map((t) => byTitle[t])
         .filter(Boolean) as NavigationItemType[];
-      const extras = navigationItems.filter(
+      const extras = filteredItems.filter(
         (i) => !exclude.has(i.title) && !preferredOrder.includes(i.title)
       );
-      return (ordered.length ? ordered : navigationItems)
+      return (ordered.length ? ordered : filteredItems)
         .slice(0, 4)
         .concat(extras)
         .slice(0, 4);
-    }, [navigationItems, isAuthed]);
+    }, [navigationItems, isAuthed, isAdmin]);
 
     const parentItem = useMemo(() => findParentNavItem(pathname), [pathname]);
 

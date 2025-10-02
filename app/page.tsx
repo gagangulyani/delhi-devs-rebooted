@@ -2,7 +2,7 @@
 
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { supabase } from '@/integrations/supabase/client';
+import { useUser } from '@clerk/nextjs';
 import { useLoading } from '@/contexts/LoadingContext';
 import { HeroSection } from "@/components/landing/HeroSection";
 import { MeetupAchievementSection } from "@/components/landing/MeetupAchievementSection";
@@ -13,31 +13,16 @@ import { Footer } from "@/components/landing/Footer";
 
 export default function HomePage() {
   const router = useRouter();
-  const { showLoader, hideLoader } = useLoading();
+  const { showLoader } = useLoading();
+  const { isLoaded, isSignedIn } = useUser();
 
   useEffect(() => {
-    const checkAuthAndRedirect = async () => {
-      try {
-        // Get the current session silently
-        const { data: { session }, error } = await supabase.auth.getSession();
-
-        if (error) {
-          console.error('Error checking auth:', error);
-          return;
-        }
-
-        if (session?.user) {
-          // User is logged in, redirect to their profile
-          showLoader('Redirecting to your profile...');
-          router.replace('/profile/me');
-        }
-      } catch (error) {
-        console.error('Unexpected error:', error);
-      }
-    };
-
-    checkAuthAndRedirect();
-  }, [router, showLoader, hideLoader]);
+    if (isLoaded && isSignedIn) {
+      // User is logged in, redirect to their profile
+      showLoader('Redirecting to your profile...');
+      router.replace('/profile/me');
+    }
+  }, [isLoaded, isSignedIn, router, showLoader]);
 
   // Always show landing page immediately
   return (

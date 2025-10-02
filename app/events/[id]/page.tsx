@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { useParams } from "next/navigation";
+import { useUser } from "@clerk/nextjs";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
@@ -30,7 +31,6 @@ import {
 import Link from "next/link";
 import Image from "next/image";
 import { dateUtils } from "@/lib/date-utils";
-import { supabase } from "@/integrations/supabase/client";
 import { mockEvents as importedMockEvents } from "@/lib/mock-data";
 import { BackButton } from "@/components/BackButton";
 
@@ -64,9 +64,9 @@ const mockEvents = importedMockEvents.map((event) => ({
 export default function EventDetailPage() {
   const params = useParams();
   const eventId = params.id as string;
+  const { user, isLoaded } = useUser();
   const [event, setEvent] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [user, setUser] = useState<any>(null);
   const [isRegistered, setIsRegistered] = useState(false);
 
   const fetchEventDetails = useCallback(async () => {
@@ -96,12 +96,10 @@ export default function EventDetailPage() {
   }, [eventId, user]);
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setUser(session?.user ?? null);
-    });
-
-    fetchEventDetails();
-  }, [eventId, fetchEventDetails]);  const handleRegister = async () => {
+    if (isLoaded) {
+      fetchEventDetails();
+    }
+  }, [eventId, fetchEventDetails, isLoaded]);  const handleRegister = async () => {
     if (!user) {
       alert("Please sign in to register for events");
       return;

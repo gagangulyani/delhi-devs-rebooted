@@ -2,6 +2,7 @@
 
 import React, { useMemo } from "react";
 import { usePathname } from "next/navigation";
+import { useUser } from "@clerk/nextjs";
 import {
   Sidebar,
   SidebarContent,
@@ -18,6 +19,7 @@ import { NavigationItem } from "./NavigationItem";
 import { Brand } from "./Brand";
 import { NavigationItem as NavigationItemType, findParentNavItem } from "@/constants/navigation";
 import { getIcon } from "@/lib/icon-utils";
+import { isUserAdmin } from "@/lib/clerk-utils";
 
 interface DesktopSidebarProps {
   navigationItems: NavigationItemType[];
@@ -25,7 +27,19 @@ interface DesktopSidebarProps {
 
 export const DesktopSidebar = React.memo(function DesktopSidebar({ navigationItems }: DesktopSidebarProps) {
   const pathname = usePathname();
+  const { user } = useUser();
   const parentItem = useMemo(() => findParentNavItem(pathname), [pathname]);
+  
+  // Filter navigation items based on user role
+  const filteredNavItems = useMemo(() => {
+    const isAdmin = user ? isUserAdmin(user) : false;
+    return navigationItems.filter(item => {
+      // Show public items to everyone
+      if (item.isPublic) return true;
+      // Show admin items only to admins
+      return isAdmin;
+    });
+  }, [navigationItems, user]);
 
   return (
     <div className="hidden md:block">
@@ -38,7 +52,7 @@ export const DesktopSidebar = React.memo(function DesktopSidebar({ navigationIte
           <SidebarGroup>
             <SidebarGroupContent>
               <SidebarMenu className="space-y-1">
-                {navigationItems.map((item) => {
+                {filteredNavItems.map((item) => {
                   // Check if this item or its children are active
                   const isParentActive = parentItem?.url === item.url;
                   const isExactMatch = pathname === item.url;

@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
+import { useUser } from "@clerk/nextjs";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -14,7 +15,6 @@ import { supabase } from "@/integrations/supabase/client";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Users, CheckCircle2, Loader2 } from "lucide-react";
-import { User as SupabaseUser } from "@supabase/supabase-js";
 import { BackButton } from "@/components/BackButton";
 
 const formSchema = z.object({
@@ -31,8 +31,8 @@ type FormData = z.infer<typeof formSchema>;
 export const dynamic = 'force-dynamic';
 
 export default function JoinPage() {
+  const { user, isLoaded } = useUser();
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [user, setUser] = useState<SupabaseUser | null>(null);
   const [isCheckingAuth, setIsCheckingAuth] = useState(true);
   const [isMember, setIsMember] = useState(false);
   const [userProfile, setUserProfile] = useState<any>(null);
@@ -52,17 +52,16 @@ export default function JoinPage() {
 
   useEffect(() => {
     const checkAuthAndMembership = async () => {
-      setIsCheckingAuth(true);
+      if (!isLoaded) return;
       
-      const { data: { user } } = await supabase.auth.getUser();
-      setUser(user);
+      setIsCheckingAuth(true);
 
       if (user) {
         // Check if user already has a member record
         const { data: memberData } = await supabase
           .from('members')
           .select('*')
-          .eq('email', user.email)
+          .eq('email', user.primaryEmailAddress?.emailAddress)
           .single();
 
         if (memberData) {
@@ -83,7 +82,7 @@ export default function JoinPage() {
     };
 
     checkAuthAndMembership();
-  }, []);
+  }, [user, isLoaded]);
 
   const handleOneClickJoin = async () => {
     if (!user) return;
@@ -91,13 +90,24 @@ export default function JoinPage() {
     setIsSubmitting(true);
     
     try {
+      const userEmail = user.primaryEmailAddress?.emailAddress;
+      if (!userEmail) {
+        toast({
+          title: "Email Required",
+          description: "A valid email address is required to join.",
+          variant: "destructive",
+        });
+        setIsSubmitting(false);
+        return;
+      }
+      
       // Create member record with user's existing info
       const { error } = await supabase
         .from("members")
         .insert({
-          name: userProfile?.display_name || user.email?.split('@')[0] || 'Member',
+          name: userProfile?.display_name || user.fullName || userEmail.split('@')[0] || 'Member',
           phone: userProfile?.phone || '',
-          email: user.email!,
+          email: userEmail,
           linkedin_profile: userProfile?.linkedin_url || null,
           agreed_to_terms: true,
           join_mailing_list: true,
@@ -243,7 +253,7 @@ export default function JoinPage() {
             </div>
             <h1 className="text-4xl font-bold mb-2 text-foreground">Join Delhi Devs</h1>
             <p className="text-xl text-muted-foreground">
-              {user 
+              {user && isLoaded
                 ? "One click away from joining our vibrant developer community" 
                 : "Apply to become a member of our vibrant developer community"}
             </p>
@@ -251,7 +261,7 @@ export default function JoinPage() {
         </div>
 
         {/* One-click join for authenticated users */}
-        {user && !isMember && (
+        {user && isLoaded && !isMember && (
           <Card className="mb-6 border-primary/50 bg-gradient-to-br from-primary/5 to-accent/5">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
@@ -259,7 +269,7 @@ export default function JoinPage() {
                 Quick Join Available
               </CardTitle>
               <CardDescription>
-                You're logged in as <strong>{user.email}</strong>. Join the community instantly!
+                You're logged in as <strong>{user.primaryEmailAddress?.emailAddress}</strong>. Join the community instantly!
               </CardDescription>
             </CardHeader>
             <CardContent>
