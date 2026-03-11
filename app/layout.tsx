@@ -60,7 +60,7 @@ export const metadata: Metadata = {
     siteName: 'Delhi Devs Rebooted',
     images: [
       {
-        url: '/delhi-devs-rebooted.png',
+        url: '/delhi-devs-thumbail.png',
         width: 1200,
         height: 630,
         alt: 'Delhi Devs Rebooted - Developer Community',
@@ -74,7 +74,7 @@ export const metadata: Metadata = {
     title: 'Delhi Devs Rebooted - Connecting Passionate Developers in Delhi NCR',
     description: 'Join the largest developer community in Delhi NCR. Connect, collaborate, and code with passionate developers.',
     creator: '@GaganGulyani',
-    images: ['/delhi-devs-rebooted.png'],
+    images: ['/delhi-devs-thumbail.png'],
   },
   robots: {
     index: true,
@@ -135,7 +135,7 @@ export default function RootLayout({
     description: 'The largest developer community in Delhi NCR connecting passionate developers, hosting tech meetups, and building the future of technology together.',
     url: 'https://delhidevs.com',
     logo: 'https://delhidevs.com/delhi-devs-rebooted.png',
-    image: 'https://delhidevs.com/delhi-devs-rebooted.png',
+    image: 'https://delhidevs.com/delhi-devs-thumbail.png',
     foundingDate: '2024',
     founder: {
       '@type': 'Person',
