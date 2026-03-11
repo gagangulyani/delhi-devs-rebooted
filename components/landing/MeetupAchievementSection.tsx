@@ -110,8 +110,14 @@ export function MeetupAchievementSection() {
             <Card className="overflow-hidden border border-border/20 bg-card/80 backdrop-blur-sm">
               {/* LinkedIn Header */}
               <div className="flex items-center gap-3 p-4 border-b border-border/10">
-                <div className="w-10 h-10 bg-gradient-to-br from-primary to-primary/80 rounded-full flex items-center justify-center text-white font-bold">
-                  GD
+                <div className="w-10 h-10 rounded-full overflow-hidden">
+                  <Image
+                    src="/gagan-deep-singh.jpg"
+                    alt="Gagan Deep Singh"
+                    width={40}
+                    height={40}
+                    className="w-full h-full object-cover"
+                  />
                 </div>
                 <div className="flex-1">
                   <h3 className="font-semibold text-foreground">Gagan Deep Singh</h3>
