@@ -1,8 +1,15 @@
+import type { Metadata } from "next";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { GitBranch, Bug, Lightbulb, Code2, ExternalLink, CheckCircle2 } from "lucide-react";
 import { BackButton } from "@/components/BackButton";
+
+export const metadata: Metadata = {
+  title: "Contribute",
+  description:
+    "Help build Delhi Devs Rebooted. Open source, community driven. Learn how to contribute code, report issues, and suggest features.",
+};
 
 export default function ContributePage() {
   return (

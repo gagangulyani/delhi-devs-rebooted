@@ -10,10 +10,10 @@ interface ThemeToggleProps {
 }
 
 export function ThemeToggle({ variant = "default", className = "" }: ThemeToggleProps) {
-  const { setTheme, theme } = useTheme();
+  const { setTheme, resolvedTheme } = useTheme();
 
   const toggleTheme = () => {
-    setTheme(theme === "dark" ? "light" : "dark");
+    setTheme(resolvedTheme === "dark" ? "light" : "dark");
   };
 
   const buttonVariant = variant === "ghost" ? "ghost" : "outline";

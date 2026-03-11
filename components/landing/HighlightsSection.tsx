@@ -48,7 +48,7 @@ export function HighlightsSection() {
             if (highlight.isLinkedInEmbed) {
               return (
                 <LinkedInPostEmbed
-                  key={index}
+                  key={highlight.title}
                   title={highlight.title}
                   description={highlight.description}
                   author={highlight.author}
@@ -62,7 +62,7 @@ export function HighlightsSection() {
             // Regular card for other highlights
             const IconComponent = highlight.icon;
             return (
-              <Card key={index} className="group hover:shadow-xl transition-all duration-300 border-2 hover:border-primary/30 bg-card/80 backdrop-blur-sm overflow-hidden">
+              <Card key={highlight.title} className="group hover:shadow-xl transition-all duration-300 border-2 hover:border-primary/30 bg-card/80 backdrop-blur-sm overflow-hidden">
                 <CardHeader className="pb-4">
                   <div className="flex items-start justify-between gap-4">
                     <div className="flex-1">

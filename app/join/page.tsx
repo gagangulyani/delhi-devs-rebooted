@@ -1,9 +1,15 @@
-'use client';
+  import type { Metadata } from "next";
 
 import { Users, Calendar, ArrowRight } from "lucide-react";
 import Link from "next/link";
 
 const WHATSAPP_INVITE_LINK = "https://chat.whatsapp.com/GIkFkQl9ROz0VFzcbHxVnG";
+
+export const metadata: Metadata = {
+  title: "Join",
+  description:
+    "Join the Delhi Devs Rebooted community. Connect with 500+ developers in Delhi NCR via WhatsApp, attend events, and grow your network.",
+};
 
 export default function JoinPage() {
   return (

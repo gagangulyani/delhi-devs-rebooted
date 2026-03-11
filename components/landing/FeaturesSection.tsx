@@ -63,14 +63,14 @@ export function FeaturesSection() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {features.map((feature, index) => {
+          {features.map((feature) => {
             const IconComponent = feature.icon;
             const bgColor = feature.color === "primary" ? "bg-primary/10" : `bg-${feature.color}/10`;
             const textColor = feature.color === "primary" ? "text-primary" : `text-${feature.color}`;
 
             return (
               <Card
-                key={index}
+                key={feature.title}
                 className="feature-card group hover:shadow-lg transition-all duration-300"
               >
                 <CardHeader>

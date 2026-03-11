@@ -60,6 +60,7 @@ export function LinkedInPostEmbed({
               alt="Delhi Devs Rebooted Meetup 1 - Group Photo"
               fill
               className="object-cover"
+              sizes="(max-width: 768px) 100vw, 50vw"
               priority
             />
             {/* Overlay with celebratory elements */}

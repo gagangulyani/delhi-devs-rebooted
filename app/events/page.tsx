@@ -1,4 +1,4 @@
-'use client';
+import type { Metadata } from "next";
 
 import Link from "next/link";
 import { Card, CardContent } from "@/components/ui/card";
@@ -6,6 +6,12 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Calendar, MapPin, Clock, Users, ExternalLink } from "lucide-react";
 import { events, upcomingEvent } from "@/lib/event-data";
+
+export const metadata: Metadata = {
+  title: "Events",
+  description:
+    "Browse upcoming and past Delhi Devs Rebooted meetups and tech events in Delhi NCR. Register for the next event and connect with the community.",
+};
 
 function formatDate(dateString: string) {
   const date = new Date(dateString);
@@ -110,7 +116,6 @@ export default function EventsPage() {
                               href={event.event_link}
                               target="_blank"
                               rel="noopener noreferrer"
-                              onClick={(e) => e.stopPropagation()}
                             >
                               Register on Luma
                               <ExternalLink className="h-4 w-4 ml-2" />

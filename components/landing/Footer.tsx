@@ -51,7 +51,7 @@ export function Footer() {
               {socialLinks.map((social, index) => {
                 return (
                   <Button
-                    key={index}
+                    key={social.label}
                     variant="ghost"
                     size="sm"
                     className="text-muted-foreground hover:text-foreground hover:bg-accent"
@@ -69,8 +69,8 @@ export function Footer() {
           <div>
             <h3 className="font-semibold mb-4 text-foreground">Community</h3>
             <ul className="space-y-3 text-sm text-muted-foreground">
-              {communityLinks.map((link, index) => (
-                <li key={index}>
+              {communityLinks.map((link) => (
+                <li key={link.label}>
                   {link.isInternal ? (
                     <Link
                       href={link.href}
@@ -96,8 +96,8 @@ export function Footer() {
           <div className="text-muted-foreground text-sm text-center md:text-left mb-4 md:mb-0">
             <p>
               &copy; 2025 Delhi Devs Rebooted. Founded by{" "}
-              <a 
-                href="https://gagangulyani.com" 
+              <a
+                href="https://gagangulyani.com"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-primary hover:underline"
@@ -108,8 +108,8 @@ export function Footer() {
             </p>
           </div>
           <div className="flex items-center gap-6 text-sm text-muted-foreground">
-            {footerLinks.map((link, index) => (
-              <div key={index}>
+            {footerLinks.map((link) => (
+              <div key={link.label}>
                 {link.isInternal ? (
                   <Link
                     href={link.href}

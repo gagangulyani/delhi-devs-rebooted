@@ -135,6 +135,7 @@ export function MeetupAchievementSection() {
                     alt="Delhi Devs Rebooted Meetup 1 - Group Photo"
                     fill
                     className="object-cover"
+                    sizes="(max-width: 768px) 100vw, 896px"
                     priority
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />

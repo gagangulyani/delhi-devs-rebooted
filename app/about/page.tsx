@@ -1,4 +1,4 @@
-'use client'
+import type { Metadata } from "next";
 
 import Image from 'next/image'
 import Link from 'next/link'
@@ -6,6 +6,12 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { Button } from '@/components/ui/button'
 import { Users, CalendarDays, Sparkles, MapPin, ExternalLink } from 'lucide-react'
 import { BackButton } from '@/components/BackButton'
+
+export const metadata: Metadata = {
+  title: "About",
+  description:
+    "Learn about Delhi Devs Rebooted — from its origin at HackTheMountains to a thriving developer community in Delhi NCR. Meet the founder and discover our principles.",
+};
 
 export default function AboutPage() {
   return (
@@ -24,6 +30,7 @@ export default function AboutPage() {
               alt="Delhi Devs Community"
               fill
               className="object-cover"
+              sizes="(max-width: 768px) 100vw, 224px"
               priority
             />
           </div>

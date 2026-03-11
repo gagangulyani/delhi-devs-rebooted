@@ -35,6 +35,7 @@ export function HeroSection() {
                   alt="Delhi Devs Rebooted Illustration"
                   className="object-contain drop-shadow-2xl relative z-10 transform hover:scale-105 transition-transform duration-500"
                   fill
+                  sizes="(max-width: 1024px) 100vw, 40vw"
                   priority
                 />
               </div>
@@ -155,6 +156,7 @@ export function HeroSection() {
                   alt="Delhi Devs Rebooted Illustration"
                   className="object-contain drop-shadow-2xl relative z-10 transform hover:scale-105 transition-transform duration-500"
                   fill
+                  sizes="(max-width: 1024px) 100vw, 40vw"
                   priority
                 />
               </div>
