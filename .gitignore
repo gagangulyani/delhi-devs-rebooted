@@ -56,4 +56,4 @@ coverage/
 .github/
 
 # VS Code
-.vscode/*
+.vscode/*.env.sentry-build-plugin
