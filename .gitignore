@@ -58,3 +58,5 @@ coverage/
 # VS Code
 .vscode/*.env.sentry-build-plugin
 .serena/
+.env
+.env.*
