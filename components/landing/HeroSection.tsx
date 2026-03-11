@@ -19,26 +19,6 @@ export function HeroSection() {
       </div>
 
       <div className="container mx-auto px-4 relative z-10">
-        {/* Top Badges */}
-        <div className="flex flex-wrap justify-center gap-3 pt-8 pb-4 lg:pb-0">
-          <div className="flex items-center gap-2 bg-card/80 backdrop-blur-sm border border-border/40 rounded-full px-4 py-2 shadow-sm">
-            <span className="text-xs font-medium text-primary">Delhi</span>
-          </div>
-          <div className="flex items-center gap-2 bg-card/80 backdrop-blur-sm border border-border/40 rounded-full px-4 py-2 shadow-sm">
-            <span className="text-xs font-medium text-primary">Community</span>
-          </div>
-          <div className="flex items-center gap-2 bg-card/80 backdrop-blur-sm border border-border/40 rounded-full px-4 py-2 shadow-sm">
-            <span className="text-xs font-medium text-primary">
-              Open Source
-            </span>
-          </div>
-          <div className="flex items-center gap-2 bg-card/80 backdrop-blur-sm border border-border/40 rounded-full px-4 py-2 shadow-sm">
-            <span className="text-xs font-medium text-primary">
-              Tech Meetups
-            </span>
-          </div>
-        </div>
-
         <div className="min-h-[50rem] flex flex-col lg:grid lg:grid-cols-12 gap-8 lg:gap-12 items-center w-full">
           {/* Mobile: Image at top */}
           <div className="lg:hidden w-full relative order-1">

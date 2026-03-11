@@ -1,7 +1,7 @@
 "use client";
 
 import { Code, Terminal, GitBranch, Database, Cpu, FileCode, Server, Globe, Smartphone, Monitor, Keyboard, Mouse } from "lucide-react";
-import { useMemo } from "react";
+import { useState, useEffect } from "react";
 
 interface FloatingIcon {
   Icon: any;
@@ -19,25 +19,33 @@ function seededRandom(seed: number): number {
   return x - Math.floor(x);
 }
 
-export function FloatingCodeIcons() {
+function generateFloatingIcons(): FloatingIcon[] {
   const icons = [Code, Terminal, GitBranch, Database, Cpu, FileCode, Server, Globe, Smartphone, Monitor, Keyboard, Mouse];
   const numIcons = 40;
   
-  const floatingIcons: FloatingIcon[] = useMemo(() => {
-    return Array.from({ length: numIcons }, (_, i) => {
-      const seed = i * 7 + 13;
-      return {
-        Icon: icons[Math.floor(seededRandom(seed) * icons.length)],
-        top: `${seededRandom(seed + 1) * 20}%`,
-        left: `${seededRandom(seed + 2) * 20}%`,
-        size: Math.floor(seededRandom(seed + 3) * 5) + 4,
-        opacity: Math.floor(seededRandom(seed + 4) * 16) + 10,
-        blur: seededRandom(seed + 5) > 0.5 ? (seededRandom(seed + 6) > 0.5 ? 'sm' : 'md') : false,
-        delay: seededRandom(seed + 7) * 5,
-        duration: seededRandom(seed + 8) * 5 + 3,
-      };
-    });
+  return Array.from({ length: numIcons }, (_, i) => {
+    const seed = i * 7 + 13;
+    return {
+      Icon: icons[Math.floor(seededRandom(seed) * icons.length)],
+      top: `${seededRandom(seed + 1) * 20}%`,
+      left: `${seededRandom(seed + 2) * 20}%`,
+      size: Math.floor(seededRandom(seed + 3) * 5) + 4,
+      opacity: Math.floor(seededRandom(seed + 4) * 16) + 10,
+      blur: seededRandom(seed + 5) > 0.5 ? (seededRandom(seed + 6) > 0.5 ? 'sm' : 'md') : false,
+      delay: seededRandom(seed + 7) * 5,
+      duration: seededRandom(seed + 8) * 5 + 3,
+    };
+  });
+}
+
+export function FloatingCodeIcons() {
+  const [floatingIcons, setFloatingIcons] = useState<FloatingIcon[]>([]);
+
+  useEffect(() => {
+    setFloatingIcons(generateFloatingIcons());
   }, []);
+
+  if (floatingIcons.length === 0) return null;
 
   return (
     <>
