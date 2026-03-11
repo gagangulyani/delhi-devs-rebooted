@@ -85,7 +85,7 @@ export function GroupsSection() {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
           {groups.map((group, index) => (
-            <Card key={index} className="group hover:shadow-xl transition-all duration-300 border-2 hover:border-primary/30 bg-card/50 backdrop-blur-sm overflow-hidden">
+            <Card key={group.name} className="group hover:shadow-xl transition-all duration-300 border-2 hover:border-primary/30 bg-card/50 backdrop-blur-sm overflow-hidden">
               <div className="relative">
                 {/* Large rectangular image section */}
                 <div className="relative h-64 overflow-hidden bg-gradient-to-br from-primary/5 to-primary/10">
@@ -94,6 +94,7 @@ export function GroupsSection() {
                     alt={group.name}
                     fill
                     className="object-cover group-hover:scale-105 transition-transform duration-500"
+                    sizes="(max-width: 1024px) 100vw, 50vw"
                   />
                   {/* Overlay gradient for better text readability */}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>

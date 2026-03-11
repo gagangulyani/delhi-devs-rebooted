@@ -60,3 +60,7 @@ coverage/
 .serena/
 .env
 .env.*
+
+.claude/
+.agents/
+skills-lock.json

@@ -1,9 +1,9 @@
 "use client";
 
 import { Code, Terminal, GitBranch, Database, Cpu, FileCode, Server, Globe, Smartphone, Monitor, Keyboard, Mouse } from "lucide-react";
-import { useState, useEffect } from "react";
 
 interface FloatingIcon {
+  id: string;
   Icon: any;
   top: string;
   left: string;
@@ -25,26 +25,26 @@ function generateFloatingIcons(): FloatingIcon[] {
   
   return Array.from({ length: numIcons }, (_, i) => {
     const seed = i * 7 + 13;
+    const r = (s: number) => Math.round(seededRandom(s) * 10000) / 10000;
     return {
-      Icon: icons[Math.floor(seededRandom(seed) * icons.length)],
-      top: `${seededRandom(seed + 1) * 20}%`,
-      left: `${seededRandom(seed + 2) * 20}%`,
-      size: Math.floor(seededRandom(seed + 3) * 5) + 4,
-      opacity: Math.floor(seededRandom(seed + 4) * 16) + 10,
-      blur: seededRandom(seed + 5) > 0.5 ? (seededRandom(seed + 6) > 0.5 ? 'sm' : 'md') : false,
-      delay: seededRandom(seed + 7) * 5,
-      duration: seededRandom(seed + 8) * 5 + 3,
+      id: `floating-icon-${i}`,
+      Icon: icons[Math.floor(r(seed) * icons.length)],
+      top: `${(r(seed + 1) * 20).toFixed(2)}%`,
+      left: `${(r(seed + 2) * 20).toFixed(2)}%`,
+      size: Math.floor(r(seed + 3) * 5) + 4,
+      opacity: Math.floor(r(seed + 4) * 16) + 10,
+      blur: r(seed + 5) > 0.5 ? (r(seed + 6) > 0.5 ? 'sm' : 'md') : false,
+      delay: +(r(seed + 7) * 5).toFixed(2),
+      duration: +(r(seed + 8) * 5 + 3).toFixed(2),
     };
   });
 }
 
+// Computed at module scope — seeded randomness has no DOM dependency,
+// so this avoids the useEffect setState-on-mount hydration flash.
+const floatingIcons = generateFloatingIcons();
+
 export function FloatingCodeIcons() {
-  const [floatingIcons, setFloatingIcons] = useState<FloatingIcon[]>([]);
-
-  useEffect(() => {
-    setFloatingIcons(generateFloatingIcons());
-  }, []);
-
   if (floatingIcons.length === 0) return null;
 
   return (
@@ -55,9 +55,9 @@ export function FloatingCodeIcons() {
           to { transform: translate(calc(100vw - 100%), calc(100vh - 100%)); }
         }
       `}</style>
-      {floatingIcons.map((icon, index) => (
+      {floatingIcons.map((icon) => (
         <icon.Icon
-          key={index}
+          key={icon.id}
           className={`absolute w-${icon.size} h-${icon.size} text-orange-400 ${icon.blur ? `blur-${icon.blur}` : ''}`}
           style={{
             top: icon.top,
@@ -74,3 +74,4 @@ export function FloatingCodeIcons() {
     </>
   );
 }
+
