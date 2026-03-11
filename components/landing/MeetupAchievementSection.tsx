@@ -97,7 +97,7 @@ export function MeetupAchievementSection() {
                 Special Thanks
               </h4>
               <p className="text-sm text-muted-foreground leading-relaxed">
-                Huge gratitude to <span className="text-primary font-medium">Anuvrat Parashar</span> for the amazing venue at essentia.dev, 
+                Huge gratitude to <span className="text-primary font-medium">Anuvrat Parashar</span> for the amazing venue at essentia.dev in Noida, 
                 and our incredible team: <span className="text-primary font-medium">Animesh Singh, Krish Khattar, Udit Gupta</span> for management, 
                 plus <span className="text-primary font-medium">Nupur Agrahari & Shiny Parashar</span> for capturing all the memories!
               </p>

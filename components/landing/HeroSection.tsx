@@ -3,6 +3,7 @@ import { Users, Code, Sparkles, Zap, Heart } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { FloatingCodeIcons } from "@/components/FloatingCodeIcons";
+import { upcomingEvent } from "@/lib/event-data";
 
 export function HeroSection() {
   return (
@@ -61,7 +62,7 @@ export function HeroSection() {
           </div>
 
           {/* Mobile: Join button after image */}
-          <div className="lg:hidden flex justify-center order-2 pb-8">
+          <div className="lg:hidden flex flex-col items-center gap-4 order-2 pb-8 px-4">
             <Link href="/join" className="w-full max-w-sm group">
               <Button
                 size="lg"
@@ -73,6 +74,20 @@ export function HeroSection() {
                 </span>
               </Button>
             </Link>
+
+            {/* Upcoming Meetup CTA - Mobile */}
+            <a
+              href={upcomingEvent.event_link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-card/60 border border-border/50 hover:border-primary/50 hover:bg-card/80 transition-all duration-300"
+            >
+              <span className="text-sm text-muted-foreground">Next meetup:</span>
+              <span className="text-sm font-semibold text-foreground">
+                {upcomingEvent.title}
+              </span>
+              <span className="text-primary">→</span>
+            </a>
           </div>
 
           {/* Content Section */}
@@ -94,7 +109,7 @@ export function HeroSection() {
             </div>
 
             {/* Main Heading */}
-            <div className="space-y-4">
+            <div className="space-y-4 pb-12">
               <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-foreground leading-tight">
                 Connect.
                 <span className="text-primary block relative">
@@ -107,13 +122,13 @@ export function HeroSection() {
                 collaborating to ship projects, share knowledge, and level up
                 together.{" "}
               </p>
-              <p className="text-xl sm:text-2xl leading-relaxed max-w-2xl mx-auto lg:mx-0 text-orange-500 font-bold hero-entrance">
+              <p className="text-xl sm:text-2xl leading-relaxed max-w-2xl mx-auto lg:mx-0 text-orange-500 font-bold hero-entrance mb-6">
                 <span className="accent-pop">Born in Delhi. Built for the world.</span>
               </p>
             </div>
 
             {/* CTA Buttons - Desktop only */}
-            <div className="hidden lg:flex flex-col sm:flex-row gap-4 items-center justify-center lg:justify-start pt-8">
+            <div className="hidden lg:flex flex-col gap-4 items-center justify-center lg:justify-start pt-8">
               <Link href="/join" className="w-full sm:w-auto group">
                 <Button
                   size="lg"
@@ -125,29 +140,24 @@ export function HeroSection() {
                   </span>
                 </Button>
               </Link>
-              <Link href="/code-of-conduct" className="w-full sm:w-auto">
-                <Button
-                  variant="outline"
-                  size="lg"
-                  className="rounded-full px-8 py-6 text-lg border-2 border-border hover:border-primary/50 hover:bg-primary/5 transition-all duration-300 w-full sm:w-auto hover:text-white"
-                >
-                  Learn More
-                </Button>
-              </Link>
+
+              {/* Upcoming Meetup CTA */}
+              <a
+                href={upcomingEvent.event_link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group inline-flex items-center gap-2 px-4 py-2 rounded-full bg-card/60 border border-border/50 hover:border-primary/50 hover:bg-card/80 transition-all duration-300"
+              >
+                <span className="text-sm text-muted-foreground">Next meetup:</span>
+                <span className="text-sm font-semibold text-foreground group-hover:text-primary transition-colors">
+                  {upcomingEvent.title}
+                </span>
+                <span className="text-primary opacity-0 group-hover:opacity-100 transition-opacity">
+                  →
+                </span>
+              </a>
             </div>
 
-            {/* Learn More Button - Mobile only */}
-            <div className="lg:hidden flex justify-center pt-4">
-              <Link href="/code-of-conduct" className="w-full max-w-sm">
-                <Button
-                  variant="outline"
-                  size="lg"
-                  className="rounded-full px-8 py-6 text-lg border-2 border-border hover:border-primary/50 hover:bg-primary/5 transition-all duration-300 w-full"
-                >
-                  Learn More
-                </Button>
-              </Link>
-            </div>
           </div>
 
           {/* Desktop: Image on the right */}

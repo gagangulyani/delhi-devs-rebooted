@@ -7,22 +7,16 @@ import Image from "next/image";
 export function Footer() {
   const communityLinks = [
     { label: "Join Us", href: "/join", isInternal: true },
+    { label: "About", href: "/about", isInternal: true },
     { label: "Code of Conduct", href: "/code-of-conduct", isInternal: true },
-    { label: "Events", href: "#", isInternal: false },
-    { label: "Resources", href: "#", isInternal: false },
-  ];
-
-  const connectLinks = [
-    { label: "LinkedIn Company", href: "https://www.linkedin.com/company/delhi-devs", isInternal: false },
-    { label: "Creator's LinkedIn", href: "https://linkedin.com/in/gagan-gulyani", isInternal: false },
-    { label: "Creator's Website", href: "https://gagangulyani.com", isInternal: false },
-    { label: "Admin Portal", href: "/auth", isInternal: true },
+    { label: "Events", href: "/events", isInternal: true },
+    { label: "Contribute", href: "/contribute", isInternal: true },
   ];
 
   const socialLinks = [
     { icon: faTwitter, href: "https://twitter.com/GaganGulyani", label: "Twitter" },
     { icon: faLinkedin, href: "https://www.linkedin.com/company/delhi-devs", label: "LinkedIn" },
-    { icon: faGithub, href: "https://github.com/gagangulyani", label: "GitHub" },
+    { icon: faGithub, href: "https://github.com/gagangulyani/delhi-devs-rebooted", label: "GitHub" },
   ];
 
   const footerLinks = [
@@ -34,7 +28,7 @@ export function Footer() {
   return (
     <footer className="py-16 border-t border-border">
       <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
           <div className="md:col-span-2">
             <div className="flex items-center space-x-3 mb-6">
               <Image
@@ -96,31 +90,6 @@ export function Footer() {
               ))}
             </ul>
           </div>
-
-          <div>
-            <h3 className="font-semibold mb-4 text-foreground">Connect</h3>
-            <ul className="space-y-3 text-sm text-muted-foreground">
-              {connectLinks.map((link, index) => (
-                <li key={index}>
-                  {link.isInternal ? (
-                    <Link
-                      href={link.href}
-                      className="hover:text-foreground transition-colors"
-                    >
-                      {link.label}
-                    </Link>
-                  ) : (
-                    <a
-                      href={link.href}
-                      className="hover:text-foreground transition-colors"
-                    >
-                      {link.label}
-                    </a>
-                  )}
-                </li>
-              ))}
-            </ul>
-          </div>
         </div>
 
         <div className="border-t border-border pt-8 flex flex-col md:flex-row justify-between items-center">
@@ -129,7 +98,7 @@ export function Footer() {
               &copy; 2025 Delhi Devs Rebooted. Founded by{" "}
               <a 
                 href="https://gagangulyani.com" 
-                target="_blank" 
+                target="_blank"
                 rel="noopener noreferrer"
                 className="text-primary hover:underline"
               >

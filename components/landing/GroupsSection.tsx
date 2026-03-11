@@ -67,18 +67,6 @@ export function GroupsSection() {
         "Future tech talks",
       ],
     },
-    {
-      name: "Delhi Devs Community Meetup",
-      image: "/delhi-devs-community-meetup-group.png",
-      description:
-        "For Delhi Devs specific community meetup where people can network with one another, no self promo and event links allowed here",
-      features: [
-        "Pure networking",
-        "Community meetups",
-        "No promotions",
-        "Face-to-face connections",
-      ],
-    },
   ];
 
   return (
