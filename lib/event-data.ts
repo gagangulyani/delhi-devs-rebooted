@@ -44,7 +44,7 @@ This place has got your back.`,
 
 const pastEvent: Event = {
   id: "meetup-1",
-  title: "Delhi Devs Rebooted - First Meetup",
+  title: "Delhi Devs Rebooted - Meetup #1",
   description: `Quality over quantity delivered beyond expectations. From AI web crawlers to philosophy, our first meetup proved that passionate developers create magic.
 
 14 passionate developers gathered for an evening of tech discussions, philosophical conversations, and lasting connections.

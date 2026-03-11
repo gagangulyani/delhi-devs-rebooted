@@ -156,8 +156,14 @@ export default function AboutPage() {
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="flex flex-col md:flex-row gap-6 items-start">
-              <div className="w-24 h-24 rounded-full bg-orange-500/20 flex items-center justify-center shrink-0">
-                <span className="text-3xl font-bold text-orange-500">GS</span>
+              <div className="w-24 h-24 rounded-full overflow-hidden shrink-0">
+                <Image
+                  src="/gagan-deep-singh.jpg"
+                  alt="Gagan Deep Singh"
+                  width={96}
+                  height={96}
+                  className="w-full h-full object-cover"
+                />
               </div>
               <div className="space-y-3">
                 <div>
