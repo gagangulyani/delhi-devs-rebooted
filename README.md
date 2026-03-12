@@ -80,6 +80,8 @@ NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
 ```
 
+See the **Supabase Setup** section below for how to get these values locally or for production.
+
 ### Development
 
 ```bash
@@ -91,6 +93,93 @@ npm run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) to view the application.
+
+---
+
+## 🗄️ Supabase Setup
+
+### Local Development
+
+1. **Install the Supabase CLI**
+
+   ```bash
+   brew install supabase/tap/supabase
+   ```
+
+2. **Install and start Docker Desktop**
+
+   Download from [docker.com/products/docker-desktop](https://www.docker.com/products/docker-desktop/) and make sure it is running before the next step.
+
+3. **Start the local Supabase stack**
+
+   From the project root:
+
+   ```bash
+   supabase start
+   ```
+
+   This pulls the required Docker images, applies all migrations automatically, and prints your local credentials:
+
+   ```
+   Project URL    │ http://127.0.0.1:54321
+   Publishable    │ sb_publishable_xxxxxxxxxxxxxxxxxxxx
+   ```
+
+4. **Set your `.env.local`**
+
+   ```env
+   NEXT_PUBLIC_SUPABASE_URL=http://127.0.0.1:54321
+   NEXT_PUBLIC_SUPABASE_ANON_KEY=<Publishable key from above>
+   ```
+
+5. **Browse your data**
+
+   Open Supabase Studio at [http://127.0.0.1:54323](http://127.0.0.1:54323) → **Table Editor** → `whatsapp_join_requests`.
+
+6. **Stop the stack when done**
+
+   ```bash
+   supabase stop
+   ```
+
+---
+
+### Production (Vercel + Supabase Cloud)
+
+#### Step 1 — Create a Supabase cloud project
+
+1. Go to [supabase.com](https://supabase.com) and create a new project.
+2. Wait for the project to finish provisioning.
+
+#### Step 2 — Apply migrations to the cloud database
+
+Link your local project to the cloud project and push all migrations:
+
+```bash
+supabase login                          # authenticates the CLI
+supabase link --project-ref <project-ref>   # found in Project Settings → General
+supabase db push                        # runs all migrations in supabase/migrations/
+```
+
+#### Step 3 — Get your API credentials
+
+In the Supabase dashboard go to **Project Settings → API**:
+
+| Variable | Where to find it |
+|---|---|
+| `NEXT_PUBLIC_SUPABASE_URL` | Project URL |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | `anon` / `public` key |
+
+#### Step 4 — Add environment variables in Vercel
+
+1. Open your project in the [Vercel dashboard](https://vercel.com/dashboard).
+2. Go to **Settings → Environment Variables**.
+3. Add both variables from Step 3, and set the environment to **Production** (and **Preview** if needed).
+4. Redeploy — Vercel picks up the new env vars automatically.
+
+#### Step 5 — Verify RLS is enabled
+
+The migration already enables Row Level Security and adds an insert policy for anonymous users. You can confirm in the Supabase dashboard under **Authentication → Policies** → `whatsapp_join_requests`.
 
 ### Available Scripts
 
