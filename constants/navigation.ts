@@ -36,6 +36,12 @@ export const navigationItems: NavigationItem[] = [
     icon: "faShieldAlt",
     isPublic: true,
   },
+  {
+    title: "Contribute",
+    url: "/contribute",
+    icon: "faGithub",
+    isPublic: true,
+  },
 ];
 
 export const getPublicNavigationItems = () =>

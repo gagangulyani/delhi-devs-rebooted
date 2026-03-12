@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Calendar, MapPin, Clock, Users, ExternalLink } from "lucide-react";
 import { events, upcomingEvent } from "@/lib/event-data";
+import { BackButton } from "@/components/BackButton";
 
 function formatDate(dateString: string) {
   const date = new Date(dateString);
@@ -36,6 +37,9 @@ export default function EventsPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-background/95 to-muted/20 py-8 px-4 sm:py-12 sm:px-6">
       <div className="mx-auto w-full max-w-7xl space-y-8">
+        <div className="mb-6">
+          <BackButton fallbackUrl="/" />
+        </div>
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div className="space-y-1">
             <h1 className="text-3xl sm:text-4xl font-light tracking-tight text-foreground">

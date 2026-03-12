@@ -20,6 +20,7 @@ import {
   faCog,
   faInfoCircle
 } from '@fortawesome/free-solid-svg-icons';
+import { faGithub } from '@fortawesome/free-brands-svg-icons';
 
 // Create wrapper components for Font Awesome icons
 const FAHome = (props: any) => <FontAwesomeIcon icon={faHome} {...props} />;
@@ -30,6 +31,7 @@ const FASignInAlt = (props: any) => <FontAwesomeIcon icon={faSignInAlt} {...prop
 const FAShieldAlt = (props: any) => <FontAwesomeIcon icon={faShieldAlt} {...props} />;
 const FACog = (props: any) => <FontAwesomeIcon icon={faCog} {...props} />;
 const FAInfoCircle = (props: any) => <FontAwesomeIcon icon={faInfoCircle} {...props} />;
+const FAGithub = (props: any) => <FontAwesomeIcon icon={faGithub} {...props} />;
 
 export const iconMap: Record<string, LucideIcon | React.ComponentType<any>> = {
   Home,
@@ -48,6 +50,7 @@ export const iconMap: Record<string, LucideIcon | React.ComponentType<any>> = {
   faShieldAlt: FAShieldAlt,
   faCog: FACog,
   faInfoCircle: FAInfoCircle,
+  faGithub: FAGithub,
 };
 
 export function getIcon(iconName: string): LucideIcon | React.ComponentType<any> | null {

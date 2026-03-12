@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Users, Calendar, ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { WhatsAppJoinModal } from "@/components/WhatsAppJoinModal";
+import { BackButton } from "@/components/BackButton";
 
 export default function JoinPage() {
   const [modalOpen, setModalOpen] = useState(false);
@@ -11,6 +12,9 @@ export default function JoinPage() {
   return (
     <div className="min-h-screen bg-background py-12 px-4">
       <div className="container mx-auto max-w-2xl">
+        <div className="mb-6">
+          <BackButton fallbackUrl="/" />
+        </div>
         <div className="text-center mb-8">
           <div className="flex justify-center mb-4">
             <div className="p-3 bg-primary/10 rounded-full">

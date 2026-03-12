@@ -31,9 +31,9 @@ export const MobileBottomNavigation = React.memo(
         (i) => !exclude.has(i.title) && !preferredOrder.includes(i.title)
       );
       return (ordered.length ? ordered : navigationItems)
-        .slice(0, 4)
+        .slice(0, 5)
         .concat(extras)
-        .slice(0, 4);
+        .slice(0, 5);
     }, [navigationItems]);
 
     const parentItem = useMemo(() => findParentNavItem(pathname), [pathname]);
