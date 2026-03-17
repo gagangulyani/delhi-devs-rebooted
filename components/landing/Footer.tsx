@@ -95,16 +95,7 @@ export function Footer() {
         <div className="border-t border-border pt-8 flex flex-col md:flex-row justify-between items-center">
           <div className="text-muted-foreground text-sm text-center md:text-left mb-4 md:mb-0">
             <p>
-              &copy; 2025 Delhi Devs Rebooted. Founded by{" "}
-              <a 
-                href="https://gagangulyani.com" 
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-primary hover:underline"
-              >
-                Gagan Deep Singh
-              </a>
-              . Building the future of tech in Delhi NCR.
+              &copy; 2025 Delhi Devs Rebooted.
             </p>
           </div>
           <div className="flex items-center gap-6 text-sm text-muted-foreground">

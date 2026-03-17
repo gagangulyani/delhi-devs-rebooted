@@ -147,64 +147,6 @@ export default function AboutPage() {
             <Button variant="outline" className="w-full">Explore Events</Button>
           </Link>
         </div>
-
-        {/* Founder */}
-        <Card className="mt-12">
-          <CardHeader>
-            <CardTitle>Meet the Founder</CardTitle>
-            <CardDescription>The person behind Delhi Devs Rebooted</CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="flex flex-col md:flex-row gap-6 items-start">
-              <div className="w-24 h-24 rounded-full overflow-hidden shrink-0">
-                <Image
-                  src="/gagan-deep-singh.jpg"
-                  alt="Gagan Deep Singh"
-                  width={96}
-                  height={96}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <div className="space-y-3">
-                <div>
-                  <h3 className="text-xl font-semibold text-foreground">Gagan Deep Singh</h3>
-                  <p className="text-sm text-muted-foreground">Founder & Head of Community</p>
-                </div>
-                <p className="text-sm text-muted-foreground">
-                  Full-stack developer with a passion for building communities. 
-                  Started Delhi Devs to connect developers across Delhi NCR and create 
-                  meaningful networking opportunities.
-                </p>
-                <div className="flex gap-4">
-                  <a 
-                    href="https://linkedin.com/in/gagan-gulyani" 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="text-sm text-primary hover:underline flex items-center gap-2"
-                  >
-                    LinkedIn
-                    <ExternalLink className="h-3 w-3" />
-                  </a>
-                  <a 
-                    href="https://gagangulyani.com" 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="text-sm text-primary hover:underline flex items-center gap-2"
-                  >
-                    Website
-                    <ExternalLink className="h-3 w-3" />
-                  </a>
-                  <a 
-                    href="mailto:gagan@delhidevs.com"
-                    className="text-sm text-primary hover:underline"
-                  >
-                    gagan@delhidevs.com
-                  </a>
-                </div>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
       </div>
     </div>
   )

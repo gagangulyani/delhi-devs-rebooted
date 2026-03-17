@@ -1,25 +1,30 @@
-# Delhi Devs Rebooted 🚀
+# Delhi Devs Rebooted
 
 A modern, responsive community platform for Delhi developers built with Next.js 15, TypeScript, and Supabase. This platform brings together developers from Delhi NCR to connect, collaborate, and grow together.
 
-## 🌟 Features
+## Features
 
-- **Community Profiles**: Create and manage professional developer profiles
-- **Event Management**: Discover, create, and attend tech meetups and workshops
-- **Project Showcase**: Share your projects and find collaborators
-- **Responsive Design**: Beautiful glassmorphism UI that works on all devices
-- **Real-time Updates**: Live event registrations and community interactions
-- **Admin Dashboard**: Manage community members and moderate content
+- **Landing Page** - Beautiful glassmorphism hero section with community info
+- **About Page** - Learn about the community mission and story
+- **Join Community** - WhatsApp group join requests
+- **Events** - Discover and browse tech meetups (feature currently disabled)
+- **Code of Conduct** - Community guidelines
+- **Contribute** - Open source contribution guide
 
-## 🏗️ Architecture
+## Pages
 
-This is a **Next.js 15** application with a modern three-tier navigation system:
+The application has 6 public pages:
 
-- **Desktop**: Collapsible sidebar with icon-only collapse mode
-- **Mobile**: Fixed bottom glassmorphism navigation with floating action button
-- **Authentication**: Supabase auth with session persistence and RLS policies
+| Route | Description |
+|-------|-------------|
+| `/` | Landing page with hero, features, and community info |
+| `/about` | About the community |
+| `/join` | Join the WhatsApp community |
+| `/events` | Browse events (currently disabled) |
+| `/code-of-conduct` | Community guidelines |
+| `/contribute` | How to contribute to the project |
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 ### Frontend
 
@@ -27,20 +32,14 @@ This is a **Next.js 15** application with a modern three-tier navigation system:
 - **TypeScript** - Type-safe development
 - **React 18.3** - Latest React features
 - **Tailwind CSS** - Utility-first CSS framework
-- **shadcn/ui** - Modern React component library (40+ components)
-- **Framer Motion** - Smooth animations and transitions
+- **shadcn/ui** - Modern React component library
+- **next-themes** - Dark/light mode support
 
 ### Backend & Database
 
-- **Supabase** - PostgreSQL database with real-time subscriptions
-- **Row Level Security (RLS)** - Secure data access policies
+- **Supabase** - PostgreSQL database
 - **Supabase Auth** - Authentication and user management
-
-### State Management & Data
-
-- **React Query (@tanstack/react-query)** - Server state management
-- **React Hook Form** - Form handling with validation
-- **Zod** - Schema validation
+- **Row Level Security (RLS)** - Secure data access policies
 
 ### Development Tools
 
@@ -48,7 +47,7 @@ This is a **Next.js 15** application with a modern three-tier navigation system:
 - **ESLint** - Code linting and formatting
 - **TypeScript** - Static type checking
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
 
@@ -59,7 +58,7 @@ This is a **Next.js 15** application with a modern three-tier navigation system:
 
 ```bash
 # Clone the repository
-git clone https://github.com/gagangulyani/community-welcome-app.git
+git clone https://github.com/gagangulyani/delhi-devs-rebooted.git
 
 # Navigate to the project directory
 cd delhi-devs-rebooted
@@ -80,8 +79,6 @@ NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
 ```
 
-See the **Supabase Setup** section below for how to get these values locally or for production.
-
 ### Development
 
 ```bash
@@ -94,9 +91,7 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000) to view the application.
 
----
-
-## 🗄️ Supabase Setup
+## Supabase Setup
 
 ### Local Development
 
@@ -118,18 +113,13 @@ Open [http://localhost:3000](http://localhost:3000) to view the application.
    supabase start
    ```
 
-   This pulls the required Docker images, applies all migrations automatically, and prints your local credentials:
-
-   ```
-   Project URL    │ http://127.0.0.1:54321
-   Publishable    │ sb_publishable_xxxxxxxxxxxxxxxxxxxx
-   ```
+   This pulls the required Docker images, applies all migrations automatically, and prints your local credentials.
 
 4. **Set your `.env.local`**
 
    ```env
    NEXT_PUBLIC_SUPABASE_URL=http://127.0.0.1:54321
-   NEXT_PUBLIC_SUPABASE_ANON_KEY=<Publishable key from above>
+   NEXT_PUBLIC_SUPABASE_ANON_KEY=<your_anon_key>
    ```
 
 5. **Browse your data**
@@ -142,110 +132,66 @@ Open [http://localhost:3000](http://localhost:3000) to view the application.
    supabase stop
    ```
 
----
-
-### Production (Vercel + Supabase Cloud)
-
-#### Step 1 — Create a Supabase cloud project
+### Production
 
 1. Go to [supabase.com](https://supabase.com) and create a new project.
-2. Wait for the project to finish provisioning.
+2. Link your local project and push migrations:
 
-#### Step 2 — Apply migrations to the cloud database
+   ```bash
+   supabase login
+   supabase link --project-ref <project-ref>
+   supabase db push
+   ```
 
-Link your local project to the cloud project and push all migrations:
+3. Add your environment variables in Vercel.
 
-```bash
-supabase login                          # authenticates the CLI
-supabase link --project-ref <project-ref>   # found in Project Settings → General
-supabase db push                        # runs all migrations in supabase/migrations/
+## Project Structure
+
 ```
-
-#### Step 3 — Get your API credentials
-
-In the Supabase dashboard go to **Project Settings → API**:
-
-| Variable | Where to find it |
-|---|---|
-| `NEXT_PUBLIC_SUPABASE_URL` | Project URL |
-| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | `anon` / `public` key |
-
-#### Step 4 — Add environment variables in Vercel
-
-1. Open your project in the [Vercel dashboard](https://vercel.com/dashboard).
-2. Go to **Settings → Environment Variables**.
-3. Add both variables from Step 3, and set the environment to **Production** (and **Preview** if needed).
-4. Redeploy — Vercel picks up the new env vars automatically.
-
-#### Step 5 — Verify RLS is enabled
-
-The migration already enables Row Level Security and adds an insert policy for anonymous users. You can confirm in the Supabase dashboard under **Authentication → Policies** → `whatsapp_join_requests`.
-
-### Available Scripts
-
-```bash
-# Development
-bun run dev          # Start development server
-bun run build        # Build for production
-bun run start        # Start production server
-bun run lint         # Run ESLint
-```
-
-## 📁 Project Structure
-
-````text
 delhi-devs-rebooted/
 ├── app/                    # Next.js 15 App Router
-│   ├── globals.css        # Global styles
-│   ├── layout.tsx         # Root layout
-│   ├── page.tsx          # Landing page
-│   ├── profile/[...slug]/ # Dynamic profile pages
-│   ├── events/           # Event management
-│   ├── admin/            # Admin dashboard
-│   └── auth/             # Authentication flow
+│   ├── page.tsx           # Landing page
+│   ├── about/             # About page
+│   ├── join/              # Join community
+│   ├── events/            # Events (feature disabled)
+│   ├── code-of-conduct/   # Community guidelines
+│   └── contribute/        # Contribution guide
 ├── components/
-│   ├── ui/               # shadcn/ui components
-│   ├── profile/          # Profile-related components
-│   ├── events/           # Event-related components
-│   ├── landing/          # Landing page components
+│   ├── ui/                # shadcn/ui components
+│   ├── landing/           # Landing page components
+│   ├── events/            # Event components
 │   └── skeletons/        # Loading skeletons
-├── contexts/             # React contexts
-├── hooks/                # Custom React hooks
-├── lib/                  # Utility functions
-├── supabase/            # Database migrations
-├── types/               # TypeScript type definitions
-└── constants/           # App constants and config
+├── contexts/              # React contexts
+├── hooks/                 # Custom React hooks
+├── lib/                   # Utility functions
+├── supabase/             # Database migrations
+├── types/                 # TypeScript type definitions
+└── constants/             # App constants and config
+```
 
 ## Feature Flags
 
-There's a single place to toggle major features used across the app:
+Features can be toggled in `constants/features.ts`:
 
-- `constants/features.ts` - toggles for `events`, `blogs`, and `admin`.
+| Feature | Status | Description |
+|---------|--------|-------------|
+| `events` | Disabled | Events listing and UI |
+| `blogs` | Disabled | Blog section |
+| `admin` | Disabled | Admin dashboard |
+| `projects` | Disabled | Project showcase |
+| `activity` | Disabled | Recent activity on profiles |
 
-Set a feature to `false` to hide related navigation items across the site. Note: routes remain accessible via URL even if the navigation item is hidden.
+Set a feature to `true` to enable it. Note: routes remain accessible via URL even if navigation is hidden.
 
-Example:
-
-```ts
-// constants/features.ts
-export const features = {
-  events: true,
-  blogs: false, // hide blogs from navigation
-  admin: true,
-}
-````
-
-```
-
-## 🎨 Design System
+## Design System
 
 ### Glassmorphism Theme
 
-The application features a beautiful glassmorphism design with:
+The application features a glassmorphism design with:
 
 - Frosted glass effects with backdrop blur
 - Minimalist and elegant layouts
-- Smooth transitions and subtle animations
+- Smooth transitions
 - Dark/light mode support with `next-themes`
 
 ### Color Palette
@@ -254,49 +200,37 @@ The application features a beautiful glassmorphism design with:
 - Sidebar-specific color variables
 - Semantic color tokens for consistent theming
 
-## 🔐 Authentication & Security
+## Available Scripts
 
-- **Supabase Auth** with email/password authentication
-- **Row Level Security (RLS)** policies on all database tables
-- **Session persistence** and automatic token refresh
-- **Protected routes** with authentication middleware
+```bash
+# Development
+bun run dev          # Start development server (recommended)
 
-## 📊 Database Schema
+# Build
+bun run build        # Build for production
+bun run start        # Start production server
 
-Key tables:
+# Code Quality
+bun run lint         # Run ESLint
+bun run type-check   # Run TypeScript type checking
 
-- `user_profiles` - Extended user information
-- `user_projects` - Community member projects
-- `events` - Event management with attendance tracking
-- `event_attendees` - Join table for event registrations
+# Or with npm
+npm run dev
+npm run build
+npm run start
+npm run lint
+npm run type-check
+```
 
-## 🚀 Performance Optimizations
+## Contributing
 
-- **Code Splitting** - Lazy loading for non-critical components
-- **React.memo** - Optimized component re-renders
-- **Skeleton Loaders** - Improved perceived performance
-- **Parallel Data Fetching** - Concurrent API calls
-- **Static Content First** - Instant page load feedback
+We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details on how to get started.
 
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-## 📄 License
+## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 🙏 Acknowledgments
-
-- Originally started with [Lovable.dev](https://lovable.dev)
-- Built for the Delhi developer community
-- Inspired by modern developer collaboration platforms
-
-## 📞 Support
+## Support
 
 For support and questions:
 
@@ -306,5 +240,4 @@ For support and questions:
 
 ---
 
-## Made with ❤️ for the Delhi Developer Community
-```
+Made with love for the Delhi Developer Community

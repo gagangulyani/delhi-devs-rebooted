@@ -15,7 +15,7 @@ export const metadata: Metadata = {
     default: 'Delhi Devs Rebooted - Connecting Passionate Developers in Delhi NCR',
     template: '%s | Delhi Devs Rebooted'
   },
-  description: 'Join Delhi Devs Rebooted - the largest developer community in Delhi NCR. Connect with passionate developers, attend tech meetups, share knowledge, and build the future of technology together. Founded by Gagan Deep Singh.',
+  description: 'Join Delhi Devs Rebooted - the largest developer community in Delhi NCR. Connect with passionate developers, attend tech meetups, share knowledge, and build the future of technology together.',
   keywords: [
     'delhi developers',
     'delhi ncr tech community',

@@ -197,6 +197,7 @@ export default function ContributePage() {
                 <h4 className="font-medium mb-2">Code Style</h4>
                 <p className="text-sm text-muted-foreground">
                   Follow the existing code style. Run the linter before submitting:{" "}
+                  <code className="bg-muted px-1 rounded">bun run lint</code> or{" "}
                   <code className="bg-muted px-1 rounded">npm run lint</code>
                 </p>
               </div>
