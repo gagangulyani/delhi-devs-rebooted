@@ -57,8 +57,8 @@ export default function AboutPage() {
                 <span className="text-foreground font-medium">Chaitanya Chawla</span> sparked the idea for a WhatsApp group to connect Delhi-NCR developers.
               </p>
               <p>
-                <span className="text-foreground font-medium">Gagan Deep Singh</span>, <span className="text-foreground font-medium">Simarpreet Singh</span>, 
-                <span className="text-foreground font-medium"> Vani Chitkara</span>, <span className="text-foreground font-medium">Shivam Bhasin</span>, <span className="text-foreground font-medium">Nishant Mishra</span> and others were there when Gagan created 
+                <a href="https://www.linkedin.com/in/gagan-gulyani/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline font-medium">Gagan Deep Singh</a>, <a href="https://www.linkedin.com/in/simarpreetsingh019/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline font-medium">Simarpreet Singh</a>, 
+                <a href="https://www.linkedin.com/in/vani-chitkara/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline font-medium"> Vani Chitkara</a>, <a href="https://www.linkedin.com/in/beingshivam/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline font-medium">Shivam Bhasin</a>, <a href="https://www.linkedin.com/in/curlyparadox/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline font-medium">Nishant Mishra</a> and others were there when Gagan created 
                 the group on the spot.
               </p>
               <p>
@@ -82,7 +82,7 @@ export default function AboutPage() {
                 faded, but the need didn&apos;t.
               </p>
               <p>
-                Delhi Devs Rebooted launched in May 2025. With the help of community people and connections, Gagan (as Head of Community) reframed it 
+                Delhi Devs Rebooted launched in May 2025. With the help of community people and connections, <a href="https://www.linkedin.com/in/gagan-gulyani/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline font-medium">Gagan</a> (as Head of Community) reframed it 
                 to provide space for people to connect, collaborate, and help each other: tech support, 
                 job postings, and <span className="text-foreground font-medium">networking</span>. Events came later, and the focus remains on networking 
                 over technical sessions. <span className="text-foreground font-medium">Quality over quantity</span>.
