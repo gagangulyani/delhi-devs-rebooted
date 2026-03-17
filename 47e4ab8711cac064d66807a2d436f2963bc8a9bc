@@ -1,0 +1,33 @@
+data/showcase-projects.ts
+  3032b16420803fc9 1-45
+constants/navigation.ts
+  3032b16420803fc9 28-32,46-51
+app/page.tsx
+  3032b16420803fc9 6,17
+lib/icon-utils.tsx
+  3032b16420803fc9 22,24,40,62
+components/landing/ShowcasePreview.tsx
+  3032b16420803fc9 1-93
+app/showcase/page.tsx
+  3032b16420803fc9 1-189
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.12",
+  "base_commit_sha": "47e4ab8711cac064d66807a2d436f2963bc8a9bc",
+  "prompts": {
+    "3032b16420803fc9": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "872e857d-3b5c-49ca-bad9-647fc409e0e3",
+        "model": "<synthetic>"
+      },
+      "human_author": "Shivam Bhasin <bhasinshivam2002@gmail.com>",
+      "messages": [],
+      "total_additions": 261,
+      "total_deletions": 1,
+      "accepted_lines": 344,
+      "overriden_lines": 0
+    }
+  }
+}
