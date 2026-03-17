@@ -18,7 +18,8 @@ import {
   faSignInAlt,
   faShieldAlt,
   faCog,
-  faInfoCircle
+  faInfoCircle,
+  faLayerGroup,
 } from '@fortawesome/free-solid-svg-icons';
 import { faGithub } from '@fortawesome/free-brands-svg-icons';
 
@@ -32,6 +33,7 @@ const FAShieldAlt = (props: any) => <FontAwesomeIcon icon={faShieldAlt} {...prop
 const FACog = (props: any) => <FontAwesomeIcon icon={faCog} {...props} />;
 const FAInfoCircle = (props: any) => <FontAwesomeIcon icon={faInfoCircle} {...props} />;
 const FAGithub = (props: any) => <FontAwesomeIcon icon={faGithub} {...props} />;
+const FALayerGroup = (props: any) => <FontAwesomeIcon icon={faLayerGroup} {...props} />;
 
 export const iconMap: Record<string, LucideIcon | React.ComponentType<any>> = {
   Home,
@@ -51,6 +53,7 @@ export const iconMap: Record<string, LucideIcon | React.ComponentType<any>> = {
   faCog: FACog,
   faInfoCircle: FAInfoCircle,
   faGithub: FAGithub,
+  faLayerGroup: FALayerGroup,
 };
 
 export function getIcon(iconName: string): LucideIcon | React.ComponentType<any> | null {

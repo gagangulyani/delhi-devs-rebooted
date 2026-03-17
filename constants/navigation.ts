@@ -25,6 +25,12 @@ export const navigationItems: NavigationItem[] = [
     isPublic: true,
   },
   {
+    title: "Showcase",
+    url: "/showcase",
+    icon: "faLayerGroup",
+    isPublic: true,
+  },
+  {
     title: "Join Community",
     url: "/join",
     icon: "faUserPlus",
