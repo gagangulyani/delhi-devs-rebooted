@@ -12,7 +12,7 @@ import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { BackButton } from "@/components/BackButton";
-import { communityMembers, openToLabels } from "@/data/members";
+import { getAllMembers, openToLabels, type CommunityMember } from "@/lib/db/members";
 import Image from "next/image";
 
 export const metadata: Metadata = {
@@ -21,7 +21,9 @@ export const metadata: Metadata = {
     "Meet the developers of Delhi Devs Rebooted. Explore member profiles and connect with the community.",
 };
 
-export default function MembersPage() {
+export default async function MembersPage() {
+  const members = await getAllMembers();
+
   return (
     <div className="min-h-screen bg-background py-12 px-4">
       <div className="container mx-auto max-w-6xl">
@@ -46,7 +48,7 @@ export default function MembersPage() {
             <div className="mt-6">
               <Button asChild>
                 <a
-                  href="https://github.com/gagangulyani/delhi-devs-rebooted/edit/main/data/members.ts"
+                  href="https://github.com/gagangulyani/delhi-devs-rebooted/issues/new?template=member-profile.md"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -57,11 +59,11 @@ export default function MembersPage() {
           </div>
         </div>
 
-        {communityMembers.length === 0 ? (
+        {members.length === 0 ? (
           <EmptyState />
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {communityMembers.map((member) => (
+            {members.map((member) => (
               <MemberCard key={member.id} member={member} />
             ))}
           </div>
@@ -73,19 +75,16 @@ export default function MembersPage() {
             Want your profile here?
           </h3>
           <p className="text-muted-foreground mb-4">
-            Add yourself by editing{" "}
-            <code className="bg-muted px-1.5 py-0.5 rounded text-sm">
-              data/members.ts
-            </code>{" "}
-            and opening a pull request. Your profile will go live once merged.
+            Open a GitHub issue with your profile details and we&apos;ll add you to the
+            directory. Your profile goes live once reviewed and added to Supabase.
           </p>
           <Button asChild variant="outline">
             <a
-              href="https://github.com/gagangulyani/delhi-devs-rebooted"
+              href="https://github.com/gagangulyani/delhi-devs-rebooted/issues"
               target="_blank"
               rel="noopener noreferrer"
             >
-              <Github className="h-4 w-4 mr-2" /> Open a PR on GitHub
+              <Github className="h-4 w-4 mr-2" /> Open an Issue
             </a>
           </Button>
         </div>
@@ -94,16 +93,15 @@ export default function MembersPage() {
   );
 }
 
-function MemberCard({ member }: { member: (typeof communityMembers)[0] }) {
-  const avatarUrl = member.githubUsername
-    ? `https://github.com/${member.githubUsername}.png`
+function MemberCard({ member }: { member: CommunityMember }) {
+  const avatarUrl = member.github_username
+    ? `https://github.com/${member.github_username}.png`
     : null;
 
   return (
     <Card className="flex flex-col h-full group hover:shadow-lg transition-all duration-300 hover:border-primary/40">
       <CardHeader className="pb-3">
         <div className="flex items-start gap-4">
-          {/* Avatar */}
           <div className="relative w-14 h-14 shrink-0">
             {avatarUrl ? (
               <Image
@@ -121,12 +119,9 @@ function MemberCard({ member }: { member: (typeof communityMembers)[0] }) {
             )}
           </div>
 
-          {/* Name & title */}
           <div className="min-w-0">
             <div className="flex items-center gap-2 flex-wrap">
-              <h3 className="font-bold text-foreground leading-tight">
-                {member.name}
-              </h3>
+              <h3 className="font-bold text-foreground leading-tight">{member.name}</h3>
               {member.featured && (
                 <Badge className="text-xs bg-primary/10 text-primary border-primary/30">
                   Featured
@@ -149,7 +144,6 @@ function MemberCard({ member }: { member: (typeof communityMembers)[0] }) {
       <CardContent className="flex-1 space-y-3">
         <p className="text-sm text-muted-foreground leading-relaxed">{member.bio}</p>
 
-        {/* Skills */}
         {member.skills.length > 0 && (
           <div className="flex flex-wrap gap-1.5">
             {member.skills.map((skill) => (
@@ -160,15 +154,14 @@ function MemberCard({ member }: { member: (typeof communityMembers)[0] }) {
           </div>
         )}
 
-        {/* Open to */}
-        {member.openTo.length > 0 && (
+        {member.open_to.length > 0 && (
           <div className="flex flex-wrap gap-1.5">
-            {member.openTo.map((status) => (
+            {member.open_to.map((status) => (
               <Badge
                 key={status}
                 className="text-xs bg-green-500/10 text-green-600 dark:text-green-400 border-green-500/30"
               >
-                {openToLabels[status]}
+                {openToLabels[status] ?? status}
               </Badge>
             ))}
           </div>
@@ -176,10 +169,10 @@ function MemberCard({ member }: { member: (typeof communityMembers)[0] }) {
       </CardContent>
 
       <CardFooter className="pt-4 border-t border-border flex gap-2 flex-wrap">
-        {member.githubUsername && (
+        {member.github_username && (
           <Button asChild variant="outline" size="sm" className="gap-1.5">
             <a
-              href={`https://github.com/${member.githubUsername}`}
+              href={`https://github.com/${member.github_username}`}
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -188,18 +181,18 @@ function MemberCard({ member }: { member: (typeof communityMembers)[0] }) {
             </a>
           </Button>
         )}
-        {member.linkedinUrl && (
+        {member.linkedin_url && (
           <Button asChild variant="outline" size="sm" className="gap-1.5">
-            <a href={member.linkedinUrl} target="_blank" rel="noopener noreferrer">
+            <a href={member.linkedin_url} target="_blank" rel="noopener noreferrer">
               <Linkedin className="h-3.5 w-3.5" />
               LinkedIn
             </a>
           </Button>
         )}
-        {member.twitterHandle && (
+        {member.twitter_handle && (
           <Button asChild variant="outline" size="sm" className="gap-1.5">
             <a
-              href={`https://twitter.com/${member.twitterHandle}`}
+              href={`https://twitter.com/${member.twitter_handle}`}
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -208,9 +201,9 @@ function MemberCard({ member }: { member: (typeof communityMembers)[0] }) {
             </a>
           </Button>
         )}
-        {member.portfolioUrl && (
+        {member.portfolio_url && (
           <Button asChild size="sm" className="gap-1.5">
-            <a href={member.portfolioUrl} target="_blank" rel="noopener noreferrer">
+            <a href={member.portfolio_url} target="_blank" rel="noopener noreferrer">
               <ExternalLink className="h-3.5 w-3.5" />
               Portfolio
             </a>
@@ -225,15 +218,13 @@ function EmptyState() {
   return (
     <div className="text-center py-20">
       <Users className="h-12 w-12 text-muted-foreground/40 mx-auto mb-4" />
-      <h3 className="text-xl font-semibold text-foreground mb-2">
-        No profiles yet
-      </h3>
+      <h3 className="text-xl font-semibold text-foreground mb-2">No profiles yet</h3>
       <p className="text-muted-foreground mb-6">
         Be the first to add your profile to the Delhi Devs member directory!
       </p>
       <Button asChild>
         <a
-          href="https://github.com/gagangulyani/delhi-devs-rebooted"
+          href="https://github.com/gagangulyani/delhi-devs-rebooted/issues"
           target="_blank"
           rel="noopener noreferrer"
         >
