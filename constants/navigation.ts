@@ -37,6 +37,12 @@ export const navigationItems: NavigationItem[] = [
     isPublic: true,
   },
   {
+    title: "Contributors",
+    url: "/contributors",
+    icon: "faTrophy",
+    isPublic: true,
+  },
+  {
     title: "Contribute",
     url: "/contribute",
     icon: "faGithub",
