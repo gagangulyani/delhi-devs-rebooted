@@ -1,0 +1,25 @@
+data/showcase-projects.ts
+  3032b16420803fc9 26-113
+data/members.ts
+  3032b16420803fc9 31-115
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.12",
+  "base_commit_sha": "78b8196dbbd83e28bf1ed614a10387d0dd19fc6e",
+  "prompts": {
+    "3032b16420803fc9": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "872e857d-3b5c-49ca-bad9-647fc409e0e3",
+        "model": "<synthetic>"
+      },
+      "human_author": "Shivam Bhasin <bhasinshivam2002@gmail.com>",
+      "messages": [],
+      "total_additions": 173,
+      "total_deletions": 0,
+      "accepted_lines": 173,
+      "overriden_lines": 0
+    }
+  }
+}
