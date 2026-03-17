@@ -1,0 +1,35 @@
+components/landing/ShowcasePreview.tsx
+  3032b16420803fc9 6,8-9,33,49-52,66,72,79-82,86-88,93-94
+next.config.js
+  3032b16420803fc9 13-20
+lib/db/showcase.ts
+  3032b16420803fc9 1-53
+data/showcase-projects.ts
+  3032b16420803fc9 1-5
+supabase/seed/showcase_projects_seed.sql
+  3032b16420803fc9 1-102
+supabase/migrations/20260317000001_showcase_projects.sql
+  3032b16420803fc9 1-24
+app/showcase/page.tsx
+  3032b16420803fc9 8-11,19-22,28,56,67,71,75,77,80,95-96,100,104,113,130,145,155,159,161,181,185
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.12",
+  "base_commit_sha": "8819a6a2f3dfb95d2e41de46201ae7d3c0ebde30",
+  "prompts": {
+    "3032b16420803fc9": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "872e857d-3b5c-49ca-bad9-647fc409e0e3",
+        "model": "<synthetic>"
+      },
+      "human_author": "Shivam Bhasin <bhasinshivam2002@gmail.com>",
+      "messages": [],
+      "total_additions": 273,
+      "total_deletions": 124,
+      "accepted_lines": 240,
+      "overriden_lines": 0
+    }
+  }
+}
