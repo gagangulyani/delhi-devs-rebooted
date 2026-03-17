@@ -4,7 +4,11 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/componen
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { BackButton } from "@/components/BackButton";
-import { showcaseProjects, categoryLabels } from "@/data/showcase-projects";
+import {
+  getAllShowcaseProjects,
+  categoryLabels,
+  type ShowcaseProject,
+} from "@/lib/db/showcase";
 
 export const metadata: Metadata = {
   title: "Community Showcase",
@@ -12,14 +16,16 @@ export const metadata: Metadata = {
     "Projects built by Delhi Devs community members. Explore, get inspired, and submit your own.",
 };
 
-export default function ShowcasePage() {
-  const grouped = showcaseProjects.reduce(
+export default async function ShowcasePage() {
+  const projects = await getAllShowcaseProjects();
+
+  const grouped = projects.reduce(
     (acc, project) => {
       if (!acc[project.category]) acc[project.category] = [];
       acc[project.category].push(project);
       return acc;
     },
-    {} as Record<string, typeof showcaseProjects>
+    {} as Record<string, ShowcaseProject[]>
   );
 
   return (
@@ -47,7 +53,7 @@ export default function ShowcasePage() {
             <div className="mt-6">
               <Button asChild>
                 <a
-                  href="https://github.com/gagangulyani/delhi-devs-rebooted/edit/main/data/showcase-projects.ts"
+                  href="https://github.com/gagangulyani/delhi-devs-rebooted/issues/new?template=showcase-project.md"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -58,20 +64,20 @@ export default function ShowcasePage() {
           </div>
         </div>
 
-        {showcaseProjects.length === 0 ? (
+        {projects.length === 0 ? (
           <EmptyState />
         ) : (
           <div className="space-y-12">
-            {Object.entries(grouped).map(([category, projects]) => (
+            {Object.entries(grouped).map(([category, categoryProjects]) => (
               <section key={category}>
                 <div className="flex items-center gap-3 mb-6">
                   <h2 className="text-2xl font-bold text-foreground">
-                    {categoryLabels[category as keyof typeof categoryLabels] ?? category}
+                    {categoryLabels[category] ?? category}
                   </h2>
-                  <Badge variant="secondary">{projects.length}</Badge>
+                  <Badge variant="secondary">{categoryProjects.length}</Badge>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {projects.map((project) => (
+                  {categoryProjects.map((project) => (
                     <ProjectCard key={project.id} project={project} />
                   ))}
                 </div>
@@ -86,19 +92,16 @@ export default function ShowcasePage() {
             Built something cool?
           </h3>
           <p className="text-muted-foreground mb-4">
-            Add your project to the showcase by opening a pull request — edit{" "}
-            <code className="bg-muted px-1.5 py-0.5 rounded text-sm">
-              data/showcase-projects.ts
-            </code>{" "}
-            and follow the existing format.
+            Submit your project by opening a GitHub issue and we&apos;ll add it to the
+            showcase. Include the project name, description, tech stack, and GitHub link.
           </p>
           <Button asChild variant="outline">
             <a
-              href="https://github.com/gagangulyani/delhi-devs-rebooted"
+              href="https://github.com/gagangulyani/delhi-devs-rebooted/issues"
               target="_blank"
               rel="noopener noreferrer"
             >
-              <Github className="h-4 w-4 mr-2" /> Open a PR
+              <Github className="h-4 w-4 mr-2" /> Open an Issue
             </a>
           </Button>
         </div>
@@ -107,7 +110,7 @@ export default function ShowcasePage() {
   );
 }
 
-function ProjectCard({ project }: { project: (typeof showcaseProjects)[0] }) {
+function ProjectCard({ project }: { project: ShowcaseProject }) {
   return (
     <Card className="flex flex-col h-full group hover:shadow-lg transition-all duration-300 hover:border-primary/40">
       <CardHeader className="pb-3">
@@ -124,7 +127,7 @@ function ProjectCard({ project }: { project: (typeof showcaseProjects)[0] }) {
         <p className="text-sm text-muted-foreground">
           by{" "}
           <a
-            href={`https://github.com/${project.authorGithub}`}
+            href={`https://github.com/${project.author_github}`}
             target="_blank"
             rel="noopener noreferrer"
             className="hover:text-primary transition-colors font-medium"
@@ -139,7 +142,7 @@ function ProjectCard({ project }: { project: (typeof showcaseProjects)[0] }) {
           {project.description}
         </p>
         <div className="flex flex-wrap gap-1.5">
-          {project.techStack.map((tech) => (
+          {project.tech_stack.map((tech) => (
             <Badge key={tech} variant="outline" className="text-xs">
               {tech}
             </Badge>
@@ -149,13 +152,13 @@ function ProjectCard({ project }: { project: (typeof showcaseProjects)[0] }) {
 
       <CardFooter className="pt-4 border-t border-border flex gap-2">
         <Button asChild variant="outline" size="sm" className="flex-1">
-          <a href={project.githubUrl} target="_blank" rel="noopener noreferrer">
+          <a href={project.github_url} target="_blank" rel="noopener noreferrer">
             <Github className="h-3.5 w-3.5 mr-1.5" /> Code
           </a>
         </Button>
-        {project.liveUrl && (
+        {project.live_url && (
           <Button asChild size="sm" className="flex-1">
-            <a href={project.liveUrl} target="_blank" rel="noopener noreferrer">
+            <a href={project.live_url} target="_blank" rel="noopener noreferrer">
               <ExternalLink className="h-3.5 w-3.5 mr-1.5" /> Live
             </a>
           </Button>
@@ -169,19 +172,17 @@ function EmptyState() {
   return (
     <div className="text-center py-20">
       <Layers className="h-12 w-12 text-muted-foreground/40 mx-auto mb-4" />
-      <h3 className="text-xl font-semibold text-foreground mb-2">
-        No projects yet
-      </h3>
+      <h3 className="text-xl font-semibold text-foreground mb-2">No projects yet</h3>
       <p className="text-muted-foreground mb-6">
         Be the first to showcase your project to the Delhi Devs community!
       </p>
       <Button asChild>
         <a
-          href="https://github.com/gagangulyani/delhi-devs-rebooted"
+          href="https://github.com/gagangulyani/delhi-devs-rebooted/issues"
           target="_blank"
           rel="noopener noreferrer"
         >
-          <Plus className="h-4 w-4 mr-2" /> Add Your Project
+          <Plus className="h-4 w-4 mr-2" /> Submit Your Project
         </a>
       </Button>
     </div>

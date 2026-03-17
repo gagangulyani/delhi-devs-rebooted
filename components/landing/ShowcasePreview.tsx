@@ -3,10 +3,10 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/componen
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { getFeaturedProjects } from "@/data/showcase-projects";
+import { getFeaturedShowcaseProjects, type ShowcaseProject } from "@/lib/db/showcase";
 
-export function ShowcasePreview() {
-  const featured = getFeaturedProjects();
+export async function ShowcasePreview() {
+  const featured = await getFeaturedShowcaseProjects();
 
   if (featured.length === 0) return null;
 
@@ -30,52 +30,7 @@ export function ShowcasePreview() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
           {featured.map((project) => (
-            <Card
-              key={project.id}
-              className="flex flex-col h-full group hover:shadow-lg transition-all duration-300 hover:border-primary/40"
-            >
-              <CardHeader className="pb-3">
-                <div className="flex items-start justify-between gap-2">
-                  <CardTitle className="text-lg leading-snug group-hover:text-primary transition-colors">
-                    {project.title}
-                  </CardTitle>
-                  {project.featured && (
-                    <Badge className="shrink-0 bg-primary/10 text-primary border-primary/30">
-                      Featured
-                    </Badge>
-                  )}
-                </div>
-                <p className="text-sm text-muted-foreground">by {project.author}</p>
-              </CardHeader>
-
-              <CardContent className="flex-1">
-                <p className="text-sm text-muted-foreground mb-4 leading-relaxed">
-                  {project.description}
-                </p>
-                <div className="flex flex-wrap gap-1.5">
-                  {project.techStack.map((tech) => (
-                    <Badge key={tech} variant="outline" className="text-xs">
-                      {tech}
-                    </Badge>
-                  ))}
-                </div>
-              </CardContent>
-
-              <CardFooter className="pt-4 border-t border-border flex gap-2">
-                <Button asChild variant="outline" size="sm" className="flex-1">
-                  <a href={project.githubUrl} target="_blank" rel="noopener noreferrer">
-                    <Github className="h-3.5 w-3.5 mr-1.5" /> Code
-                  </a>
-                </Button>
-                {project.liveUrl && (
-                  <Button asChild size="sm" className="flex-1">
-                    <a href={project.liveUrl} target="_blank" rel="noopener noreferrer">
-                      <ExternalLink className="h-3.5 w-3.5 mr-1.5" /> Live
-                    </a>
-                  </Button>
-                )}
-              </CardFooter>
-            </Card>
+            <PreviewCard key={project.id} project={project} />
           ))}
         </div>
 
@@ -89,5 +44,53 @@ export function ShowcasePreview() {
         </div>
       </div>
     </section>
+  );
+}
+
+function PreviewCard({ project }: { project: ShowcaseProject }) {
+  return (
+    <Card className="flex flex-col h-full group hover:shadow-lg transition-all duration-300 hover:border-primary/40">
+      <CardHeader className="pb-3">
+        <div className="flex items-start justify-between gap-2">
+          <CardTitle className="text-lg leading-snug group-hover:text-primary transition-colors">
+            {project.title}
+          </CardTitle>
+          {project.featured && (
+            <Badge className="shrink-0 bg-primary/10 text-primary border-primary/30">
+              Featured
+            </Badge>
+          )}
+        </div>
+        <p className="text-sm text-muted-foreground">by {project.author}</p>
+      </CardHeader>
+
+      <CardContent className="flex-1">
+        <p className="text-sm text-muted-foreground mb-4 leading-relaxed">
+          {project.description}
+        </p>
+        <div className="flex flex-wrap gap-1.5">
+          {project.tech_stack.map((tech) => (
+            <Badge key={tech} variant="outline" className="text-xs">
+              {tech}
+            </Badge>
+          ))}
+        </div>
+      </CardContent>
+
+      <CardFooter className="pt-4 border-t border-border flex gap-2">
+        <Button asChild variant="outline" size="sm" className="flex-1">
+          <a href={project.github_url} target="_blank" rel="noopener noreferrer">
+            <Github className="h-3.5 w-3.5 mr-1.5" /> Code
+          </a>
+        </Button>
+        {project.live_url && (
+          <Button asChild size="sm" className="flex-1">
+            <a href={project.live_url} target="_blank" rel="noopener noreferrer">
+              <ExternalLink className="h-3.5 w-3.5 mr-1.5" /> Live
+            </a>
+          </Button>
+        )}
+      </CardFooter>
+    </Card>
   );
 }
