@@ -1,0 +1,33 @@
+app/members/page.tsx
+  3032b16420803fc9 15,24-26,51,62,66,78-79,83,87,96-98,157,159,164,172,175,184,186,192,195,204,206,227
+supabase/migrations/20260317000002_community_members.sql
+  3032b16420803fc9 1-25
+lib/db/members.ts
+  3032b16420803fc9 1-54
+supabase/seed/community_members_seed.sql
+  3032b16420803fc9 1-118
+data/members.ts
+  3032b16420803fc9 1-5
+next.config.js
+  3032b16420803fc9 13-20
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.12",
+  "base_commit_sha": "91d977f81337db1d26110dba7aec5514e294bd61",
+  "prompts": {
+    "3032b16420803fc9": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "872e857d-3b5c-49ca-bad9-647fc409e0e3",
+        "model": "<synthetic>"
+      },
+      "human_author": "Shivam Bhasin <bhasinshivam2002@gmail.com>",
+      "messages": [],
+      "total_additions": 238,
+      "total_deletions": 83,
+      "accepted_lines": 236,
+      "overriden_lines": 0
+    }
+  }
+}
