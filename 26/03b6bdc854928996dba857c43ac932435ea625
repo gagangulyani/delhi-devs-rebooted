@@ -1,0 +1,27 @@
+lib/icon-utils.tsx
+  3032b16420803fc9 21-22,36,56
+app/contributors/page.tsx
+  3032b16420803fc9 1-251
+constants/navigation.ts
+  3032b16420803fc9 40-44
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.12",
+  "base_commit_sha": "2603b6bdc854928996dba857c43ac932435ea625",
+  "prompts": {
+    "3032b16420803fc9": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "872e857d-3b5c-49ca-bad9-647fc409e0e3",
+        "model": "<synthetic>"
+      },
+      "human_author": "Shivam Bhasin <bhasinshivam2002@gmail.com>",
+      "messages": [],
+      "total_additions": 261,
+      "total_deletions": 1,
+      "accepted_lines": 261,
+      "overriden_lines": 0
+    }
+  }
+}
