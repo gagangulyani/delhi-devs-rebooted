@@ -5,7 +5,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Calendar, MapPin, Clock, Users, ExternalLink } from "lucide-react";
-import { events, upcomingEvent } from "@/lib/event-data";
+import { events } from "@/lib/event-data";
 import { BackButton } from "@/components/BackButton";
 
 function formatDate(dateString: string) {

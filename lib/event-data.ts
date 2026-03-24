@@ -16,33 +16,30 @@ export interface Event {
   registration_type?: string;
 }
 
-export const upcomingEvent: Event = {
+export const meetup2: Event = {
   id: "meetup-2",
-  title: "Delhi Devs Rebooted - Meet-up #2",
-  description: `If you're looking to network with Developers, PMs, AI/ML Engineers, and Co-founders, this meet-up is for you.
+  title: "Delhi Devs Rebooted - Meetup #2",
+  description: `A diverse gathering bringing together developers and college students building incredible things: an exoplanet identifier, a college website migrated to mobile app, and a self-hosted storage solution handling terabytes.
 
-The Delhi Devs Rebooted meet-up first took place last year, and the atmosphere will be casual again.
+Anuvrat showcased live music coding with strudel. We talked tech, philosophy, and ate pizzas sponsored by the team at essentia.dev.
 
-No technical sessions, and sponsorship fluff, pure focus on connections.
-
-Need a referral? Need some career advice? Need to figure out why your AI model stops working after 5 tool calls?
-
-This place has got your back.`,
+From deep implementation discussions to playing UNO — connections happened naturally.`,
   event_date: "2026-03-21T16:00:00+05:30",
   end_date: "2026-03-21T19:30:00+05:30",
-  location: "Noida, Uttar Pradesh",
+  location: "essentia.dev, Noida",
   location_type: "physical",
-  event_link: "https://lu.ma/k297hfqm",
-  image_url: "https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=cover,dpr=2,background=white,quality=75,width=800,height=400/event-covers/yg/45d2c2c0-06ea-47c0-b0a1-2728cd5c3ceb.jpg",
-  tags: ["Networking", "Meetup", "Delhi", "Noida"],
-  agenda: `4 PM: Networking begins!
-5:30 PM: We order food (bill will be split among us)
-6:30 PM: We have the food that we ordered
-7:30 PM: Event ends with a group picture`,
-  registration_type: "Approval Required",
+  event_link: "https://www.linkedin.com/posts/gagan-gulyani_omg-finally-hosted-the-delhi-devs-rebooted-ugcPost-7441591055164211200-MV43",
+  image_url: "/delhi-devs-meetup-2-group-photo.jpeg",
+  tags: ["Networking", "Meetup", "College Students", "Live Coding", "Noida"],
+  agenda: `Afternoon networking and introductions
+Icebreaker: "What did you build that you're proud of?"
+Student project showcases and technical deep dives
+Live music coding demo with strudel
+Pizzas sponsored by essentia.dev team
+Games and casual conversations`,
 };
 
-const pastEvent: Event = {
+export const meetup1: Event = {
   id: "meetup-1",
   title: "Delhi Devs Rebooted - Meetup #1",
   description: `Quality over quantity delivered beyond expectations. From AI web crawlers to philosophy, our first meetup proved that passionate developers create magic.
@@ -63,4 +60,4 @@ Philosophy and life conversations
 Quality connections with 14 developers`,
 };
 
-export const events: Event[] = [upcomingEvent, pastEvent];
+export const events: Event[] = [meetup2, meetup1];

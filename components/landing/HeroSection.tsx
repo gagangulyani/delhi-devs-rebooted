@@ -3,7 +3,7 @@ import { Users, Code, Sparkles, Zap, Heart } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { FloatingCodeIcons } from "@/components/FloatingCodeIcons";
-import { upcomingEvent } from "@/lib/event-data";
+
 
 export function HeroSection() {
   return (
@@ -55,19 +55,16 @@ export function HeroSection() {
               </Button>
             </Link>
 
-            {/* Upcoming Meetup CTA - Mobile */}
-            <a
-              href={upcomingEvent.event_link}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-card/60 border border-border/50 hover:border-primary/50 hover:bg-card/80 transition-all duration-300"
-            >
-              <span className="text-sm text-muted-foreground">Next meetup:</span>
-              <span className="text-sm font-semibold text-foreground">
-                {upcomingEvent.title}
+            {/* View Past Meetups CTA - Mobile */}
+            <Link href="/events">
+              <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-card/60 border border-border/50 hover:border-primary/50 hover:bg-card/80 transition-all duration-300 cursor-pointer">
+                <span className="text-sm text-muted-foreground">Check out our</span>
+                <span className="text-sm font-semibold text-foreground">
+                  Past Meetups
+                </span>
+                <span className="text-primary">→</span>
               </span>
-              <span className="text-primary">→</span>
-            </a>
+            </Link>
           </div>
 
           {/* Content Section */}
@@ -89,7 +86,7 @@ export function HeroSection() {
             </div>
 
             {/* Main Heading */}
-            <div className="space-y-4 pb-12">
+            <div className="space-y-4 pb-6 lg:pb-4">
               <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-foreground leading-tight">
                 Connect.
                 <span className="text-primary block relative">
@@ -108,11 +105,11 @@ export function HeroSection() {
             </div>
 
             {/* CTA Buttons - Desktop only */}
-            <div className="hidden lg:flex flex-col gap-4 items-center justify-center lg:justify-start pt-8">
-              <Link href="/join" className="w-full sm:w-auto group">
+            <div className="hidden lg:flex flex-row gap-4 items-center justify-start pt-4">
+              <Link href="/join" className="group">
                 <Button
                   size="lg"
-                  className="bg-primary hover:bg-primary/90 text-primary-foreground rounded-full px-10 py-8 text-xl font-semibold shadow-2xl shadow-primary/25 hover:shadow-primary/40 transition-all duration-300 group-hover:scale-105 w-full sm:w-auto relative overflow-hidden"
+                  className="bg-primary hover:bg-primary/90 text-primary-foreground rounded-full px-10 py-8 text-xl font-semibold shadow-2xl shadow-primary/25 hover:shadow-primary/40 transition-all duration-300 group-hover:scale-105 relative overflow-hidden"
                 >
                   <span className="relative z-10 flex items-center gap-3">
                     Join Our Community
@@ -121,21 +118,18 @@ export function HeroSection() {
                 </Button>
               </Link>
 
-              {/* Upcoming Meetup CTA */}
-              <a
-                href={upcomingEvent.event_link}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group inline-flex items-center gap-2 px-4 py-2 rounded-full bg-card/60 border border-border/50 hover:border-primary/50 hover:bg-card/80 transition-all duration-300"
-              >
-                <span className="text-sm text-muted-foreground">Next meetup:</span>
-                <span className="text-sm font-semibold text-foreground group-hover:text-primary transition-colors">
-                  {upcomingEvent.title}
+              {/* View Past Meetups CTA - Desktop */}
+              <Link href="/events" className="group">
+                <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-card/60 border border-border/50 hover:border-primary/50 hover:bg-card/80 transition-all duration-300 cursor-pointer">
+                  <span className="text-sm text-muted-foreground">Check out our</span>
+                  <span className="text-sm font-semibold text-foreground group-hover:text-primary transition-colors">
+                    Past Meetups
+                  </span>
+                  <span className="text-primary opacity-0 group-hover:opacity-100 transition-opacity">
+                    →
+                  </span>
                 </span>
-                <span className="text-primary opacity-0 group-hover:opacity-100 transition-opacity">
-                  →
-                </span>
-              </a>
+              </Link>
             </div>
 
           </div>

@@ -6,11 +6,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLinkedin } from '@fortawesome/free-brands-svg-icons';
 import { 
   ExternalLink, 
-  MessageSquare, 
-  Trophy, 
-  Sparkles, 
-  Calendar,
   MapPin,
+  Calendar,
+  Users,
+  Sparkles,
 } from "lucide-react";
 
 export function MeetupAchievementSection() {
@@ -34,161 +33,173 @@ export function MeetupAchievementSection() {
               Community Milestone
             </Badge>
             <div className="p-2 bg-primary/10 rounded-full">
-              <Trophy className="h-5 w-5 text-primary" />
+              <Sparkles className="h-5 w-5 text-primary" />
             </div>
           </div>
           <h2 className="text-5xl md:text-6xl font-bold text-foreground mb-6 bg-gradient-to-r from-primary via-foreground to-secondary bg-clip-text text-transparent">
-            Our First Meetup
-            <span className="block text-4xl md:text-5xl mt-2">Was Epic! 🎉</span>
+            Meetups
+            <span className="block text-4xl md:text-5xl mt-2">where connections happen</span>
           </h2>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-            Quality over quantity delivered beyond expectations. From AI web crawlers to philosophy, 
-            our first meetup proved that{" "}
-            <span className="text-primary font-semibold">passionate developers create magic</span>.
+            Where developers share what they're building, not just their LinkedIn profiles
           </p>
         </div>
 
-        {/* Main Content - Two Column Layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          {/* Left: Highlights */}
-          <div className="space-y-8">
-            <div className="hidden lg:block">
-              <h3 className="text-3xl font-bold text-foreground mb-6 flex items-center gap-3">
-                <MessageSquare className="h-8 w-8 text-primary" />
-                What Made It Special
-              </h3>
-              <div className="space-y-4">
-                <div className="flex items-start gap-4 p-4 rounded-lg bg-card/40 border-2 border-border/30 hover:border-primary/40 transition-colors duration-200">
-                  <div className="p-2 bg-blue-500/10 rounded-lg">
-                    <span className="text-2xl">🤖</span>
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-foreground mb-1">Tech Deep Dives</h4>
-                    <p className="text-sm text-muted-foreground">From AI-based web crawlers to WhatsApp bots - cutting-edge tech discussions</p>
-                  </div>
-                </div>
-                
-                <div className="flex items-start gap-4 p-4 rounded-lg bg-card/40 border-2 border-border/30 hover:border-primary/40 transition-colors duration-200">
-                  <div className="p-2 bg-purple-500/10 rounded-lg">
-                    <span className="text-2xl">🧠</span>
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-foreground mb-1">Philosophy & Life</h4>
-                    <p className="text-sm text-muted-foreground">Conversations flowed from stoicism to life perspectives (and that "repulsive" inside joke!)</p>
-                  </div>
-                </div>
-                
-                <div className="flex items-start gap-4 p-4 rounded-lg bg-card/40 border-2 border-border/30 hover:border-primary/40 transition-colors duration-200">
-                  <div className="p-2 bg-green-500/10 rounded-lg">
-                    <span className="text-2xl">🤝</span>
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-foreground mb-1">Quality Connections</h4>
-                    <p className="text-sm text-muted-foreground">14 passionate developers creating lasting bonds and meaningful relationships</p>
-                  </div>
-                </div>
+        {/* Two Meetup Cards */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
+          {/* Meetup #1 */}
+          <Card className="overflow-hidden border border-border/20 bg-card/80 backdrop-blur-sm flex flex-col">
+            <div className="flex items-center gap-3 p-4 border-b border-border/10">
+              <div className="w-10 h-10 rounded-full overflow-hidden">
+                <Image
+                  src="/gagan-deep-singh.jpg"
+                  alt="Gagan Deep Singh"
+                  width={40}
+                  height={40}
+                  className="w-full h-full object-cover"
+                />
               </div>
+              <div className="flex-1">
+                <h3 className="font-semibold text-foreground">Gagan Deep Singh</h3>
+                <p className="text-sm text-muted-foreground">July 26, 2025</p>
+              </div>
+              <FontAwesomeIcon icon={faLinkedin} className="h-10 w-10 text-[#0A66C2]" />
             </div>
 
-            {/* Venue & Thanks */}
-            <div className="p-6 rounded-xl bg-gradient-to-r from-primary/5 to-secondary/5 border border-primary/10 hidden lg:block">
-              <h4 className="font-semibold text-foreground mb-3 flex items-center gap-2">
-                <MapPin className="h-5 w-5 text-primary" />
-                Special Thanks
-              </h4>
-              <p className="text-sm text-muted-foreground leading-relaxed">
-                Huge gratitude to <span className="text-primary font-medium">Anuvrat Parashar</span> for the amazing venue at essentia.dev in Noida, 
-                and our incredible team: <span className="text-primary font-medium">Animesh Singh, Krish Khattar, Udit Gupta</span> for management, 
-                plus <span className="text-primary font-medium">Nupur Agrahari & Shiny Parashar</span> for capturing all the memories!
-              </p>
-            </div>
-          </div>
-
-          {/* Right: LinkedIn-style Post */}
-          <div className="space-y-6">
-            {/* LinkedIn Post Embed */}
-            <Card className="overflow-hidden border border-border/20 bg-card/80 backdrop-blur-sm">
-              {/* LinkedIn Header */}
-              <div className="flex items-center gap-3 p-4 border-b border-border/10">
-                <div className="w-10 h-10 rounded-full overflow-hidden">
-                  <Image
-                    src="/gagan-deep-singh.jpg"
-                    alt="Gagan Deep Singh"
-                    width={40}
-                    height={40}
-                    className="w-full h-full object-cover"
-                  />
+            <CardContent className="p-0 flex-1 flex flex-col">
+              <div className="relative aspect-[16/9]">
+                <Image
+                  src="/delhi-devs-meetup-1-group-photo.jpg"
+                  alt="Delhi Devs Rebooted Meetup 1"
+                  fill
+                  className="object-cover"
+                  priority
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
+                <div className="absolute bottom-4 left-4 right-4 text-white">
+                  <h5 className="text-lg font-bold drop-shadow-lg">
+                    Meetup #1 — The Beginning
+                  </h5>
                 </div>
-                <div className="flex-1">
-                  <h3 className="font-semibold text-foreground">Gagan Deep Singh</h3>
-                  <p className="text-sm text-muted-foreground">July 26, 2025</p>
-                </div>
-                <FontAwesomeIcon icon={faLinkedin} className="h-10 w-10 text-[#0A66C2]" />
               </div>
 
-              {/* Post Content */}
-              <CardContent className="p-0">
-                {/* Image */}
-                <div className="relative aspect-[16/9]">
-                  <Image
-                    src="/delhi-devs-meetup-1-group-photo.jpg"
-                    alt="Delhi Devs Rebooted Meetup 1 - Group Photo"
-                    fill
-                    className="object-cover"
-                    priority
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
-                  <div className="absolute bottom-4 left-4 right-4 text-white">
-                    <h5 className="text-lg font-bold drop-shadow-lg">
-                      🎉 Delhi Devs Rebooted - First Meetup Success!
-                    </h5>
+              <div className="p-4 flex-1 flex flex-col">
+                <div className="space-y-3 mb-4 flex-1">
+                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                    <Users className="h-4 w-4" />
+                    <span>Passionate developers</span>
                   </div>
+                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                    <Calendar className="h-4 w-4" />
+                    <span>July 26, 2025</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                    <MapPin className="h-4 w-4" />
+                    <span>essentia.dev, Noida</span>
+                  </div>
+                  <p className="text-sm text-muted-foreground pt-2">
+                    From AI-based web crawlers to WhatsApp bots. Philosophy, stoicism, and life conversations. Quality over quantity.
+                  </p>
+                  <p className="text-sm text-muted-foreground">
+                    <span className="text-primary font-medium">Thanks to:</span> Anuvrat Parashar for the venue. Animesh Singh, Krish Khattar, Udit Gupta for management. Nupur Agrahari & Shiny Parashar for capturing memories.
+                  </p>
                 </div>
 
-                {/* Simple engagement and CTA */}
-                <div className="p-4">
-                  <div className="flex items-center justify-between text-sm text-muted-foreground mb-4">
-                    <div className="flex items-center gap-4">
-                      <span>❤️ 245 likes</span>
-                      <span>💬 14 comments</span>
-                      <span>🔄 5 reposts</span>
-                    </div>
-                  </div>
-
-                  <Button 
-                    asChild 
-                    className="w-full"
-                    variant="outline"
+                <Button 
+                  asChild 
+                  className="w-full mt-auto"
+                  variant="outline"
+                >
+                  <a 
+                    href="https://www.linkedin.com/posts/gagan-gulyani_we-freakin-made-it-delhi-devs-rebooted-ugcPost-7354946301274304512-BHXw" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-center gap-2"
                   >
-                    <a 
-                      href="https://www.linkedin.com/posts/gagan-gulyani_we-freakin-made-it-delhi-devs-rebooted-ugcPost-7354946301274304512-BHXw" 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="flex items-center justify-center gap-2"
-                    >
-                      View on LinkedIn
-                      <ExternalLink className="h-4 w-4" />
-                    </a>
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
+                    View on LinkedIn
+                    <ExternalLink className="h-4 w-4" />
+                  </a>
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
 
-        {/* Bottom CTA */}
-        <div className="text-center mt-16">
-          <div className="inline-flex items-center gap-2 p-6 bg-gradient-to-r from-primary/10 to-secondary/10 rounded-2xl border border-primary/20">
-            <Calendar className="h-6 w-6 text-primary" />
-            <div className="text-left">
-              <p className="text-lg font-semibold text-foreground">
-                Ready for the next meetup?
-              </p>
-              <p className="text-sm text-muted-foreground">
-                Join our community and be part of the next amazing gathering
-              </p>
+          {/* Meetup #2 */}
+          <Card className="overflow-hidden border border-border/20 bg-card/80 backdrop-blur-sm flex flex-col">
+            <div className="flex items-center gap-3 p-4 border-b border-border/10">
+              <div className="w-10 h-10 rounded-full overflow-hidden">
+                <Image
+                  src="/gagan-deep-singh.jpg"
+                  alt="Gagan Deep Singh"
+                  width={40}
+                  height={40}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div className="flex-1">
+                <h3 className="font-semibold text-foreground">Gagan Deep Singh</h3>
+                <p className="text-sm text-muted-foreground">March 21, 2026</p>
+              </div>
+              <FontAwesomeIcon icon={faLinkedin} className="h-10 w-10 text-[#0A66C2]" />
             </div>
-          </div>
+
+            <CardContent className="p-0 flex-1 flex flex-col">
+              <div className="relative aspect-[16/9]">
+                <Image
+                  src="/delhi-devs-meetup-2-group-photo.jpeg"
+                  alt="Delhi Devs Rebooted Meetup 2"
+                  fill
+                  className="object-cover"
+                  priority
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
+                <div className="absolute bottom-4 left-4 right-4 text-white">
+                  <h5 className="text-lg font-bold drop-shadow-lg">
+                    Meetup #2 — New Faces, Same Vibe
+                  </h5>
+                </div>
+              </div>
+
+              <div className="p-4 flex-1 flex flex-col">
+                <div className="space-y-3 mb-4 flex-1">
+                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                    <Users className="h-4 w-4" />
+                    <span>Developers and college students</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                    <Calendar className="h-4 w-4" />
+                    <span>March 21, 2026</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                    <MapPin className="h-4 w-4" />
+                    <span>essentia.dev, Noida</span>
+                  </div>
+                  <p className="text-sm text-muted-foreground pt-2">
+                    Student projects: exoplanet identifier, college website to mobile app, self-hosted cloud storage. Live music coding with strudel.
+                  </p>
+                  <p className="text-sm text-muted-foreground">
+                    <span className="text-primary font-medium">Thanks to:</span> Anuvrat Parashar for venue and insights. Nupur and team at essentia.dev for pizzas. Nirbhay, Akshay, Shrutika, Karishma, Avneet, Mohit, Ojas, Siddhartha for making it special.
+                  </p>
+                </div>
+
+                <Button 
+                  asChild 
+                  className="w-full mt-auto"
+                  variant="outline"
+                >
+                  <a 
+                    href="https://www.linkedin.com/posts/gagan-gulyani_omg-finally-hosted-the-delhi-devs-rebooted-ugcPost-7441591055164211200-MV43" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-center gap-2"
+                  >
+                    View on LinkedIn
+                    <ExternalLink className="h-4 w-4" />
+                  </a>
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
         </div>
       </div>
     </section>
