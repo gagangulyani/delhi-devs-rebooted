@@ -3,8 +3,7 @@ import './globals.css'
 import { Providers } from './providers'
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
-import { SidebarProvider } from "@/components/ui/sidebar";
-import { DesktopSidebar } from "@/components/DesktopSidebar";
+import { ResizableSidebar } from "@/components/ResizableSidebar";
 import { MobileHeader } from "@/components/MobileHeader";
 import { MobileBottomNavigation } from "@/components/MobileBottomNavigation";
 import { GlobalLoader } from "@/components/GlobalLoader";
@@ -186,25 +185,27 @@ export default function RootLayout({
         <Providers>
           <Toaster />
           <Sonner />
-          <SidebarProvider>
-            <div className="flex min-h-screen w-full bg-background">
-              {/* Desktop Sidebar - Hidden on mobile */}
-              <DesktopSidebar navigationItems={publicNavigationItems} />
-              
-              <main className="flex-1 flex flex-col min-h-screen w-full md:ml-0">
-                {/* Mobile header - Sticky with glassmorphism */}
-                <MobileHeader />
-                
-                {/* Main content with proper margins */}
-                <div className="flex-1 md:px-8 lg:px-12 xl:px-16 pb-24 md:pb-8 pt-2 md:pt-0">
+          <div className="flex min-h-screen w-full bg-background md:hidden">
+            {/* Mobile Layout */}
+            <main className="flex-1 flex flex-col min-h-screen w-full">
+              <MobileHeader />
+              <div className="flex-1 px-4 pb-24 pt-2">
+                {children}
+              </div>
+            </main>
+            <MobileBottomNavigation navigationItems={publicNavigationItems} />
+          </div>
+
+          {/* Desktop Layout - Resizable Sidebar */}
+          <div className="hidden md:block h-screen overflow-hidden">
+            <ResizableSidebar navigationItems={publicNavigationItems}>
+              <main className="flex flex-col min-h-screen w-full">
+                <div className="flex-1 p-6 lg:p-8">
                   {children}
                 </div>
               </main>
-              
-              {/* Mobile Bottom Navigation - Floating glassmorphism design */}
-              <MobileBottomNavigation navigationItems={publicNavigationItems} />
-            </div>
-          </SidebarProvider>
+            </ResizableSidebar>
+          </div>
           <GlobalLoader />
         </Providers>
       </body>
