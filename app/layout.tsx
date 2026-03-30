@@ -3,7 +3,7 @@ import './globals.css'
 import { Providers } from './providers'
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
-import { ResizableSidebar } from "@/components/ResizableSidebar";
+import { DesktopSidebar } from "@/components/DesktopSidebar";
 import { MobileHeader } from "@/components/MobileHeader";
 import { MobileBottomNavigation } from "@/components/MobileBottomNavigation";
 import { GlobalLoader } from "@/components/GlobalLoader";
@@ -196,15 +196,14 @@ export default function RootLayout({
             <MobileBottomNavigation navigationItems={publicNavigationItems} />
           </div>
 
-          {/* Desktop Layout - Resizable Sidebar */}
-          <div className="hidden md:block h-screen overflow-hidden">
-            <ResizableSidebar navigationItems={publicNavigationItems}>
-              <main className="flex flex-col min-h-screen w-full">
-                <div className="flex-1 p-6 lg:p-8">
-                  {children}
-                </div>
-              </main>
-            </ResizableSidebar>
+          {/* Desktop Layout */}
+          <div className="hidden md:flex h-screen overflow-hidden">
+            <DesktopSidebar navigationItems={publicNavigationItems} />
+            <main className="flex-1 flex flex-col min-h-screen overflow-auto">
+              <div className="flex-1 p-6 lg:p-8">
+                {children}
+              </div>
+            </main>
           </div>
           <GlobalLoader />
         </Providers>

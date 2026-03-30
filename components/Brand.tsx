@@ -1,11 +1,27 @@
 import Image from "next/image";
 
 interface BrandProps {
-  variant?: "mobile" | "desktop";
+  variant?: "mobile" | "desktop" | "collapsed";
   className?: string;
 }
 
 export function Brand({ variant = "desktop", className = "" }: BrandProps) {
+  // Collapsed state - icon only
+  if (variant === "collapsed") {
+    return (
+      <div className={`flex items-center justify-center ${className}`}>
+        <Image
+          src="/delhi-devs-rebooted.png"
+          alt="Delhi Devs Rebooted"
+          width={40}
+          height={40}
+          className="w-10 h-10 rounded-full shadow-sm"
+        />
+      </div>
+    );
+  }
+
+  // Mobile state - icon + text
   if (variant === "mobile") {
     return (
       <div className={`flex items-center space-x-2 ${className}`}>
@@ -23,6 +39,7 @@ export function Brand({ variant = "desktop", className = "" }: BrandProps) {
     );
   }
 
+  // Desktop state - icon + text with collapse support
   return (
     <div className={`flex items-center space-x-3 ${className}`}>
       <Image
