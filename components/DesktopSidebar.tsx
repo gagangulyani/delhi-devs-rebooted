@@ -100,7 +100,7 @@ export const DesktopSidebar = React.memo(function DesktopSidebar({ navigationIte
   return (
     <div className="hidden md:block h-screen shrink-0">
       <SidebarProvider defaultOpen={true}>
-        <Sidebar className="h-full border-r">
+        <Sidebar collapsible="icon" className="h-full border-r">
           <SidebarInner navigationItems={navigationItems} />
         </Sidebar>
       </SidebarProvider>
