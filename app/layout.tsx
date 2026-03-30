@@ -4,10 +4,9 @@ import { Providers } from './providers'
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { DesktopSidebar } from "@/components/DesktopSidebar";
-import { MobileHeader } from "@/components/MobileHeader";
-import { MobileBottomNavigation } from "@/components/MobileBottomNavigation";
 import { GlobalLoader } from "@/components/GlobalLoader";
 import { getPublicNavigationItems } from "@/constants/navigation";
+import { SidebarProvider, SidebarLayout, SidebarTrigger } from "@/components/ui/sidebar";
 
 export const metadata: Metadata = {
   title: {
@@ -185,26 +184,19 @@ export default function RootLayout({
         <Providers>
           <Toaster />
           <Sonner />
-          <div className="flex min-h-screen w-full bg-background md:hidden">
-            {/* Mobile Layout */}
-            <main className="flex-1 flex flex-col min-h-screen w-full">
-              <MobileHeader />
-              <div className="flex-1 px-4 pb-24 pt-2">
-                {children}
-              </div>
-            </main>
-            <MobileBottomNavigation navigationItems={publicNavigationItems} />
-          </div>
-
-          {/* Desktop Layout */}
-          <div className="hidden md:flex h-screen overflow-hidden">
+          <SidebarProvider defaultCollapsed={false}>
             <DesktopSidebar navigationItems={publicNavigationItems} />
-            <main className="flex-1 flex flex-col min-h-screen overflow-auto">
-              <div className="flex-1 p-6 lg:p-8">
-                {children}
-              </div>
-            </main>
-          </div>
+            <SidebarLayout className="min-h-screen">
+              <main className="flex-1 flex flex-col min-h-screen overflow-auto">
+                <div className="md:hidden p-4 border-b border-border flex items-center">
+                  <SidebarTrigger />
+                </div>
+                <div className="flex-1 p-6 lg:p-8">
+                  {children}
+                </div>
+              </main>
+            </SidebarLayout>
+          </SidebarProvider>
           <GlobalLoader />
         </Providers>
       </body>

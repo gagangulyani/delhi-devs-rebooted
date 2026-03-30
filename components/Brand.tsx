@@ -1,3 +1,5 @@
+'use client';
+
 import Image from "next/image";
 
 interface BrandProps {
@@ -6,7 +8,7 @@ interface BrandProps {
 }
 
 export function Brand({ variant = "desktop", className = "" }: BrandProps) {
-  // Collapsed state - icon only
+  // Collapsed state - icon only (used when sidebar is collapsed)
   if (variant === "collapsed") {
     return (
       <div className={`flex items-center justify-center ${className}`}>
@@ -39,7 +41,7 @@ export function Brand({ variant = "desktop", className = "" }: BrandProps) {
     );
   }
 
-  // Desktop state - icon + text with collapse support
+  // Desktop state - icon + text
   return (
     <div className={`flex items-center space-x-3 ${className}`}>
       <Image
@@ -50,7 +52,7 @@ export function Brand({ variant = "desktop", className = "" }: BrandProps) {
         className="w-10 h-10 flex-shrink-0"
       />
       <div className="flex flex-col min-w-0">
-        <span className="text-xl font-bold text-sidebar-foreground group-data-[collapsible=icon]:hidden truncate">
+        <span className="text-xl font-bold text-sidebar-foreground truncate">
           Delhi Devs Rebooted
         </span>
       </div>

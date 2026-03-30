@@ -11,15 +11,12 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  SidebarProvider,
   useSidebar,
+  SidebarCollapseButton,
 } from "@/components/ui/sidebar";
-import { ThemeToggle } from "@/components/ui/theme-toggle";
-import { Button } from "@/components/ui/button";
 import { NavigationItem } from "./NavigationItem";
 import { Brand } from "./Brand";
 import { NavigationItem as NavigationItemType, findParentNavItem } from "@/constants/navigation";
-import { ChevronLeft, ChevronRight } from "lucide-react";
 
 interface DesktopSidebarProps {
   navigationItems: NavigationItemType[];
@@ -29,32 +26,32 @@ interface DesktopSidebarProps {
 function SidebarInner({ navigationItems }: { navigationItems: NavigationItemType[] }) {
   const pathname = usePathname();
   const parentItem = React.useMemo(() => findParentNavItem(pathname), [pathname]);
-  const { toggleSidebar, state } = useSidebar();
+  const { collapsed } = useSidebar();
 
   return (
     <>
-      <SidebarHeader className="border-b border-sidebar-border p-4 group">
-        <div className="flex items-center justify-between">
-          <Brand variant={state === 'collapsed' ? 'collapsed' : 'desktop'} />
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={toggleSidebar}
-            className="h-8 w-8 rounded-full shrink-0"
-          >
-            {state === 'collapsed' ? (
-              <ChevronRight className="h-4 w-4" />
-            ) : (
-              <ChevronLeft className="h-4 w-4" />
-            )}
-          </Button>
+      <SidebarHeader className="border-b border-sidebar-border">
+        <div className={`flex items-center gap-2 ${collapsed ? 'justify-center' : ''}`}>
+          {!collapsed && (
+            <>
+              <div className="flex-1 min-w-0">
+                <Brand variant="desktop" />
+              </div>
+              <SidebarCollapseButton />
+            </>
+          )}
         </div>
+        {collapsed && (
+          <div className="flex justify-center py-2">
+            <SidebarCollapseButton />
+          </div>
+        )}
       </SidebarHeader>
 
-      <SidebarContent className="flex-1 px-2 py-4">
-        <SidebarGroup>
+      <SidebarContent className="px-2 py-4">
+        <SidebarGroup className="p-0">
           <SidebarGroupContent>
-            <SidebarMenu className="space-y-1">
+            <SidebarMenu>
               {navigationItems.map((item) => {
                 const isParentActive = parentItem?.url === item.url;
                 const isExactMatch = pathname === item.url;
@@ -65,9 +62,8 @@ function SidebarInner({ navigationItems }: { navigationItems: NavigationItemType
                     <SidebarMenuButton
                       asChild
                       isActive={isActive}
-                      size="lg"
                       tooltip={item.title}
-                      className="rounded-lg w-full"
+                      className="rounded-lg"
                     >
                       <NavigationItem
                         item={item}
@@ -83,27 +79,14 @@ function SidebarInner({ navigationItems }: { navigationItems: NavigationItemType
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
-
-      <div className="border-t border-sidebar-border p-4 mt-auto group">
-        <div className="flex items-center justify-between">
-          <span className="text-sm text-sidebar-foreground/70 font-medium group-data-[collapsible=icon]:hidden">
-            Theme
-          </span>
-          <ThemeToggle />
-        </div>
-      </div>
     </>
   );
 }
 
 export const DesktopSidebar = React.memo(function DesktopSidebar({ navigationItems }: DesktopSidebarProps) {
   return (
-    <div className="hidden md:block h-screen shrink-0">
-      <SidebarProvider defaultOpen={true}>
-        <Sidebar collapsible="icon" className="h-full border-r">
-          <SidebarInner navigationItems={navigationItems} />
-        </Sidebar>
-      </SidebarProvider>
-    </div>
+    <Sidebar className="h-screen">
+      <SidebarInner navigationItems={navigationItems} />
+    </Sidebar>
   );
 });

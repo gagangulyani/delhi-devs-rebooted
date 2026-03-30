@@ -2,6 +2,7 @@ import React from "react";
 import Link from "next/link";
 import { NavigationItem as NavigationItemType } from "@/constants/navigation";
 import { getIcon } from "@/lib/icon-utils";
+import { useSidebarSafe } from "@/components/ui/sidebar";
 
 interface LayoutVariant {
   variant?: "desktop" | "mobile";
@@ -10,20 +11,22 @@ interface LayoutVariant {
 interface NavigationItemProps extends LayoutVariant {
   item: NavigationItemType;
   isActive: boolean;
-  isParentActive?: boolean; // For showing when we're in a child page
+  isParentActive?: boolean;
   className?: string;
 }
 
 export const NavigationItem = React.forwardRef<HTMLAnchorElement, NavigationItemProps>(
   ({ item, isActive, isParentActive = false, variant = "desktop", className = "" }, ref) => {
     const Icon = getIcon(item.icon);
+    const sidebarContext = useSidebarSafe();
+    const collapsed = sidebarContext?.collapsed ?? false;
+    const isMobile = sidebarContext?.isMobile ?? true;
     
     if (!Icon) {
       console.error(`Icon not found for: ${item.icon}`);
       return null;
     }
     
-    // Show indicator when we're in a child page of this parent
     const showIndicator = isParentActive && !isActive;
 
     const getDisplayName = (title: string) => {
@@ -84,15 +87,17 @@ export const NavigationItem = React.forwardRef<HTMLAnchorElement, NavigationItem
             <span className="absolute top-1 right-1 w-2 h-2 bg-primary rounded-full animate-pulse" />
           )}
         </div>
-        <span className={`text-sm font-medium transition-all duration-150 overflow-hidden whitespace-nowrap group-data-[collapsible=icon]:opacity-0 group-data-[collapsible=icon]:w-0 ${
-          isActive 
-            ? 'text-primary font-semibold' 
-            : showIndicator
-            ? 'text-primary/80'
-            : 'text-sidebar-foreground'
-        }`}>
-          {item.title}
-        </span>
+        {!collapsed || isMobile ? (
+          <span className={`text-sm font-medium transition-all duration-150 overflow-hidden whitespace-nowrap ${
+            isActive 
+              ? 'text-primary font-semibold' 
+              : showIndicator
+              ? 'text-primary/80'
+              : 'text-sidebar-foreground'
+          }`}>
+            {item.title}
+          </span>
+        ) : null}
       </Link>
     );
   }
