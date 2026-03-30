@@ -20,11 +20,10 @@ export const BackButton = React.memo(function BackButton({
   size = "sm",
   className = "",
 }: BackButtonProps) {
-  const { goBack, previousPath } = useNavigation();
+  const { goBack } = useNavigation();
 
   const handleBack = () => {
-    // Use navigation context's smart goBack
-    goBack();
+    goBack(fallbackUrl);
   };
 
   return (

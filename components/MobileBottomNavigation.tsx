@@ -38,6 +38,11 @@ export const MobileBottomNavigation = React.memo(
 
     const parentItem = useMemo(() => findParentNavItem(pathname), [pathname]);
 
+    // Hide bottom navigation on sub-pages (keep only on home page)
+    if (pathname !== "/") {
+      return null;
+    }
+
     return (
       <nav className="fixed bottom-4 left-4 right-4 z-50 md:hidden">
         <div className="relative bg-white/70 dark:bg-black/40 backdrop-blur-2xl border border-white/30 dark:border-gray-700/30 rounded-2xl shadow-2xl shadow-black/10 dark:shadow-black/50">
