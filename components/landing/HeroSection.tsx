@@ -1,163 +1,151 @@
-import { Button } from "@/components/ui/button";
-import { Users, Code, Sparkles, Zap, Heart } from "lucide-react";
-import Link from "next/link";
-import Image from "next/image";
-import { FloatingCodeIcons } from "@/components/FloatingCodeIcons";
+'use client';
 
+import { useState } from "react";
+import Image from "next/image";
+import { Button } from "@/components/ui/button";
+import { Rocket, Calendar } from "lucide-react";
+import Link from "next/link";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { supabase } from "@/lib/supabase";
+
+const WHATSAPP_INVITE_LINK = "https://chat.whatsapp.com/GIkFkQl9ROz0VFzcbHxVnG";
+
+interface FormValues {
+  name: string;
+  mobile: string;
+  linkedin: string;
+}
 
 export function HeroSection() {
+  const [modalOpen, setModalOpen] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [formData, setFormData] = useState<FormValues>({ name: "", mobile: "", linkedin: "" });
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    setIsSubmitting(true);
+
+    const { error } = await supabase.from("whatsapp_join_requests").insert([formData]);
+
+    if (!error) {
+      window.open(WHATSAPP_INVITE_LINK, "_blank");
+      setModalOpen(false);
+      setFormData({ name: "", mobile: "", linkedin: "" });
+    }
+
+    setIsSubmitting(false);
+  }
+
   return (
-    <section className="min-h-screen relative overflow-hidden bg-background">
-      {/* Background Elements */}
-      <div className="fixed inset-0 pointer-events-none">
-        <div className="absolute top-20 left-10 w-72 h-72 bg-primary/10 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute bottom-20 right-10 w-96 h-96 bg-secondary/10 rounded-full blur-3xl animate-pulse delay-1000" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[900px] bg-primary/8 rounded-full blur-3xl" />
-
-        {/* Floating Code Icons Background */}
-        <FloatingCodeIcons />
-      </div>
-
-      <div className="container mx-auto px-4 relative z-10">
-        <div className="min-h-[50rem] flex flex-col lg:grid lg:grid-cols-12 gap-8 lg:gap-12 items-center w-full">
-          {/* Mobile: Image at top */}
-          <div className="lg:hidden w-full relative order-1">
-            <div className="relative h-80 sm:h-96 flex items-center justify-center">
-              {/* Floating decorative elements */}
-              <div className="absolute top-10 right-10 w-16 h-16 bg-primary/20 rounded-full blur-xl animate-bounce delay-500" />
-              <div className="absolute bottom-20 left-10 w-12 h-12 bg-secondary/20 rounded-full blur-lg animate-bounce delay-700" />
-              <div className="absolute top-1/2 left-5 w-8 h-8 bg-accent/20 rounded-full blur-md animate-bounce delay-300" />
-
-              {/* Main Image Container */}
-              <div className="relative w-full h-full max-w-lg mx-auto">
-                <Image
-                  src="/delhi-devs-rebooted.png"
-                  alt="Delhi Devs Rebooted Illustration"
-                  className="object-contain drop-shadow-2xl relative z-10 transform hover:scale-105 transition-transform duration-500"
-                  fill
-                  priority
-                  sizes="(max-width: 768px) 100vw, 50vw"
-                />
-              </div>
-            </div>
-          </div>
-
-          {/* Mobile: Join button after image */}
-          <div className="lg:hidden flex flex-col items-center gap-4 order-2 pb-8 px-4">
-            <Link href="/join" className="w-full max-w-sm group">
-              <Button
-                size="lg"
-                className="bg-primary hover:bg-primary/90 text-primary-foreground rounded-full px-10 py-8 text-xl font-semibold shadow-2xl shadow-primary/25 hover:shadow-primary/40 transition-all duration-300 group-hover:scale-105 w-full relative overflow-hidden"
-              >
-                <span className="relative z-10 flex items-center gap-3">
-                  Join Our Community
-                  <Zap className="w-6 h-6 transition-transform group-hover:rotate-12" />
-                </span>
-              </Button>
-            </Link>
-
-            {/* View Past Meetups CTA - Mobile */}
-            <Link href="/events">
-              <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-card/60 border border-border/50 hover:border-primary/50 hover:bg-card/80 transition-all duration-300 cursor-pointer">
-                <span className="text-sm text-muted-foreground">Check out our</span>
-                <span className="text-sm font-semibold text-foreground">
-                  Past Meetups
-                </span>
-                <span className="text-primary">→</span>
-              </span>
-            </Link>
-          </div>
-
-          {/* Content Section */}
-          <div className="lg:col-span-7 space-y-8 text-center lg:text-left order-3">
-            {/* Floating Benefits */}
-            <div className="flex flex-wrap justify-center lg:justify-start gap-4 mb-8">
-              <div className="flex items-center gap-2 bg-card/60 backdrop-blur-sm border-2 border-border/30 rounded-full px-4 py-2 shadow-lg">
-                <Users className="w-4 h-4 text-primary" />
-                <span className="text-sm font-medium">Network & Connect</span>
-              </div>
-              <div className="flex items-center gap-2 bg-card/60 backdrop-blur-sm border-2 border-border/30 rounded-full px-4 py-2 shadow-lg">
-                <Code className="w-4 h-4 text-primary" />
-                <span className="text-sm font-medium">Learn & Grow</span>
-              </div>
-              <div className="flex items-center gap-2 bg-card/60 backdrop-blur-sm border-2 border-border/30 rounded-full px-4 py-2 shadow-lg">
-                <Heart className="w-4 h-4 text-primary" />
-                <span className="text-sm font-medium">Build Projects</span>
-              </div>
-            </div>
-
-            {/* Main Heading */}
-            <div className="space-y-4 pb-6 lg:pb-4">
-              <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-foreground leading-tight">
-                Connect.
-                <span className="text-primary block relative">
-                  Collaborate.
-                </span>
-                <span className="text-secondary-foreground">Code.</span>
+    <section className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden px-4 py-20 lg:py-0">
+      <div className="w-full max-w-6xl mx-auto relative z-10">
+        <div className="flex flex-col lg:grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+          <div className="flex flex-col items-center lg:items-start text-center lg:text-left space-y-6">
+            <div className="space-y-4 animate-fade-in-up">
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-foreground leading-tight">
+                Stop Planning.
+                <span className="text-primary block">Start Shipping.</span>
               </h1>
-              <p className="text-xl sm:text-2xl text-muted-foreground leading-relaxed max-w-2xl mx-auto lg:mx-0">
-                Join a community of builders, learners, and makers;
-                collaborating to ship projects, share knowledge, and level up
-                together.{" "}
-              </p>
-              <p className="text-xl sm:text-2xl leading-relaxed max-w-2xl mx-auto lg:mx-0 text-orange-500 font-bold hero-entrance mb-6">
-                <span className="accent-pop">Born in Delhi. Built for the world.</span>
+              <p className="text-lg sm:text-xl text-muted-foreground leading-relaxed max-w-xl">
+                Join 300+ Delhi developers who build in public, share knowledge, and launch together.
               </p>
             </div>
 
-            {/* CTA Buttons - Desktop only */}
-            <div className="hidden lg:flex flex-row gap-4 items-center justify-start pt-4">
-              <Link href="/join" className="group">
+            <div className="flex flex-col sm:flex-row gap-4 items-center justify-center lg:justify-start pt-4 animate-fade-in-up delay-200">
+              <Button
+                onClick={() => setModalOpen(true)}
+                size="lg"
+                className="w-full sm:w-auto bg-primary hover:bg-primary/90 text-primary-foreground rounded-full px-8 py-6 text-base font-semibold glow-orange-hover transition-all duration-300"
+              >
+                <Rocket className="w-5 h-5 mr-2" />
+                Join on WhatsApp
+              </Button>
+              <Link href="#meetups">
                 <Button
                   size="lg"
-                  className="bg-primary hover:bg-primary/90 text-primary-foreground rounded-full px-10 py-8 text-xl font-semibold shadow-2xl shadow-primary/25 hover:shadow-primary/40 transition-all duration-300 group-hover:scale-105 relative overflow-hidden"
+                  variant="outline"
+                  className="w-full sm:w-auto rounded-full px-8 py-6 text-base border-border text-foreground hover:bg-secondary hover:text-foreground"
                 >
-                  <span className="relative z-10 flex items-center gap-3">
-                    Join Our Community
-                    <Zap className="w-6 h-6 transition-transform group-hover:rotate-12" />
-                  </span>
+                  <Calendar className="w-5 h-5 mr-2" />
+                  See Meetups
                 </Button>
               </Link>
-
-              {/* View Past Meetups CTA - Desktop */}
-              <Link href="/events" className="group">
-                <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-card/60 border border-border/50 hover:border-primary/50 hover:bg-card/80 transition-all duration-300 cursor-pointer">
-                  <span className="text-sm text-muted-foreground">Check out our</span>
-                  <span className="text-sm font-semibold text-foreground group-hover:text-primary transition-colors">
-                    Past Meetups
-                  </span>
-                  <span className="text-primary opacity-0 group-hover:opacity-100 transition-opacity">
-                    →
-                  </span>
-                </span>
-              </Link>
             </div>
-
           </div>
 
-          {/* Desktop: Image on the right */}
-          <div className="hidden lg:block lg:col-span-5 relative order-2">
-            <div className="relative h-80 sm:h-96 lg:h-[600px] flex items-center justify-center">
-              {/* Floating decorative elements */}
-              <div className="absolute top-10 right-10 w-16 h-16 bg-primary/20 rounded-full blur-xl animate-bounce delay-500" />
-              <div className="absolute bottom-20 left-10 w-12 h-12 bg-secondary/20 rounded-full blur-lg animate-bounce delay-700" />
-              <div className="absolute top-1/2 left-5 w-8 h-8 bg-accent/20 rounded-full blur-md animate-bounce delay-300" />
-
-              {/* Main Image Container */}
-              <div className="relative w-full h-full max-w-lg mx-auto">
-                <Image
-                  src="/delhi-devs-rebooted.png"
-                  alt="Delhi Devs Rebooted Illustration"
-                  className="object-contain drop-shadow-2xl relative z-10 transform hover:scale-105 transition-transform duration-500"
-                  fill
-                  priority
-                  sizes="(max-width: 768px) 100vw, 50vw"
-                />
-              </div>
+          <div className="flex items-center justify-center">
+            <div className="relative w-[280px] h-[280px] sm:w-[320px] sm:h-[320px] lg:w-[380px] lg:h-[380px]">
+              <Image
+                src="/delhi-devs-rebooted.png"
+                alt="Delhi Devs Rebooted"
+                className="object-contain"
+                fill
+                priority
+                sizes="(max-width: 640px) 280px, (max-width: 1024px) 320px, 380px"
+              />
             </div>
           </div>
         </div>
       </div>
+
+      <div className="absolute inset-0 -z-10 pointer-events-none overflow-hidden">
+        <div className="absolute top-1/4 left-1/4 w-64 h-64 sm:w-80 sm:h-80 lg:w-96 lg:h-96 bg-primary/5 rounded-full blur-3xl" />
+        <div className="absolute bottom-1/4 right-1/4 w-64 h-64 sm:w-80 sm:h-80 lg:w-96 lg:h-96 bg-primary/5 rounded-full blur-3xl" />
+      </div>
+
+      <Dialog open={modalOpen} onOpenChange={setModalOpen}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Join Delhi Devs</DialogTitle>
+            <DialogDescription>
+              Fill in your details to get the WhatsApp invite link.
+            </DialogDescription>
+          </DialogHeader>
+          <form onSubmit={handleSubmit} className="space-y-4 pt-4">
+            <div className="space-y-2">
+              <Label htmlFor="name">Name</Label>
+              <Input
+                id="name"
+                value={formData.name}
+                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                placeholder="Your name"
+                required
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="mobile">Mobile</Label>
+              <Input
+                id="mobile"
+                value={formData.mobile}
+                onChange={(e) => setFormData({ ...formData, mobile: e.target.value })}
+                placeholder="10-digit Indian mobile number"
+                required
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="linkedin">LinkedIn Profile</Label>
+              <Input
+                id="linkedin"
+                value={formData.linkedin}
+                onChange={(e) => setFormData({ ...formData, linkedin: e.target.value })}
+                placeholder="linkedin.com/in/yourname"
+                required
+              />
+            </div>
+            <Button type="submit" className="w-full" disabled={isSubmitting}>
+              {isSubmitting ? "Joining..." : "Get WhatsApp Link"}
+            </Button>
+          </form>
+        </DialogContent>
+      </Dialog>
     </section>
   );
 }

@@ -7,33 +7,13 @@ import {
   LogIn,
   Shield,
   Settings,
+  Info,
+  Github,
   LucideIcon
 } from "lucide-react";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faHome,
-  faUserPlus,
-  faUser,
-  faCalendar,
-  faSignInAlt,
-  faShieldAlt,
-  faCog,
-  faInfoCircle
-} from '@fortawesome/free-solid-svg-icons';
-import { faGithub } from '@fortawesome/free-brands-svg-icons';
 
-// Create wrapper components for Font Awesome icons
-const FAHome = (props: any) => <FontAwesomeIcon icon={faHome} {...props} />;
-const FAUserPlus = (props: any) => <FontAwesomeIcon icon={faUserPlus} {...props} />;
-const FAUser = (props: any) => <FontAwesomeIcon icon={faUser} {...props} />;
-const FACalendar = (props: any) => <FontAwesomeIcon icon={faCalendar} {...props} />;
-const FASignInAlt = (props: any) => <FontAwesomeIcon icon={faSignInAlt} {...props} />;
-const FAShieldAlt = (props: any) => <FontAwesomeIcon icon={faShieldAlt} {...props} />;
-const FACog = (props: any) => <FontAwesomeIcon icon={faCog} {...props} />;
-const FAInfoCircle = (props: any) => <FontAwesomeIcon icon={faInfoCircle} {...props} />;
-const FAGithub = (props: any) => <FontAwesomeIcon icon={faGithub} {...props} />;
-
-export const iconMap: Record<string, LucideIcon | React.ComponentType<any>> = {
+// Icon mapping for navigation and other components
+export const iconMap: Record<string, LucideIcon> = {
   Home,
   UserPlus,
   User,
@@ -41,18 +21,20 @@ export const iconMap: Record<string, LucideIcon | React.ComponentType<any>> = {
   LogIn,
   Shield,
   Settings,
-  // Font Awesome icons
-  faHome: FAHome,
-  faUserPlus: FAUserPlus,
-  faUser: FAUser,
-  faCalendar: FACalendar,
-  faSignInAlt: FASignInAlt,
-  faShieldAlt: FAShieldAlt,
-  faCog: FACog,
-  faInfoCircle: FAInfoCircle,
-  faGithub: FAGithub,
+  Info,
+  Github,
+  // Legacy mappings for backwards compatibility
+  faHome: Home,
+  faUserPlus: UserPlus,
+  faUser: User,
+  faCalendar: Calendar,
+  faSignInAlt: LogIn,
+  faShieldAlt: Shield,
+  faCog: Settings,
+  faInfoCircle: Info,
+  faGithub: Github,
 };
 
-export function getIcon(iconName: string): LucideIcon | React.ComponentType<any> | null {
+export function getIcon(iconName: string): LucideIcon | null {
   return iconMap[iconName] || null;
 }

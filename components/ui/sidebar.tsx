@@ -50,8 +50,11 @@ export function SidebarProvider({ children, defaultCollapsed = false }: SidebarP
   const isMobile = useIsMobile();
   const [collapsed, setCollapsed] = React.useState(defaultCollapsed);
   const [mobileOpen, setMobileOpen] = React.useState(false);
+  const [mounted, setMounted] = React.useState(false);
 
+  // Initialize from cookie on mount only
   React.useEffect(() => {
+    setMounted(true);
     const cookies = document.cookie.split(";");
     const sidebarCookie = cookies.find((c) => c.trim().startsWith(`${SIDEBAR_COOKIE_NAME}=`));
     if (sidebarCookie) {
@@ -69,9 +72,13 @@ export function SidebarProvider({ children, defaultCollapsed = false }: SidebarP
     if (isMobile) {
       setMobileOpen((prev) => !prev);
     } else {
-      updateCollapsed(!collapsed);
+      setCollapsed((prev) => {
+        const newValue = !prev;
+        document.cookie = `${SIDEBAR_COOKIE_NAME}=${newValue}; path=/; max-age=${SIDEBAR_COOKIE_MAX_AGE}`;
+        return newValue;
+      });
     }
-  }, [isMobile, collapsed, updateCollapsed]);
+  }, [isMobile]);
 
   React.useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -96,6 +103,15 @@ export function SidebarProvider({ children, defaultCollapsed = false }: SidebarP
     [collapsed, updateCollapsed, toggleSidebar, isMobile, mobileOpen]
   );
 
+  // Prevent hydration mismatch by not rendering until mounted
+  if (!mounted) {
+    return (
+      <TooltipProvider delayDuration={0}>
+        <SidebarContext.Provider value={value}>{children}</SidebarContext.Provider>
+      </TooltipProvider>
+    );
+  }
+
   return (
     <TooltipProvider delayDuration={0}>
       <SidebarContext.Provider value={value}>{children}</SidebarContext.Provider>
@@ -114,7 +130,7 @@ export function Sidebar({ children, className }: SidebarProps) {
   if (isMobile) {
     return (
       <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
-        <SheetContent side="left" className="w-[280px] p-0 bg-sidebar border-r border-sidebar-border">
+        <SheetContent side="right" className="w-[280px] p-0 bg-sidebar border-l border-sidebar-border">
           <div className="flex h-full w-full flex-col bg-sidebar text-sidebar-foreground">
             {children}
           </div>

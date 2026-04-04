@@ -18,6 +18,7 @@ dist-ssr
 .env.development.local
 .env.test.local
 .env.production.local
+.env.*
 
 # Editor directories and files
 .vscode/*
@@ -50,13 +51,6 @@ out
 # Coverage reports
 coverage/
 *.lcov
-.env
 
-# Github
-.github/
-
-# VS Code
-.vscode/*.env.sentry-build-plugin
+# Serena
 .serena/
-.env
-.env.*

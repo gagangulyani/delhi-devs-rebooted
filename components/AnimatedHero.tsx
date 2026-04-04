@@ -44,7 +44,7 @@ export function AnimatedHero({
       </h1>
 
       {description && (
-        <p className="text-base sm:text-lg text-muted-foreground max-w-md leading-relaxed">
+        <p className="text-base sm:text-lg text-muted-foreground max-w-lg mx-auto leading-relaxed text-balance">
           {description}
         </p>
       )}
