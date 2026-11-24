@@ -17,7 +17,7 @@ export function Brand({ variant = "desktop", className = "" }: BrandProps) {
           alt="Delhi Devs Rebooted"
           width={40}
           height={40}
-          className="w-10 h-10 rounded-full shadow-sm"
+          className="h-10 w-10 shrink-0 object-cover"
         />
       </div>
     );

@@ -1,27 +1,60 @@
 import type { Metadata } from 'next'
+import { Bricolage_Grotesque, Instrument_Serif, JetBrains_Mono } from 'next/font/google'
 import './globals.css'
 import { Providers } from './providers'
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
+import { DesktopSidebar } from "@/components/DesktopSidebar";
 import { GlobalLoader } from "@/components/GlobalLoader";
+import { getPublicNavigationItems } from "@/constants/navigation";
+import { SidebarProvider, SidebarLayout, SidebarTrigger } from "@/components/ui/sidebar";
+
+const sans = Bricolage_Grotesque({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-sans',
+})
+
+const mono = JetBrains_Mono({
+  subsets: ['latin'],
+  display: 'swap',
+  weight: ['400', '500'],
+  variable: '--font-mono',
+})
+
+const serif = Instrument_Serif({
+  subsets: ['latin'],
+  display: 'swap',
+  weight: '400',
+  style: ['normal', 'italic'],
+  variable: '--font-serif',
+})
 
 export const metadata: Metadata = {
   title: {
-    default: 'Delhi Devs Rebooted - Product Community',
+    default: 'Delhi Devs Rebooted - Connecting Passionate Developers in Delhi NCR',
     template: '%s | Delhi Devs Rebooted'
   },
-  description: 'A community of builders shipping products. Delhi NCR developer community building in public.',
+  description: 'Join Delhi Devs Rebooted - the largest developer community in Delhi NCR. Connect with passionate developers, attend tech meetups, share knowledge, and build the future of technology together.',
   keywords: [
     'delhi developers',
-    'product community',
-    'builders',
-    'saas',
-    'ai products',
-    'developer community delhi',
-    'build in public',
-    'ship products',
+    'delhi ncr tech community',
+    'developer meetups delhi',
+    'tech community delhi',
+    'programming community',
+    'software developers delhi',
+    'tech events delhi',
+    'coding community',
+    'developer networking',
     'delhi devs',
-    'tech startup community'
+    'tech meetups',
+    'gagan deep singh',
+    'delhi tech scene',
+    'developer groups delhi',
+    'AI community delhi',
+    'machine learning delhi',
+    'web development delhi',
+    'mobile development delhi'
   ],
   authors: [
     {
@@ -29,7 +62,7 @@ export const metadata: Metadata = {
       url: 'https://gagangulyani.com',
     }
   ],
-  creator: 'Delhi Devs Rebooted',
+  creator: 'Gagan Deep Singh',
   publisher: 'Delhi Devs Rebooted',
   formatDetection: {
     email: false,
@@ -41,8 +74,8 @@ export const metadata: Metadata = {
     canonical: '/',
   },
   openGraph: {
-    title: 'Delhi Devs Rebooted - Product Community',
-    description: 'A community of builders shipping products. Join developers building in public.',
+    title: 'Delhi Devs Rebooted - Connecting Passionate Developers in Delhi NCR',
+    description: 'Join the largest developer community in Delhi NCR. Connect, collaborate, and code with passionate developers. Attend tech meetups, share knowledge, and build the future together.',
     url: 'https://delhidevs.com',
     siteName: 'Delhi Devs Rebooted',
     images: [
@@ -50,7 +83,7 @@ export const metadata: Metadata = {
         url: '/delhi-devs-thumbail.png',
         width: 1200,
         height: 630,
-        alt: 'Delhi Devs Rebooted - Product Community',
+        alt: 'Delhi Devs Rebooted - Developer Community',
       },
     ],
     locale: 'en_US',
@@ -58,8 +91,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Delhi Devs Rebooted - Product Community',
-    description: 'A community of builders shipping products.',
+    title: 'Delhi Devs Rebooted - Connecting Passionate Developers in Delhi NCR',
+    description: 'Join the largest developer community in Delhi NCR. Connect, collaborate, and code with passionate developers.',
     creator: '@GaganGulyani',
     images: ['/delhi-devs-thumbail.png'],
   },
@@ -74,8 +107,13 @@ export const metadata: Metadata = {
       'max-snippet': -1,
     },
   },
+  verification: {
+    google: '', // Add Google Search Console verification code when available
+    yandex: '', // Add Yandex verification code when available
+    yahoo: '', // Add Yahoo verification code when available
+  },
   category: 'technology',
-  classification: 'Developer Product Community',
+  classification: 'Developer Community',
   icons: {
     icon: [
       {
@@ -108,11 +146,13 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
+  const publicNavigationItems = getPublicNavigationItems();
+
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Organization',
     name: 'Delhi Devs Rebooted',
-    description: 'A community of builders shipping products. Delhi NCR developer community building in public.',
+    description: 'The largest developer community in Delhi NCR connecting passionate developers, hosting tech meetups, and building the future of technology together.',
     url: 'https://delhidevs.com',
     logo: 'https://delhidevs.com/delhi-devs-rebooted.png',
     image: 'https://delhidevs.com/delhi-devs-thumbail.png',
@@ -126,6 +166,12 @@ export default function RootLayout({
         'https://twitter.com/GaganGulyani'
       ]
     },
+    address: {
+      '@type': 'PostalAddress',
+      addressLocality: 'Delhi',
+      addressRegion: 'Delhi NCR',
+      addressCountry: 'IN'
+    },
     areaServed: {
       '@type': 'Place',
       name: 'Delhi NCR'
@@ -133,30 +179,46 @@ export default function RootLayout({
     sameAs: [
       'https://www.linkedin.com/company/delhi-devs'
     ],
+    memberOf: {
+      '@type': 'Organization',
+      name: 'Global Developer Community'
+    },
     knowsAbout: [
-      'SaaS Products',
-      'AI Applications',
-      'Mobile Apps',
-      'Open Source',
-      'Build in Public'
+      'Software Development',
+      'Web Development',
+      'Mobile Development',
+      'Artificial Intelligence',
+      'Machine Learning',
+      'Tech Meetups',
+      'Developer Networking'
     ]
   };
 
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning className={`${sans.variable} ${mono.variable} ${serif.variable}`}>
       <head>
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, '\\u003c') }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body>
+      <body className="grain font-sans">
         <Providers>
           <Toaster />
           <Sonner />
-          <main className="min-h-screen">
-            {children}
-          </main>
+          <SidebarProvider>
+            <DesktopSidebar navigationItems={publicNavigationItems} />
+            <SidebarLayout className="min-h-screen">
+              <main className="flex-1 flex flex-col min-h-screen overflow-auto">
+                <div className="md:hidden p-4 border-b border-border flex items-center">
+                  <SidebarTrigger />
+                </div>
+                <div className="flex-1 p-6 lg:p-8">
+                  {children}
+                </div>
+              </main>
+            </SidebarLayout>
+          </SidebarProvider>
           <GlobalLoader />
         </Providers>
       </body>

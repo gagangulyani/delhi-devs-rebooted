@@ -3,7 +3,9 @@
 import * as React from "react";
 import { Slot } from "@radix-ui/react-slot";
 import { cva, type VariantProps } from "class-variance-authority";
-import { ChevronLeft, ChevronRight, Menu, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
+
+import { usePathname } from "next/navigation";
 
 import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
@@ -13,14 +15,11 @@ import { Separator } from "@/components/ui/separator";
 import { Sheet, SheetContent } from "@/components/ui/sheet";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
-const SIDEBAR_COOKIE_NAME = "sidebar:collapsed";
-const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7;
 const SIDEBAR_WIDTH = "22rem";
 const SIDEBAR_WIDTH_ICON = "3.5rem";
 
 interface SidebarContextValue {
   collapsed: boolean;
-  setCollapsed: (value: boolean) => void;
   toggleSidebar: () => void;
   isMobile: boolean;
   mobileOpen: boolean;
@@ -43,77 +42,41 @@ export function useSidebarSafe() {
 
 interface SidebarProviderProps {
   children: React.ReactNode;
-  defaultCollapsed?: boolean;
 }
 
-export function SidebarProvider({ children, defaultCollapsed = false }: SidebarProviderProps) {
+export function SidebarProvider({ children }: SidebarProviderProps) {
   const isMobile = useIsMobile();
-  const [collapsed, setCollapsed] = React.useState(defaultCollapsed);
+  const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = React.useState(false);
-  const [mounted, setMounted] = React.useState(false);
 
-  // Initialize from cookie on mount only
+  // The desktop sidebar is permanently collapsed to an icon rail.
+  const collapsed = true;
+
+  // Navigating from the mobile sheet must dismiss it, otherwise it stays
+  // mounted over the new page and keeps the body scroll-locked.
   React.useEffect(() => {
-    setMounted(true);
-    const cookies = document.cookie.split(";");
-    const sidebarCookie = cookies.find((c) => c.trim().startsWith(`${SIDEBAR_COOKIE_NAME}=`));
-    if (sidebarCookie) {
-      const value = sidebarCookie.split("=")[1];
-      setCollapsed(value === "true");
-    }
-  }, []);
-
-  const updateCollapsed = React.useCallback((value: boolean) => {
-    setCollapsed(value);
-    document.cookie = `${SIDEBAR_COOKIE_NAME}=${value}; path=/; max-age=${SIDEBAR_COOKIE_MAX_AGE}`;
-  }, []);
+    setMobileOpen(false);
+  }, [pathname]);
 
   const toggleSidebar = React.useCallback(() => {
     if (isMobile) {
       setMobileOpen((prev) => !prev);
-    } else {
-      setCollapsed((prev) => {
-        const newValue = !prev;
-        document.cookie = `${SIDEBAR_COOKIE_NAME}=${newValue}; path=/; max-age=${SIDEBAR_COOKIE_MAX_AGE}`;
-        return newValue;
-      });
     }
   }, [isMobile]);
-
-  React.useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if ((e.metaKey || e.ctrlKey) && e.key === "b") {
-        e.preventDefault();
-        toggleSidebar();
-      }
-    };
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [toggleSidebar]);
 
   const value = React.useMemo(
     () => ({
       collapsed,
-      setCollapsed: updateCollapsed,
       toggleSidebar,
       isMobile: !!isMobile,
       mobileOpen,
       setMobileOpen,
     }),
-    [collapsed, updateCollapsed, toggleSidebar, isMobile, mobileOpen]
+    [collapsed, toggleSidebar, isMobile, mobileOpen]
   );
 
-  // Prevent hydration mismatch by not rendering until mounted
-  if (!mounted) {
-    return (
-      <TooltipProvider delayDuration={0}>
-        <SidebarContext.Provider value={value}>{children}</SidebarContext.Provider>
-      </TooltipProvider>
-    );
-  }
-
   return (
-    <TooltipProvider delayDuration={0}>
+    <TooltipProvider delayDuration={250}>
       <SidebarContext.Provider value={value}>{children}</SidebarContext.Provider>
     </TooltipProvider>
   );
@@ -130,7 +93,7 @@ export function Sidebar({ children, className }: SidebarProps) {
   if (isMobile) {
     return (
       <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
-        <SheetContent side="right" className="w-[280px] p-0 bg-sidebar border-l border-sidebar-border">
+        <SheetContent side="left" className="w-[280px] p-0 bg-sidebar border-r border-sidebar-border">
           <div className="flex h-full w-full flex-col bg-sidebar text-sidebar-foreground">
             {children}
           </div>
@@ -140,7 +103,7 @@ export function Sidebar({ children, className }: SidebarProps) {
   }
 
   return (
-    <TooltipProvider delayDuration={0}>
+    <TooltipProvider delayDuration={250}>
       <div
         className={cn(
           "fixed left-0 top-0 z-30 hidden h-screen flex-col border-r border-sidebar-border bg-sidebar text-sidebar-foreground transition-all duration-300 ease-in-out md:flex",
@@ -178,33 +141,6 @@ export function SidebarTrigger({ className }: SidebarTriggerProps) {
     >
       {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
       <span className="sr-only">Toggle Menu</span>
-    </Button>
-  );
-}
-
-interface SidebarCollapseButtonProps {
-  className?: string;
-}
-
-export function SidebarCollapseButton({ className }: SidebarCollapseButtonProps) {
-  const { collapsed, toggleSidebar, isMobile } = useSidebar();
-
-  if (isMobile) return null;
-
-  return (
-    <Button
-      variant="ghost"
-      size="icon"
-      onClick={toggleSidebar}
-      className={cn("h-8 w-8 shrink-0", className)}
-      title={collapsed ? "Expand sidebar" : "Collapse sidebar"}
-    >
-      {collapsed ? (
-        <ChevronRight className="h-4 w-4" />
-      ) : (
-        <ChevronLeft className="h-4 w-4" />
-      )}
-      <span className="sr-only">Toggle Sidebar</span>
     </Button>
   );
 }

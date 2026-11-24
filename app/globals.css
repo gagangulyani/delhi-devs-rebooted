@@ -2,65 +2,92 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Product Community Landing Page - Minimal Dark Theme with Orange Accents
- * All colors use HSL format for Tailwind compatibility
- */
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+All colors MUST be HSL.
+*/
 
 @layer base {
   :root {
-    /* Dark-only theme - deep charcoal with orange accents */
-    /* Background: #0a0a0a */
-    --background: 0 0% 4%;
-    /* Foreground: #fafafa */
-    --foreground: 0 0% 98%;
+    /* Light theme: warm paper palette */
+    --background: 30 50% 97%; /* warm paper */
+    --foreground: 20 30% 14%; /* ink */
 
-    /* Card/Surface: #171717 */
-    --card: 0 0% 9%;
-    --card-foreground: 0 0% 98%;
+    --card: 0 0% 100%;
+    --card-foreground: 20 30% 14%;
 
-    /* Popover: #171717 */
-    --popover: 0 0% 9%;
-    --popover-foreground: 0 0% 98%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 20 30% 14%;
 
-    /* Primary: #f97316 (orange-500) */
-    --primary: 24 95% 54%;
-    --primary-foreground: 0 0% 4%;
+    --primary: 22 90% 52%; /* vivid orange */
+    --primary-foreground: 0 0% 100%;
 
-    /* Secondary: #262626 */
-    --secondary: 0 0% 15%;
-    --secondary-foreground: 0 0% 98%;
+    --secondary: 22 65% 92%; /* soft peach */
+    --secondary-foreground: 20 40% 24%;
 
-    /* Muted: #262626 */
-    --muted: 0 0% 15%;
-    /* Muted foreground: #a3a3a3 */
-    --muted-foreground: 0 0% 64%;
+    --muted: 30 30% 92%;
+    --muted-foreground: 22 18% 42%;
 
-    /* Accent: #f97316 (same as primary) */
-    --accent: 24 95% 54%;
-    --accent-foreground: 0 0% 4%;
+    --accent: 12 85% 52%; /* stronger red-orange */
+    --accent-foreground: 0 0% 100%;
 
-    /* Destructive: #ef4444 */
-    --destructive: 0 84% 60%;
+    --destructive: 2 78% 55%;
     --destructive-foreground: 0 0% 98%;
 
-    /* Border: #262626 */
-    --border: 0 0% 15%;
-    /* Input: #262626 */
-    --input: 0 0% 15%;
-    /* Ring: #f97316 */
-    --ring: 24 95% 54%;
+    --border: 24 25% 82%;
+    --input: 24 25% 86%;
+    --ring: 22 90% 52%;
 
     --radius: 0.5rem;
 
-    /* Sidebar variables - kept for compatibility but will be removed later */
-    --sidebar-background: 0 0% 4%;
-    --sidebar-foreground: 0 0% 98%;
-    --sidebar-primary: 24 95% 54%;
-    --sidebar-primary-foreground: 0 0% 4%;
-    --sidebar-accent: 0 0% 15%;
-    --sidebar-accent-foreground: 0 0% 98%;
-    --sidebar-border: 0 0% 15%;
-    --sidebar-ring: 24 95% 54%;
+    /* Sidebar (light) */
+    --sidebar-background: 30 50% 97%;
+    --sidebar-foreground: 20 30% 14%;
+    --sidebar-primary: 22 90% 52%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 22 65% 92%;
+    --sidebar-accent-foreground: 20 40% 24%;
+    --sidebar-border: 24 25% 82%;
+    --sidebar-ring: 22 90% 52%;
+  }
+
+  .dark {
+    /* Dark theme: deep ink */
+    --background: 15 30% 8%;
+    --foreground: 30 50% 95%;
+
+    --card: 15 30% 11%;
+    --card-foreground: 30 50% 95%;
+
+    --popover: 15 30% 11%;
+    --popover-foreground: 30 50% 95%;
+
+    --primary: 22 90% 56%;
+    --primary-foreground: 15 30% 8%;
+
+    --secondary: 18 35% 20%;
+    --secondary-foreground: 30 45% 90%;
+
+    --muted: 15 25% 20%;
+    --muted-foreground: 24 22% 70%;
+
+    --accent: 12 85% 58%;
+    --accent-foreground: 15 30% 8%;
+
+    --destructive: 2 70% 48%;
+    --destructive-foreground: 30 50% 95%;
+
+    --border: 15 25% 28%;
+    --input: 15 25% 24%;
+    --ring: 22 90% 56%;
+
+    --sidebar-background: 15 30% 8%;
+    --sidebar-foreground: 30 50% 95%;
+    --sidebar-primary: 22 90% 56%;
+    --sidebar-primary-foreground: 15 30% 8%;
+    --sidebar-accent: 18 35% 20%;
+    --sidebar-accent-foreground: 30 45% 90%;
+    --sidebar-border: 15 25% 28%;
+    --sidebar-ring: 22 90% 56%;
   }
 }
 
@@ -69,70 +96,225 @@
     @apply border-border;
   }
 
-  html {
-    scroll-behavior: smooth;
+  body {
+    @apply bg-background text-foreground antialiased;
   }
 
-  body {
-    @apply bg-background text-foreground;
+  ::selection {
+    @apply bg-primary text-primary-foreground;
+  }
+
+  html {
     @apply transition-colors duration-300;
-    overflow-x: hidden;
   }
 }
 
 @layer utilities {
-  /* Safe area padding for mobile devices */
-  .pb-safe {
-    padding-bottom: env(safe-area-inset-bottom);
+  .scale-102 {
+    transform: scale(1.02);
   }
-  
-  .pt-safe {
-    padding-top: env(safe-area-inset-top);
+}
+
+/* ------------------------------------------------------------------
+   Fanzine design system: print/street-poster identity.
+   ------------------------------------------------------------------ */
+
+@layer components {
+  /* ---- type ---- */
+  .eyebrow {
+    @apply font-mono text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground;
   }
 
-  /* Orange glow effect for primary buttons */
-  .glow-orange {
-    box-shadow: 0 0 20px rgba(249, 115, 22, 0.3);
+  .display {
+    @apply text-[2.5rem] font-extrabold leading-[1.0] tracking-[-0.03em] sm:text-6xl;
   }
 
-  .glow-orange-hover:hover {
-    box-shadow: 0 0 30px rgba(249, 115, 22, 0.4);
+  .display-hero {
+    @apply text-[2.9rem] font-extrabold leading-[0.92] tracking-[-0.04em] sm:text-6xl lg:text-[5.25rem];
   }
 
-  /* Pulsing border animation for building slots */
-  @keyframes pulse-border {
-    0%, 100% {
-      border-color: hsl(0 0% 15%);
-    }
-    50% {
-      border-color: hsl(24 95% 54%);
-    }
+  /* editorial italic accent inside display text */
+  .serif-i {
+    @apply font-serif italic font-normal tracking-[-0.01em];
   }
 
-  .animate-pulse-border {
-    animation: pulse-border 2s ease-in-out infinite;
+  .lede {
+    @apply max-w-[60ch] text-base leading-relaxed text-muted-foreground sm:text-lg;
   }
 
-  /* Fade in up animation */
-  @keyframes fade-in-up {
-    from {
-      opacity: 0;
-      transform: translateY(20px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
+  .prose-editorial p {
+    @apply mb-4 max-w-[65ch] text-[15px] leading-7 text-muted-foreground;
   }
 
-  .animate-fade-in-up {
-    animation: fade-in-up 0.6s ease-out forwards;
+  .prose-editorial p:last-child {
+    @apply mb-0;
   }
 
-  /* Stagger animation delays */
-  .delay-100 { animation-delay: 100ms; }
-  .delay-200 { animation-delay: 200ms; }
-  .delay-300 { animation-delay: 300ms; }
-  .delay-400 { animation-delay: 400ms; }
-  .delay-500 { animation-delay: 500ms; }
+  .link-editorial {
+    @apply underline decoration-border decoration-2 underline-offset-4 transition-colors hover:decoration-primary;
+  }
+
+  /* ---- chrome: markers, hard borders, hard shadows ---- */
+  .marker {
+    @apply inline-flex items-center gap-2 font-mono text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground;
+  }
+
+  .marker::before {
+    content: "";
+    @apply h-2 w-2 bg-primary;
+  }
+
+  .hard {
+    @apply border-2 border-foreground;
+  }
+
+  .hard-shadow {
+    box-shadow: 6px 6px 0 0 hsl(var(--foreground));
+  }
+
+  .hard-shadow-sm {
+    box-shadow: 4px 4px 0 0 hsl(var(--foreground));
+  }
+
+  /* ---- buttons ---- */
+  .btn-ink {
+    @apply inline-flex items-center justify-center gap-2 border-2 border-foreground bg-foreground px-5 py-3 text-sm font-bold text-background;
+    box-shadow: 4px 4px 0 0 hsl(var(--primary));
+    transition:
+      transform var(--dur-hover) var(--ease-out-quint),
+      box-shadow var(--dur-hover) var(--ease-out-quint);
+  }
+
+  .btn-ink:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0 0 hsl(var(--primary));
+  }
+
+  .btn-ink:active {
+    transform: translate(1px, 1px);
+    box-shadow: 2px 2px 0 0 hsl(var(--primary));
+  }
+
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 border-2 border-foreground bg-transparent px-5 py-3 text-sm font-bold text-foreground;
+    transition:
+      transform var(--dur-hover) var(--ease-out-quint),
+      background-color var(--dur-hover) var(--ease-out-quint);
+  }
+
+  .btn-ghost:hover {
+    @apply bg-primary/10;
+    transform: translate(-2px, -2px);
+  }
+
+  .btn-ghost:active {
+    transform: translate(1px, 1px);
+  }
+
+  /* ---- rows ---- */
+  .row-list > * + * {
+    @apply border-t border-border;
+  }
+
+  /* ---- print photo ---- */
+  .print {
+    @apply border-2 border-foreground bg-card;
+    box-shadow: 8px 8px 0 0 hsl(var(--foreground));
+  }
+
+  .print-tilt-l {
+    transform: rotate(-1.5deg);
+  }
+
+  .print-tilt-r {
+    transform: rotate(1.5deg);
+  }
+}
+
+/* ---- motion tokens ---- */
+@layer base {
+  :root {
+    --ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
+    --dur-hover: 150ms;
+    --dur-reveal: 360ms;
+  }
+}
+
+/* Scroll reveal: visible by default, animated only after JS marks ready. */
+[data-reveal] {
+  transition:
+    opacity var(--dur-reveal) var(--ease-out-quint),
+    transform var(--dur-reveal) var(--ease-out-quint);
+}
+
+[data-reveal="ready"] {
+  opacity: 0;
+  transform: translateY(14px);
+}
+
+[data-reveal="shown"] {
+  opacity: 1;
+  transform: none;
+}
+
+/* ---- marquee ticker ---- */
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.marquee {
+  overflow: hidden;
+  @apply border-y-2 border-foreground;
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee 28s linear infinite;
+}
+
+.marquee-track > * {
+  @apply flex shrink-0 items-center;
+}
+
+.marquee-paused .marquee-track {
+  animation-play-state: paused;
+}
+
+/* ---- film grain (very subtle, print texture) ---- */
+.grain::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  pointer-events: none;
+  opacity: 0.04;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ---- reduced motion: kill everything, keep content visible ---- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .marquee-track {
+    animation: none;
+  }
+
+  [data-reveal],
+  [data-reveal="ready"] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
 }

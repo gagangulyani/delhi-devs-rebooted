@@ -23,7 +23,7 @@ export const meetup2: Event = {
 
 Anuvrat showcased live music coding with strudel. We talked tech, philosophy, and ate pizzas sponsored by the team at essentia.dev.
 
-From deep implementation discussions to playing UNO — connections happened naturally.`,
+From deep implementation discussions to playing UNO. Connections happened naturally.`,
   event_date: "2026-03-21T16:00:00+05:30",
   end_date: "2026-03-21T19:30:00+05:30",
   location: "essentia.dev, Noida",
@@ -31,12 +31,9 @@ From deep implementation discussions to playing UNO — connections happened nat
   event_link: "https://www.linkedin.com/posts/gagan-gulyani_omg-finally-hosted-the-delhi-devs-rebooted-ugcPost-7441591055164211200-MV43",
   image_url: "/delhi-devs-meetup-2-group-photo.jpeg",
   tags: ["Networking", "Meetup", "College Students", "Live Coding", "Noida"],
-  agenda: `Afternoon networking and introductions
-Icebreaker: "What did you build that you're proud of?"
-Student project showcases and technical deep dives
-Live music coding demo with strudel
-Pizzas sponsored by essentia.dev team
-Games and casual conversations`,
+  agenda: `Networking
+Group photo
+Food`,
 };
 
 export const meetup1: Event = {
@@ -54,10 +51,9 @@ Special thanks to Anuvrat Parashar for the amazing venue at essentia.dev!`,
   event_link: "https://www.linkedin.com/posts/gagan-gulyani_we-freakin-made-it-delhi-devs-rebooted-ugcPost-7354946301274304512-BHXw",
   image_url: "/delhi-devs-meetup-1-group-photo.jpg",
   tags: ["Networking", "Meetup", "First Meetup", "Noida"],
-  agenda: `Evening of tech discussions and connections
-AI-based web crawlers and WhatsApp bots
-Philosophy and life conversations
-Quality connections with 14 developers`,
+  agenda: `Networking
+Group photo
+Food`,
 };
 
 export const events: Event[] = [meetup2, meetup1];
