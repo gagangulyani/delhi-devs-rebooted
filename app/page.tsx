@@ -17,6 +17,7 @@ import { WHATSAPP_INVITE_LINK } from "@/constants/links";
 import { Reveal } from "@/components/editorial/Reveal";
 import { SectionHead, PrintPhoto, Marquee, IconCard, GroupTile } from "@/components/editorial/Poster";
 import { Magnetic, FloatingShapes } from "@/components/editorial/motion";
+import { FeatureCarousel } from "@/components/editorial/FeatureCarousel";
 
 export const metadata: Metadata = {
   title: "Delhi Devs Rebooted | Connecting Passionate Developers in Delhi NCR",
@@ -152,11 +153,11 @@ export default function HomePage() {
       <Reveal>
         <section className="mt-20">
           <SectionHead index="02" label="What you get" note={`${features.length} ways`} />
-          <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <FeatureCarousel className="mt-8">
             {features.map((feature) => (
               <IconCard key={feature.title} icon={feature.icon} title={feature.title} desc={feature.desc} />
             ))}
-          </div>
+          </FeatureCarousel>
         </section>
       </Reveal>
 
@@ -164,7 +165,7 @@ export default function HomePage() {
       <Reveal>
         <section className="mt-20">
           <SectionHead index="03" label="Our community groups" note={`${groups.length} chats`} />
-          <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <FeatureCarousel className="mt-8">
             {groups.map((group, i) => (
               <GroupTile
                 key={group.name}
@@ -174,7 +175,7 @@ export default function HomePage() {
                 tilt={tilts[i % tilts.length]}
               />
             ))}
-          </div>
+          </FeatureCarousel>
         </section>
       </Reveal>
 
