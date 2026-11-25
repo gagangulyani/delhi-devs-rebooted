@@ -13,6 +13,7 @@ import { eventDate } from "@/lib/event-date";
 import { WHATSAPP_INVITE_LINK } from "@/constants/links";
 import { Reveal } from "@/components/editorial/Reveal";
 import { SectionHead, PrintPhoto, Marquee, IconCard, GroupTile } from "@/components/editorial/Poster";
+import { Magnetic, FloatingShapes } from "@/components/editorial/motion";
 
 export const metadata: Metadata = {
   title: "Delhi Devs Rebooted | Connecting Passionate Developers in Delhi NCR",
@@ -53,7 +54,9 @@ export default function HomePage() {
   return (
     <div className="mx-auto w-full max-w-6xl px-5 py-10 sm:px-8 sm:py-14">
       {/* ---- HERO ---- */}
-      <section>
+      <section className="relative">
+        <FloatingShapes />
+        <div className="relative">
         <Reveal>
           <span className="marker">
             {nextEvent
@@ -66,7 +69,7 @@ export default function HomePage() {
           <h1 className="display-hero mt-8 text-foreground">
             Developers across
             <br />
-            Delhi NCR, <span className="serif-i text-primary">in person.</span>
+            Delhi NCR, <span className="serif-i text-primary stamp-in">in person.</span>
           </h1>
         </Reveal>
 
@@ -79,20 +82,23 @@ export default function HomePage() {
 
         <Reveal delay={160}>
           <div className="mt-9 flex flex-wrap items-center gap-4">
-            <a
-              href={WHATSAPP_INVITE_LINK}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-ink"
-            >
-              Join the group
-              <span aria-hidden="true">→</span>
-            </a>
+            <Magnetic>
+              <a
+                href={WHATSAPP_INVITE_LINK}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-ink"
+              >
+                Join the group
+                <span aria-hidden="true">→</span>
+              </a>
+            </Magnetic>
             <Link href="/events" className="btn-ghost">
               {nextEvent ? "See the next meetup" : "See past meetups"}
             </Link>
           </div>
         </Reveal>
+        </div>
       </section>
 
       {/* ---- TICKER ---- */}

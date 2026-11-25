@@ -1,4 +1,5 @@
 import { cn } from "@/lib/utils";
+import { Tilt } from "@/components/editorial/motion";
 
 /** Big numbered section header with a hard rule and optional serif note. */
 export function SectionHead({
@@ -121,19 +122,21 @@ export function IconCard({
   className?: string;
 }) {
   return (
-    <div
-      className={cn(
-        "group border-2 border-foreground bg-card p-6 transition-transform duration-150 hover:-translate-y-1",
-        className
-      )}
-      style={{ boxShadow: "4px 4px 0 0 hsl(var(--foreground))" }}
-    >
-      <div className="flex h-12 w-12 items-center justify-center border-2 border-foreground bg-primary/10 transition-colors duration-150 group-hover:bg-primary/20">
-        <Icon className="h-6 w-6 text-primary" />
+    <Tilt className="h-full">
+      <div
+        className={cn(
+          "group h-full border-2 border-foreground bg-card p-6 transition-transform duration-150 hover:-translate-y-1",
+          className
+        )}
+        style={{ boxShadow: "4px 4px 0 0 hsl(var(--foreground))" }}
+      >
+        <div className="flex h-12 w-12 items-center justify-center border-2 border-foreground bg-primary/10 transition-colors duration-150 group-hover:bg-primary/20">
+          <Icon className="h-6 w-6 text-primary" />
+        </div>
+        <h3 className="mt-4 text-lg font-bold tracking-tight text-foreground">{title}</h3>
+        <p className="mt-1.5 text-sm leading-6 text-muted-foreground">{desc}</p>
       </div>
-      <h3 className="mt-4 text-lg font-bold tracking-tight text-foreground">{title}</h3>
-      <p className="mt-1.5 text-sm leading-6 text-muted-foreground">{desc}</p>
-    </div>
+    </Tilt>
   );
 }
 
@@ -150,21 +153,23 @@ export function Tile({
   className?: string;
 }) {
   return (
-    <div
-      className={cn(
-        "group flex items-start gap-4 border-2 border-foreground bg-card p-5 transition-transform duration-150 hover:-translate-y-1",
-        className
-      )}
-      style={{ boxShadow: "4px 4px 0 0 hsl(var(--foreground))" }}
-    >
-      <div className="flex h-11 w-11 shrink-0 items-center justify-center bg-foreground transition-colors duration-150 group-hover:bg-primary">
-        <Icon className="h-5 w-5 text-background" />
+    <Tilt className="h-full">
+      <div
+        className={cn(
+          "group flex h-full items-start gap-4 border-2 border-foreground bg-card p-5 transition-transform duration-150 hover:-translate-y-1",
+          className
+        )}
+        style={{ boxShadow: "4px 4px 0 0 hsl(var(--foreground))" }}
+      >
+        <div className="flex h-11 w-11 shrink-0 items-center justify-center bg-foreground transition-colors duration-150 group-hover:bg-primary">
+          <Icon className="h-5 w-5 text-background" />
+        </div>
+        <div className="min-w-0">
+          <h3 className="text-base font-bold tracking-tight text-foreground">{title}</h3>
+          <p className="mt-1 text-[13px] leading-5 text-muted-foreground">{desc}</p>
+        </div>
       </div>
-      <div className="min-w-0">
-        <h3 className="text-base font-bold tracking-tight text-foreground">{title}</h3>
-        <p className="mt-1 text-[13px] leading-5 text-muted-foreground">{desc}</p>
-      </div>
-    </div>
+    </Tilt>
   );
 }
 
@@ -252,16 +257,18 @@ export function StepCard({
   className?: string;
 }) {
   return (
-    <div
-      className={cn(
-        "border-2 border-foreground bg-card p-6 transition-transform duration-150 hover:-translate-y-1",
-        className
-      )}
-      style={{ boxShadow: "4px 4px 0 0 hsl(var(--foreground))" }}
-    >
-      <div className="font-mono text-4xl font-bold tabular-nums text-primary">{n}</div>
-      <h3 className="mt-3 text-lg font-bold tracking-tight text-foreground">{title}</h3>
-      <p className="mt-1 text-sm leading-6 text-muted-foreground">{desc}</p>
-    </div>
+    <Tilt className="h-full">
+      <div
+        className={cn(
+          "h-full border-2 border-foreground bg-card p-6 transition-transform duration-150 hover:-translate-y-1",
+          className
+        )}
+        style={{ boxShadow: "4px 4px 0 0 hsl(var(--foreground))" }}
+      >
+        <div className="font-mono text-4xl font-bold tabular-nums text-primary">{n}</div>
+        <h3 className="mt-3 text-lg font-bold tracking-tight text-foreground">{title}</h3>
+        <p className="mt-1 text-sm leading-6 text-muted-foreground">{desc}</p>
+      </div>
+    </Tilt>
   );
 }

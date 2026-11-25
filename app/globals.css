@@ -323,3 +323,80 @@ All colors MUST be HSL.
     transform: none !important;
   }
 }
+
+/* ------------------------------------------------------------------
+   Motion & micro-interactions (transform/opacity only)
+   ------------------------------------------------------------------ */
+@layer components {
+  /* Skeleton shimmer */
+  .skeleton {
+    @apply rounded-md bg-muted;
+    background-image: linear-gradient(
+      100deg,
+      transparent 20%,
+      hsl(var(--foreground) / 0.07) 50%,
+      transparent 80%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 1.6s linear infinite;
+  }
+}
+
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* Floating decorative shapes */
+@keyframes floaty {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-16px) rotate(4deg); }
+}
+
+.animate-floaty {
+  animation: floaty 6s ease-in-out infinite;
+}
+
+.animate-floaty-slow {
+  animation: floaty 9s ease-in-out infinite;
+}
+
+.animate-floaty-reverse {
+  animation: floaty 7s ease-in-out infinite reverse;
+}
+
+/* Stamp-in pop for accent words */
+@keyframes stamp {
+  0% { opacity: 0; transform: scale(1.5) rotate(-5deg); }
+  60% { opacity: 1; transform: scale(0.96) rotate(1deg); }
+  100% { opacity: 1; transform: scale(1) rotate(0); }
+}
+
+.stamp-in {
+  display: inline-block;
+  animation: stamp 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* Sliding underline for links */
+.link-slide {
+  position: relative;
+}
+
+.link-slide::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 100%;
+  height: 2px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.link-slide:hover::after,
+.link-slide:focus-visible::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}

@@ -15,6 +15,8 @@ import { DesktopSidebar } from "@/components/DesktopSidebar";
 import { GlobalLoader } from "@/components/GlobalLoader";
 import { getPublicNavigationItems } from "@/constants/navigation";
 import { SidebarProvider, SidebarLayout, SidebarTrigger } from "@/components/ui/sidebar";
+import { ScrollProgress } from "@/components/editorial/motion";
+import { ThemeToggle } from "@/components/ui/theme-toggle";
 
 export const metadata: Metadata = {
   title: {
@@ -190,6 +192,10 @@ export default function RootLayout({
       </head>
       <body className="grain font-sans">
         <Providers>
+          <ScrollProgress />
+          <div className="fixed right-4 top-4 z-[60]">
+            <ThemeToggle />
+          </div>
           <Toaster />
           <Sonner />
           <SidebarProvider>

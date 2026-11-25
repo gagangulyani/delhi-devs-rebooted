@@ -1,36 +1,46 @@
-'use client'
+"use client";
 
 import { Moon, Sun } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { useTheme } from "next-themes";
+import { useEffect, useState } from "react";
 
 interface ThemeToggleProps {
-  variant?: "default" | "ghost";
   className?: string;
 }
 
-export function ThemeToggle({ variant = "default", className = "" }: ThemeToggleProps) {
-  const { setTheme, theme } = useTheme();
+export function ThemeToggle({ className = "" }: ThemeToggleProps) {
+  const { resolvedTheme, setTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
 
-  const toggleTheme = () => {
-    setTheme(theme === "dark" ? "light" : "dark");
-  };
+  useEffect(() => setMounted(true), []);
 
-  const buttonVariant = variant === "ghost" ? "ghost" : "outline";
-  const buttonClasses = variant === "ghost"
-    ? "h-9 w-9 bg-transparent hover:bg-white/10 dark:hover:bg-white/5 border-transparent"
-    : "h-9 w-9";
+  const isDark = mounted && resolvedTheme === "dark";
 
   return (
-    <Button
-      variant={buttonVariant}
-      size="icon"
-      onClick={toggleTheme}
-      className={`${buttonClasses} ${className}`}
+    <button
+      type="button"
+      onClick={() => setTheme(isDark ? "light" : "dark")}
+      aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
+      title={isDark ? "Switch to light mode" : "Switch to dark mode"}
+      className={`relative flex h-11 w-11 items-center justify-center border-2 border-foreground bg-card text-foreground transition-transform duration-150 hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background ${className}`}
+      style={{ boxShadow: "3px 3px 0 0 hsl(var(--foreground))" }}
     >
-      <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-      <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
-      <span className="sr-only">Toggle theme</span>
-    </Button>
+      {mounted ? (
+        <>
+          <Sun
+            className={`h-5 w-5 transition-all duration-300 ${
+              isDark ? "rotate-0 scale-100 opacity-100" : "-rotate-90 scale-0 opacity-0"
+            }`}
+          />
+          <Moon
+            className={`absolute h-5 w-5 transition-all duration-300 ${
+              isDark ? "rotate-90 scale-0 opacity-0" : "rotate-0 scale-100 opacity-100"
+            }`}
+          />
+        </>
+      ) : (
+        <span className="h-5 w-5" />
+      )}
+    </button>
   );
 }
