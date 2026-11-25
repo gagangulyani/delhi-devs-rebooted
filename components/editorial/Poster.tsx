@@ -125,13 +125,13 @@ export function IconCard({
     <Tilt className="h-full">
       <div
         className={cn(
-          "group h-full border-2 border-foreground bg-card p-6 transition-transform duration-150 hover:-translate-y-1",
+          "group h-full border-2 border-foreground bg-card p-6 transition-all duration-200 hover:-translate-y-1",
           className
         )}
         style={{ boxShadow: "4px 4px 0 0 hsl(var(--foreground))" }}
       >
-        <div className="flex h-12 w-12 items-center justify-center border-2 border-foreground bg-primary/10 transition-colors duration-150 group-hover:bg-primary/20">
-          <Icon className="h-6 w-6 text-primary" />
+        <div className="flex h-12 w-12 items-center justify-center border-2 border-foreground bg-primary/10 transition-colors duration-200 group-hover:bg-primary">
+          <Icon className="h-6 w-6 text-primary transition-all duration-200 group-hover:-rotate-6 group-hover:scale-110 group-hover:text-primary-foreground" />
         </div>
         <h3 className="mt-4 text-lg font-bold tracking-tight text-foreground">{title}</h3>
         <p className="mt-1.5 text-sm leading-6 text-muted-foreground">{desc}</p>

@@ -1,11 +1,14 @@
 "use client";
 
-import { useCallback, useEffect, useState, Children } from "react";
+import { useCallback, useEffect, useState, Children, useRef } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import { ArrowLeft, ArrowRight } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 const arrowClass =
   "flex h-10 w-10 items-center justify-center border-2 border-foreground bg-card text-foreground transition-all duration-150 hover:-translate-y-0.5 hover:bg-primary/10 disabled:pointer-events-none disabled:opacity-35";
+
+type RevealState = "idle" | "ready" | "shown";
 
 export function FeatureCarousel({
   children,
@@ -20,6 +23,8 @@ export function FeatureCarousel({
   });
   const [canPrev, setCanPrev] = useState(false);
   const [canNext, setCanNext] = useState(false);
+  const [reveal, setReveal] = useState<RevealState>("idle");
+  const rootRef = useRef<HTMLDivElement>(null);
 
   const onSelect = useCallback(() => {
     if (!emblaApi) return;
@@ -38,14 +43,54 @@ export function FeatureCarousel({
     };
   }, [emblaApi, onSelect]);
 
+  useEffect(() => {
+    const el = rootRef.current;
+    if (!el) return;
+
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      setReveal("shown");
+      return;
+    }
+
+    // Anything already in view stays put; only animate blocks below the fold.
+    if (el.getBoundingClientRect().top < window.innerHeight) {
+      setReveal("shown");
+      return;
+    }
+
+    setReveal("ready");
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            setReveal("shown");
+            observer.disconnect();
+          }
+        }
+      },
+      { rootMargin: "0px 0px -8% 0px", threshold: 0.05 }
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  const slides = Children.toArray(children);
+
   return (
-    <div className={className}>
+    <div ref={rootRef} className={className}>
       <div ref={emblaRef} className="cursor-grab overflow-hidden p-4 active:cursor-grabbing">
         <div className="flex gap-5">
-          {Children.toArray(children).map((slide, i) => (
+          {slides.map((slide, i) => (
             <div
               key={i}
-              className="flex min-w-0 shrink-0 grow-0 basis-[85%] sm:basis-[45%] lg:basis-[31%]"
+              className={cn(
+                "flex min-w-0 shrink-0 grow-0 basis-[85%] transition-[opacity,transform] duration-500 ease-out sm:basis-[45%] lg:basis-[31%]",
+                reveal === "ready" && "translate-y-5 opacity-0",
+                reveal === "shown" && "translate-y-0 opacity-100"
+              )}
+              style={reveal === "shown" ? { transitionDelay: `${i * 70}ms` } : undefined}
             >
               {slide}
             </div>
