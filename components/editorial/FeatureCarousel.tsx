@@ -5,6 +5,8 @@ import useEmblaCarousel from "embla-carousel-react";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 
+const AUTOPLAY_DELAY = 3500;
+
 const arrowClass =
   "flex h-10 w-10 items-center justify-center border-2 border-foreground bg-card text-foreground transition-all duration-150 hover:-translate-y-0.5 hover:bg-primary/10 disabled:pointer-events-none disabled:opacity-35";
 
@@ -17,12 +19,11 @@ export function FeatureCarousel({
   children: React.ReactNode;
   className?: string;
 }) {
-  const [emblaRef, emblaApi] = useEmblaCarousel({
-    align: "start",
-    containScroll: "trimSnaps",
-  });
+  const [emblaRef, emblaApi] = useEmblaCarousel({ align: "start", loop: true });
   const [canPrev, setCanPrev] = useState(false);
   const [canNext, setCanNext] = useState(false);
+  const [selected, setSelected] = useState(0);
+  const [paused, setPaused] = useState(false);
   const [reveal, setReveal] = useState<RevealState>("idle");
   const rootRef = useRef<HTMLDivElement>(null);
 
@@ -30,6 +31,7 @@ export function FeatureCarousel({
     if (!emblaApi) return;
     setCanPrev(emblaApi.canScrollPrev());
     setCanNext(emblaApi.canScrollNext());
+    setSelected(emblaApi.selectedScrollSnap());
   }, [emblaApi]);
 
   useEffect(() => {
@@ -43,6 +45,14 @@ export function FeatureCarousel({
     };
   }, [emblaApi, onSelect]);
 
+  // Slideshow auto-play — pauses while the user hovers or drags.
+  useEffect(() => {
+    if (!emblaApi || paused) return;
+    const interval = setInterval(() => emblaApi.scrollNext(), AUTOPLAY_DELAY);
+    return () => clearInterval(interval);
+  }, [emblaApi, paused]);
+
+  // Staggered entrance when scrolled into view.
   useEffect(() => {
     const el = rootRef.current;
     if (!el) return;
@@ -52,7 +62,6 @@ export function FeatureCarousel({
       return;
     }
 
-    // Anything already in view stays put; only animate blocks below the fold.
     if (el.getBoundingClientRect().top < window.innerHeight) {
       setReveal("shown");
       return;
@@ -79,7 +88,12 @@ export function FeatureCarousel({
   const slides = Children.toArray(children);
 
   return (
-    <div ref={rootRef} className={className}>
+    <div
+      ref={rootRef}
+      className={className}
+      onPointerEnter={() => setPaused(true)}
+      onPointerLeave={() => setPaused(false)}
+    >
       <div ref={emblaRef} className="cursor-grab overflow-hidden p-4 active:cursor-grabbing">
         <div className="flex gap-5">
           {slides.map((slide, i) => (
@@ -98,10 +112,23 @@ export function FeatureCarousel({
         </div>
       </div>
 
-      <div className="mt-6 flex items-center justify-between">
-        <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-muted-foreground">
-          Swipe or drag
-        </span>
+      <div className="mt-6 flex items-center justify-between gap-4">
+        <div className="flex items-center gap-1.5">
+          {slides.map((_, i) => (
+            <button
+              key={i}
+              type="button"
+              onClick={() => emblaApi?.scrollTo(i)}
+              aria-label={`Go to slide ${i + 1}`}
+              aria-current={i === selected ? "true" : undefined}
+              className={cn(
+                "h-2 rounded-full transition-all duration-300",
+                i === selected ? "w-7 bg-primary" : "w-2 bg-border hover:bg-muted-foreground"
+              )}
+            />
+          ))}
+        </div>
+
         <div className="flex gap-3">
           <button
             type="button"
