@@ -46,7 +46,6 @@ export function FeatureCarousel({
     };
   }, [emblaApi, onSelect]);
 
-  // Reveal (staggered) + visibility tracking for auto-play.
   useEffect(() => {
     const el = rootRef.current;
     if (!el) return;
@@ -68,9 +67,7 @@ export function FeatureCarousel({
       (entries) => {
         for (const entry of entries) {
           setInView(entry.isIntersecting);
-          if (entry.isIntersecting) {
-            setReveal("shown");
-          }
+          if (entry.isIntersecting) setReveal("shown");
         }
       },
       { rootMargin: "0px 0px -8% 0px", threshold: 0.05 }
@@ -80,7 +77,6 @@ export function FeatureCarousel({
     return () => observer.disconnect();
   }, []);
 
-  // Slideshow auto-play — only while in view, and paused on hover/drag.
   useEffect(() => {
     if (!emblaApi || paused || !inView) return;
     const interval = setInterval(() => emblaApi.scrollNext(), AUTOPLAY_DELAY);
@@ -98,7 +94,7 @@ export function FeatureCarousel({
     >
       <div
         ref={emblaRef}
-        className="ml-[calc(50%_-_50vw)] w-screen cursor-grab overflow-hidden p-4 active:cursor-grabbing"
+        className="cursor-grab overflow-hidden py-4 pl-5 active:cursor-grabbing sm:pl-8 lg:pl-[max(2rem,calc(50%_-_36rem_+_2rem))]"
       >
         <div className="flex gap-5">
           {slides.map((slide, i) => (
@@ -117,7 +113,7 @@ export function FeatureCarousel({
         </div>
       </div>
 
-      <div className="mt-6 flex items-center justify-between gap-4">
+      <div className="mx-auto mt-6 flex w-full max-w-6xl items-center justify-between gap-4 px-5 sm:px-8">
         <div className="flex items-center gap-1.5">
           {slides.map((_, i) => (
             <button

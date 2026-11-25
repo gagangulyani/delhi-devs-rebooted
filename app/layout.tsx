@@ -193,7 +193,7 @@ export default function RootLayout({
           <ScrollProgress />
           <Toaster />
           <Sonner />
-          <main className="min-h-screen overflow-x-clip pb-24 sm:pb-28">
+          <main className="min-h-screen pb-24 sm:pb-28">
             {children}
           </main>
           <BottomNav items={publicNavigationItems} />
