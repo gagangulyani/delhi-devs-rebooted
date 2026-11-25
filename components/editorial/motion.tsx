@@ -122,7 +122,10 @@ export function Tilt({
 /** Animated geometric shapes for hero backgrounds. */
 export function FloatingShapes() {
   return (
-    <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
+    <div
+      aria-hidden="true"
+      className="pointer-events-none absolute inset-y-0 left-1/2 w-screen -translate-x-1/2 overflow-hidden"
+    >
       <div className="animate-floaty absolute -right-10 -top-10 h-48 w-48 rounded-full bg-primary/15" />
       <div className="animate-floaty-slow absolute left-8 top-1/3 h-24 w-24 rounded-md bg-secondary" />
       <div className="animate-floaty-reverse absolute bottom-16 right-1/4 h-28 w-28 rotate-12 bg-primary/10" />
