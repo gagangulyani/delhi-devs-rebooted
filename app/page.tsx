@@ -17,7 +17,6 @@ import { WHATSAPP_INVITE_LINK } from "@/constants/links";
 import { Reveal } from "@/components/editorial/Reveal";
 import { SectionHead, PrintPhoto, Marquee, IconCard, GroupTile } from "@/components/editorial/Poster";
 import { Magnetic, FloatingShapes } from "@/components/editorial/motion";
-import { FeatureCarousel } from "@/components/editorial/FeatureCarousel";
 
 export const metadata: Metadata = {
   title: "Delhi Devs Rebooted | Connecting Passionate Developers in Delhi NCR",
@@ -156,11 +155,21 @@ export default function HomePage() {
             <SectionHead index="02" label="What you get" note={`${features.length} ways`} />
           </div>
         </Reveal>
-        <FeatureCarousel className="mt-8">
-          {features.map((feature) => (
-            <IconCard key={feature.title} icon={feature.icon} title={feature.title} desc={feature.desc} />
-          ))}
-        </FeatureCarousel>
+        <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {features.map((feature, i) => {
+            const featured = i % 2 === 0;
+            return (
+              <div key={feature.title} className={featured ? "lg:col-span-2" : ""}>
+                <IconCard
+                  featured={featured}
+                  icon={feature.icon}
+                  title={feature.title}
+                  desc={feature.desc}
+                />
+              </div>
+            );
+          })}
+        </div>
       </section>
 
       {/* ---- GROUPS ---- */}
@@ -170,7 +179,7 @@ export default function HomePage() {
             <SectionHead index="03" label="Our community groups" note={`${groups.length} chats`} />
           </div>
         </Reveal>
-        <FeatureCarousel className="mt-8">
+        <div className="mt-8 grid gap-5 sm:grid-cols-2">
           {groups.map((group, i) => (
             <GroupTile
               key={group.name}
@@ -180,7 +189,7 @@ export default function HomePage() {
               tilt={tilts[i % tilts.length]}
             />
           ))}
-        </FeatureCarousel>
+        </div>
       </section>
 
       {/* ---- JOIN US ---- */}
@@ -194,11 +203,11 @@ export default function HomePage() {
             </p>
           </div>
         </Reveal>
-        <FeatureCarousel className="mt-8">
+        <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {joinFeatures.map((feature) => (
             <IconCard key={feature.title} icon={feature.icon} title={feature.title} desc={feature.desc} />
           ))}
-        </FeatureCarousel>
+        </div>
         <Reveal>
           <div className="mx-auto mt-10 w-full max-w-6xl px-5 sm:px-8">
             <div
