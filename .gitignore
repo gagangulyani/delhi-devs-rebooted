@@ -46,6 +46,7 @@ outputs
 build
 out
 .vercel
+*.tsbuildinfo
 
 # Coverage reports
 coverage/

@@ -33,6 +33,15 @@ const nextConfig = {
   experimental: {
     optimizePackageImports: ['lucide-react'],
   },
+  async redirects() {
+    return [
+      {
+        source: '/join',
+        destination: '/',
+        permanent: true,
+      },
+    ];
+  },
 }
 
 module.exports = nextConfig

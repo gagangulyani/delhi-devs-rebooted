@@ -25,12 +25,6 @@ export const navigationItems: NavigationItem[] = [
     isPublic: true,
   },
   {
-    title: "Join Community",
-    url: "/join",
-    icon: "faUserPlus",
-    isPublic: true,
-  },
-  {
     title: "Code of Conduct",
     url: "/code-of-conduct",
     icon: "faShieldAlt",
@@ -46,24 +40,3 @@ export const navigationItems: NavigationItem[] = [
 
 export const getPublicNavigationItems = () =>
   navigationItems.filter((item) => item.isPublic);
-
-export const getPageTitle = (pathname: string): string | null => {
-  if (pathname.startsWith("/events/") && pathname !== "/events") {
-    return "Event Details";
-  }
-  return null;
-};
-
-const matchesRoute = (pathname: string, baseUrl: string): boolean => {
-  if (pathname === baseUrl) {
-    return true;
-  }
-  if (baseUrl !== "/" && pathname.startsWith(baseUrl + "/")) {
-    return true;
-  }
-  return false;
-};
-
-export const findParentNavItem = (pathname: string) => {
-  return navigationItems.find((item) => matchesRoute(pathname, item.url));
-};

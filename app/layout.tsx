@@ -11,12 +11,10 @@ import './globals.css'
 import { Providers } from './providers'
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
-import { DesktopSidebar } from "@/components/DesktopSidebar";
 import { GlobalLoader } from "@/components/GlobalLoader";
 import { getPublicNavigationItems } from "@/constants/navigation";
-import { SidebarProvider, SidebarLayout, SidebarTrigger } from "@/components/ui/sidebar";
+import { BottomNav } from "@/components/BottomNav";
 import { ScrollProgress } from "@/components/editorial/motion";
-import { ThemeToggle } from "@/components/ui/theme-toggle";
 
 export const metadata: Metadata = {
   title: {
@@ -193,24 +191,14 @@ export default function RootLayout({
       <body className="grain font-sans">
         <Providers>
           <ScrollProgress />
-          <div className="fixed right-4 top-4 z-[60]">
-            <ThemeToggle />
-          </div>
           <Toaster />
           <Sonner />
-          <SidebarProvider>
-            <DesktopSidebar navigationItems={publicNavigationItems} />
-            <SidebarLayout className="min-h-screen">
-              <main className="flex-1 flex flex-col min-h-screen overflow-auto">
-                <div className="md:hidden p-4 border-b border-border flex items-center">
-                  <SidebarTrigger />
-                </div>
-                <div className="flex-1 p-6 lg:p-8">
-                  {children}
-                </div>
-              </main>
-            </SidebarLayout>
-          </SidebarProvider>
+          <main className="min-h-screen pb-24 sm:pb-28">
+            <div className="p-6 lg:p-8">
+              {children}
+            </div>
+          </main>
+          <BottomNav items={publicNavigationItems} />
           <GlobalLoader />
         </Providers>
       </body>

@@ -7,6 +7,9 @@ import {
   Briefcase,
   BookOpen,
   Calendar,
+  Zap,
+  Coffee,
+  PartyPopper,
 } from "lucide-react";
 import { events } from "@/lib/event-data";
 import { eventDate } from "@/lib/event-date";
@@ -37,6 +40,13 @@ const features = [
   { icon: Calendar, title: "Community Events", desc: "Hackathons to coffee chats" },
   { icon: Code2, title: "Project Collaboration", desc: "Find partners, build together" },
   { icon: Heart, title: "Mentorship", desc: "Learn from seniors, give back" },
+];
+
+const joinFeatures = [
+  { icon: Zap, title: "Lightning Fast", desc: "Stuck? Someone replies in minutes, not hours." },
+  { icon: Coffee, title: "3AM Club", desc: "Debugging at ungodly hours is normal here." },
+  { icon: Code2, title: "Real Talk", desc: "No LinkedIn fluff. Just shipping and breaking things." },
+  { icon: PartyPopper, title: "Good Vibes", desc: "Meetups worth leaving your house for. Actually." },
 ];
 
 const meetupTitles = {
@@ -168,12 +178,21 @@ export default function HomePage() {
         </section>
       </Reveal>
 
-      {/* ---- CTA ---- */}
+      {/* ---- JOIN US (merged from /join) ---- */}
       <Reveal>
-        <section className="mt-20">
-          <SectionHead index="04" label="Join us" />
+        <section id="join" className="mt-20">
+          <SectionHead index="04" label="Join us" note="the group chat" />
+          <p className="lede mt-6 max-w-2xl">
+            A WhatsApp group for Delhi developers who actually build things.
+            No recruiters. Just real conversations at 3am.
+          </p>
+          <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+            {joinFeatures.map((feature) => (
+              <IconCard key={feature.title} icon={feature.icon} title={feature.title} desc={feature.desc} />
+            ))}
+          </div>
           <div
-            className="mt-8 flex flex-col items-center gap-6 border-2 border-foreground bg-card p-8 text-center sm:p-10"
+            className="mt-10 flex flex-col items-center gap-6 border-2 border-foreground bg-card p-8 text-center sm:p-10"
             style={{ boxShadow: "6px 6px 0 0 hsl(var(--primary))" }}
           >
             <h2 className="display text-foreground">
@@ -215,7 +234,7 @@ export default function HomePage() {
           <nav className="flex flex-wrap gap-x-6 gap-y-2 font-mono text-[11px] uppercase tracking-[0.14em] text-muted-foreground">
             <Link href="/events" className="hover:text-foreground">Events</Link>
             <Link href="/about" className="hover:text-foreground">About</Link>
-            <Link href="/join" className="hover:text-foreground">Join</Link>
+            <Link href="/#join" className="hover:text-foreground">Join</Link>
             <Link href="/contribute" className="hover:text-foreground">Contribute</Link>
             <Link href="/code-of-conduct" className="hover:text-foreground">Code of conduct</Link>
             <a

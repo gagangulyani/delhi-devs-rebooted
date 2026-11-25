@@ -48,7 +48,7 @@ export default function EventsPage() {
           ) : (
             <p className="py-8 text-sm text-muted-foreground">
               No date announced yet.{" "}
-              <Link href="/join" className="link-editorial text-foreground">
+              <Link href="/#join" className="link-editorial text-foreground">
                 Join the group
               </Link>{" "}
               and you&apos;ll hear about the next one first.

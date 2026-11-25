@@ -182,7 +182,7 @@ export default function CodeOfConductPage() {
         <p className="serif-i text-xl text-foreground">
           By joining, you agree to follow this code.
         </p>
-        <Link href="/join" className="btn-ink">
+        <Link href="/#join" className="btn-ink">
           Join the community
         </Link>
       </footer>

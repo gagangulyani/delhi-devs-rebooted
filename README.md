@@ -4,23 +4,21 @@ A modern, responsive community platform for Delhi developers built with Next.js 
 
 ## Features
 
-- **Landing Page** - Beautiful glassmorphism hero section with community info
+- **Landing Page** - Hero, features, community groups, and the join CTA
 - **About Page** - Learn about the community mission and story
-- **Join Community** - WhatsApp group join requests
-- **Events** - Discover and browse tech meetups (feature currently disabled)
+- **Events** - Discover and browse tech meetups
 - **Code of Conduct** - Community guidelines
 - **Contribute** - Open source contribution guide
 
 ## Pages
 
-The application has 6 public pages:
+The application has 5 public pages:
 
 | Route | Description |
 |-------|-------------|
-| `/` | Landing page with hero, features, and community info |
+| `/` | Landing page with hero, features, community info, and join CTA |
 | `/about` | About the community |
-| `/join` | Join the WhatsApp community |
-| `/events` | Browse events (currently disabled) |
+| `/events` | Browse events |
 | `/code-of-conduct` | Community guidelines |
 | `/contribute` | How to contribute to the project |
 
@@ -152,15 +150,14 @@ delhi-devs-rebooted/
 ├── app/                    # Next.js 15 App Router
 │   ├── page.tsx           # Landing page
 │   ├── about/             # About page
-│   ├── join/              # Join community
-│   ├── events/            # Events (feature disabled)
+│   ├── events/            # Events
 │   ├── code-of-conduct/   # Community guidelines
 │   └── contribute/        # Contribution guide
 ├── components/
 │   ├── ui/                # shadcn/ui components
-│   ├── landing/           # Landing page components
+│   ├── editorial/         # Editorial/landing components
 │   ├── events/            # Event components
-│   └── skeletons/        # Loading skeletons
+│   └── skeletons/         # Loading skeletons
 ├── contexts/              # React contexts
 ├── hooks/                 # Custom React hooks
 ├── lib/                   # Utility functions
@@ -169,36 +166,23 @@ delhi-devs-rebooted/
 └── constants/             # App constants and config
 ```
 
-## Feature Flags
-
-Features can be toggled in `constants/features.ts`:
-
-| Feature | Status | Description |
-|---------|--------|-------------|
-| `events` | Disabled | Events listing and UI |
-| `blogs` | Disabled | Blog section |
-| `admin` | Disabled | Admin dashboard |
-| `projects` | Disabled | Project showcase |
-| `activity` | Disabled | Recent activity on profiles |
-
-Set a feature to `true` to enable it. Note: routes remain accessible via URL even if navigation is hidden.
-
 ## Design System
 
-### Glassmorphism Theme
+### Fanzine / Print Theme
 
-The application features a glassmorphism design with:
+The application uses a print-poster ("fanzine") design system:
 
-- Frosted glass effects with backdrop blur
-- Minimalist and elegant layouts
-- Smooth transitions
+- Hard borders and offset hard shadows
+- Warm paper + ink palette with a vivid orange accent
+- Editorial typography (Bricolage Grotesque, Instrument Serif, JetBrains Mono)
+- Scroll-reveal, marquee, and stamp-in motion
 - Dark/light mode support with `next-themes`
 
 ### Color Palette
 
-- Custom orange accent colors (50-950 scale)
-- Sidebar-specific color variables
-- Semantic color tokens for consistent theming
+- Semantic HSL tokens (background, foreground, primary, muted, etc.)
+- Vivid orange primary accent
+- Deep ink palette for dark mode
 
 ## Available Scripts
 

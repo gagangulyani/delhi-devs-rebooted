@@ -54,7 +54,7 @@ export default function AboutPage() {
         <Link href="/events" className="btn-ink">
           See Events
         </Link>
-        <Link href="/join" className="btn-ghost">
+        <Link href="/#join" className="btn-ghost">
           Join Community
         </Link>
       </PageHeader>
