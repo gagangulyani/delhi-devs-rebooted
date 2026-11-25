@@ -155,20 +155,39 @@ export default function HomePage() {
             <SectionHead index="02" label="What you get" note={`${features.length} ways`} />
           </div>
         </Reveal>
-        <div className="mx-auto mt-8 grid w-full max-w-6xl gap-5 px-5 sm:grid-cols-2 sm:px-8 lg:grid-cols-3">
-          {features.map((feature, i) => {
-            const featured = i % 2 === 0;
-            return (
-              <div key={feature.title} className={featured ? "lg:col-span-2" : ""}>
-                <IconCard
-                  featured={featured}
-                  icon={feature.icon}
-                  title={feature.title}
-                  desc={feature.desc}
-                />
-              </div>
-            );
-          })}
+        <div className="mx-auto mt-8 w-full max-w-6xl border-t-2 border-foreground px-5 sm:px-8">
+          {features.map((feature, i) => (
+            <Reveal key={feature.title} delay={i * 60}>
+              <article className="group flex items-center gap-5 border-b-2 border-foreground py-6 transition-colors duration-300 hover:bg-foreground sm:gap-8 sm:py-8">
+                <span
+                  aria-hidden="true"
+                  className="font-mono text-4xl font-bold tabular-nums text-primary/25 transition-all duration-300 group-hover:scale-110 group-hover:text-primary sm:text-7xl"
+                >
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+
+                <div className="min-w-0 flex-1">
+                  <h3 className="text-2xl font-extrabold tracking-tight text-foreground transition-colors duration-300 group-hover:text-background sm:text-3xl">
+                    {feature.title}
+                  </h3>
+                  <p className="mt-1 text-sm leading-6 text-muted-foreground transition-colors duration-300 group-hover:text-background/70 sm:text-base">
+                    {feature.desc}
+                  </p>
+                </div>
+
+                <div className="hidden h-14 w-14 shrink-0 items-center justify-center border-2 border-foreground bg-primary/10 transition-colors duration-300 group-hover:border-background group-hover:bg-primary sm:flex">
+                  <feature.icon className="h-7 w-7 text-primary transition-colors duration-300 group-hover:text-primary-foreground" />
+                </div>
+
+                <span
+                  aria-hidden="true"
+                  className="hidden font-mono text-2xl text-primary opacity-0 transition-all duration-300 group-hover:translate-x-1 group-hover:opacity-100 sm:block"
+                >
+                  →
+                </span>
+              </article>
+            </Reveal>
+          ))}
         </div>
       </section>
 
