@@ -8,6 +8,11 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
+    /* Self-hosted fonts (no build-time Google Fonts fetch) */
+    --font-sans: "Bricolage Grotesque", ui-sans-serif, system-ui, sans-serif;
+    --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+    --font-serif: "Instrument Serif", ui-serif, Georgia, serif;
+
     /* Light theme: warm paper palette */
     --background: 30 50% 97%; /* warm paper */
     --foreground: 20 30% 14%; /* ink */

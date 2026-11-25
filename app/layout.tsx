@@ -1,5 +1,12 @@
 import type { Metadata } from 'next'
-import { Bricolage_Grotesque, Instrument_Serif, JetBrains_Mono } from 'next/font/google'
+import '@fontsource/bricolage-grotesque/400.css'
+import '@fontsource/bricolage-grotesque/600.css'
+import '@fontsource/bricolage-grotesque/700.css'
+import '@fontsource/bricolage-grotesque/800.css'
+import '@fontsource/instrument-serif/400.css'
+import '@fontsource/instrument-serif/400-italic.css'
+import '@fontsource/jetbrains-mono/400.css'
+import '@fontsource/jetbrains-mono/500.css'
 import './globals.css'
 import { Providers } from './providers'
 import { Toaster } from "@/components/ui/toaster";
@@ -8,27 +15,6 @@ import { DesktopSidebar } from "@/components/DesktopSidebar";
 import { GlobalLoader } from "@/components/GlobalLoader";
 import { getPublicNavigationItems } from "@/constants/navigation";
 import { SidebarProvider, SidebarLayout, SidebarTrigger } from "@/components/ui/sidebar";
-
-const sans = Bricolage_Grotesque({
-  subsets: ['latin'],
-  display: 'swap',
-  variable: '--font-sans',
-})
-
-const mono = JetBrains_Mono({
-  subsets: ['latin'],
-  display: 'swap',
-  weight: ['400', '500'],
-  variable: '--font-mono',
-})
-
-const serif = Instrument_Serif({
-  subsets: ['latin'],
-  display: 'swap',
-  weight: '400',
-  style: ['normal', 'italic'],
-  variable: '--font-serif',
-})
 
 export const metadata: Metadata = {
   title: {
@@ -195,7 +181,7 @@ export default function RootLayout({
   };
 
   return (
-    <html lang="en" suppressHydrationWarning className={`${sans.variable} ${mono.variable} ${serif.variable}`}>
+    <html lang="en" suppressHydrationWarning>
       <head>
         <script
           type="application/ld+json"
