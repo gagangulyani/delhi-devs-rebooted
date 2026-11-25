@@ -155,7 +155,7 @@ export default function HomePage() {
             <SectionHead index="02" label="What you get" note={`${features.length} ways`} />
           </div>
         </Reveal>
-        <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mx-auto mt-8 grid w-full max-w-6xl gap-5 px-5 sm:grid-cols-2 sm:px-8 lg:grid-cols-3">
           {features.map((feature, i) => {
             const featured = i % 2 === 0;
             return (
@@ -179,7 +179,7 @@ export default function HomePage() {
             <SectionHead index="03" label="Our community groups" note={`${groups.length} chats`} />
           </div>
         </Reveal>
-        <div className="mt-8 grid gap-5 sm:grid-cols-2">
+        <div className="mx-auto mt-8 grid w-full max-w-6xl gap-5 px-5 sm:grid-cols-2 sm:px-8">
           {groups.map((group, i) => (
             <GroupTile
               key={group.name}
@@ -203,7 +203,7 @@ export default function HomePage() {
             </p>
           </div>
         </Reveal>
-        <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mx-auto mt-8 grid w-full max-w-6xl gap-5 px-5 sm:grid-cols-2 sm:px-8 lg:grid-cols-4">
           {joinFeatures.map((feature) => (
             <IconCard key={feature.title} icon={feature.icon} title={feature.title} desc={feature.desc} />
           ))}
