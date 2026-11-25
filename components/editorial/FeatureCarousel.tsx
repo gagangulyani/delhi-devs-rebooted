@@ -24,6 +24,7 @@ export function FeatureCarousel({
   const [canNext, setCanNext] = useState(false);
   const [selected, setSelected] = useState(0);
   const [paused, setPaused] = useState(false);
+  const [inView, setInView] = useState(false);
   const [reveal, setReveal] = useState<RevealState>("idle");
   const rootRef = useRef<HTMLDivElement>(null);
 
@@ -45,36 +46,30 @@ export function FeatureCarousel({
     };
   }, [emblaApi, onSelect]);
 
-  // Slideshow auto-play — pauses while the user hovers or drags.
-  useEffect(() => {
-    if (!emblaApi || paused) return;
-    const interval = setInterval(() => emblaApi.scrollNext(), AUTOPLAY_DELAY);
-    return () => clearInterval(interval);
-  }, [emblaApi, paused]);
-
-  // Staggered entrance when scrolled into view.
+  // Reveal (staggered) + visibility tracking for auto-play.
   useEffect(() => {
     const el = rootRef.current;
     if (!el) return;
 
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
       setReveal("shown");
+      setInView(true);
       return;
     }
 
     if (el.getBoundingClientRect().top < window.innerHeight) {
       setReveal("shown");
-      return;
+      setInView(true);
+    } else {
+      setReveal("ready");
     }
-
-    setReveal("ready");
 
     const observer = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
+          setInView(entry.isIntersecting);
           if (entry.isIntersecting) {
             setReveal("shown");
-            observer.disconnect();
           }
         }
       },
@@ -85,6 +80,13 @@ export function FeatureCarousel({
     return () => observer.disconnect();
   }, []);
 
+  // Slideshow auto-play — only while in view, and paused on hover/drag.
+  useEffect(() => {
+    if (!emblaApi || paused || !inView) return;
+    const interval = setInterval(() => emblaApi.scrollNext(), AUTOPLAY_DELAY);
+    return () => clearInterval(interval);
+  }, [emblaApi, paused, inView]);
+
   const slides = Children.toArray(children);
 
   return (
@@ -94,7 +96,10 @@ export function FeatureCarousel({
       onPointerEnter={() => setPaused(true)}
       onPointerLeave={() => setPaused(false)}
     >
-      <div ref={emblaRef} className="cursor-grab overflow-hidden p-4 active:cursor-grabbing">
+      <div
+        ref={emblaRef}
+        className="ml-[calc(50%_-_50vw)] w-screen cursor-grab overflow-hidden p-4 active:cursor-grabbing"
+      >
         <div className="flex gap-5">
           {slides.map((slide, i) => (
             <div
