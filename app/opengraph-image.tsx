@@ -7,8 +7,8 @@ export const alt = "Delhi Devs Rebooted — developers across Delhi NCR";
 export default function Image() {
   return ogImage({
     eyebrow: "Delhi Devs Rebooted",
-    title: "Connect. Collaborate.",
-    accent: "Code.",
+    title: "Developers across",
+    accent: "Delhi NCR, in person.",
     subtitle: "A community of builders, learners and makers.",
     meta: "Delhi NCR",
   });

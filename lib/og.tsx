@@ -1,4 +1,6 @@
 import { ImageResponse } from "next/og";
+import { readFileSync } from "fs";
+import { join } from "path";
 
 export const OG_WIDTH = 1200;
 export const OG_HEIGHT = 630;
@@ -17,55 +19,48 @@ interface Font {
   style: "normal" | "italic";
 }
 
-let fontPromise: Promise<Font[]> | null = null;
+function loadFonts(): Font[] {
+  const fonts: Font[] = [];
 
-function fetchFonts(): Promise<Font[]> {
-  if (fontPromise) return fontPromise;
+  try {
+    const bricolage = join(
+      process.cwd(),
+      "node_modules",
+      "@fontsource",
+      "bricolage-grotesque",
+      "files",
+      "bricolage-grotesque-latin-800-normal.woff"
+    );
+    fonts.push({
+      name: "Bricolage",
+      data: readFileSync(bricolage).buffer as ArrayBuffer,
+      weight: 800,
+      style: "normal",
+    });
+  } catch {
+    /* fall back to default font */
+  }
 
-  fontPromise = (async () => {
-    const fonts: Font[] = [];
-    const ua = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko)";
+  try {
+    const serif = join(
+      process.cwd(),
+      "node_modules",
+      "@fontsource",
+      "instrument-serif",
+      "files",
+      "instrument-serif-latin-400-italic.woff"
+    );
+    fonts.push({
+      name: "InstrumentSerif",
+      data: readFileSync(serif).buffer as ArrayBuffer,
+      weight: 400,
+      style: "italic",
+    });
+  } catch {
+    /* fall back to default font */
+  }
 
-    try {
-      const css = await fetch(
-        "https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,800&display=swap",
-        { headers: { "User-Agent": ua } }
-      ).then((r) => r.text());
-      const url = css.match(/https:\/\/[^)]+\.ttf/)?.[0];
-      if (url) {
-        fonts.push({
-          name: "Bricolage",
-          data: await fetch(url).then((r) => r.arrayBuffer()),
-          weight: 800,
-          style: "normal",
-        });
-      }
-    } catch {
-      /* fall back to default font */
-    }
-
-    try {
-      const css = await fetch(
-        "https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@1&display=swap",
-        { headers: { "User-Agent": ua } }
-      ).then((r) => r.text());
-      const url = css.match(/https:\/\/[^)]+\.ttf/)?.[0];
-      if (url) {
-        fonts.push({
-          name: "InstrumentSerif",
-          data: await fetch(url).then((r) => r.arrayBuffer()),
-          weight: 400,
-          style: "italic",
-        });
-      }
-    } catch {
-      /* fall back to default font */
-    }
-
-    return fonts;
-  })();
-
-  return fontPromise;
+  return fonts;
 }
 
 interface OgOptions {
@@ -76,8 +71,10 @@ interface OgOptions {
   meta?: string;
 }
 
-export async function ogImage({ eyebrow, title, accent, subtitle, meta }: OgOptions) {
-  const fonts = await fetchFonts();
+export function ogImage({ eyebrow, title, accent, subtitle, meta }: OgOptions) {
+  const fonts = loadFonts();
+  const titleSize = title.length > 20 ? 72 : 92;
+  const accentSize = accent && accent.length > 14 ? 72 : 96;
 
   return new ImageResponse(
     (
@@ -129,7 +126,7 @@ export async function ogImage({ eyebrow, title, accent, subtitle, meta }: OgOpti
         <div style={{ display: "flex", flexDirection: "column" }}>
           <div
             style={{
-              fontSize: 92,
+              fontSize: titleSize,
               fontWeight: 800,
               lineHeight: 0.98,
               letterSpacing: -3,
@@ -143,7 +140,7 @@ export async function ogImage({ eyebrow, title, accent, subtitle, meta }: OgOpti
               style={{
                 fontFamily: "InstrumentSerif, serif",
                 fontStyle: "italic",
-                fontSize: 96,
+                fontSize: accentSize,
                 lineHeight: 1,
                 color: ORANGE,
               }}
