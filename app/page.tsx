@@ -187,11 +187,11 @@ export default function HomePage() {
             A WhatsApp group for Delhi developers who actually build things.
             No recruiters. Just real conversations at 3am.
           </p>
-          <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          <FeatureCarousel className="mt-8">
             {joinFeatures.map((feature) => (
               <IconCard key={feature.title} icon={feature.icon} title={feature.title} desc={feature.desc} />
             ))}
-          </div>
+          </FeatureCarousel>
           <div
             className="mt-10 flex flex-col items-center gap-6 border-2 border-foreground bg-card p-8 text-center sm:p-10"
             style={{ boxShadow: "6px 6px 0 0 hsl(var(--primary))" }}
