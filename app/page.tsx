@@ -114,7 +114,7 @@ export default function HomePage() {
 
       {/* ---- TICKER ---- */}
       <Reveal delay={80}>
-        <Marquee items={ticker} className="mt-14 -mx-5 py-4 sm:-mx-8" />
+        <Marquee items={ticker} className="mt-14 w-screen py-4 ml-[calc(50%_-_50vw)]" />
       </Reveal>
 
       {/* ---- MEETUPS ---- */}
