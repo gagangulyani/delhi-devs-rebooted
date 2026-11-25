@@ -23,17 +23,10 @@ function loadFonts(): Font[] {
   const fonts: Font[] = [];
 
   try {
-    const bricolage = join(
-      process.cwd(),
-      "node_modules",
-      "@fontsource",
-      "bricolage-grotesque",
-      "files",
-      "bricolage-grotesque-latin-800-normal.woff"
-    );
+    const buf = readFileSync(join(process.cwd(), "lib", "og-fonts", "bricolage-800.ttf"));
     fonts.push({
       name: "Bricolage",
-      data: readFileSync(bricolage).buffer as ArrayBuffer,
+      data: buf.buffer.slice(buf.byteOffset, buf.byteOffset + buf.byteLength) as ArrayBuffer,
       weight: 800,
       style: "normal",
     });
@@ -42,17 +35,10 @@ function loadFonts(): Font[] {
   }
 
   try {
-    const serif = join(
-      process.cwd(),
-      "node_modules",
-      "@fontsource",
-      "instrument-serif",
-      "files",
-      "instrument-serif-latin-400-italic.woff"
-    );
+    const buf = readFileSync(join(process.cwd(), "lib", "og-fonts", "instrument-serif-italic.ttf"));
     fonts.push({
       name: "InstrumentSerif",
-      data: readFileSync(serif).buffer as ArrayBuffer,
+      data: buf.buffer.slice(buf.byteOffset, buf.byteOffset + buf.byteLength) as ArrayBuffer,
       weight: 400,
       style: "italic",
     });
