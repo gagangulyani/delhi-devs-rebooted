@@ -40,7 +40,7 @@ export function FeatureCarousel({
 
   return (
     <div className={className}>
-      <div ref={emblaRef} className="cursor-grab overflow-hidden active:cursor-grabbing">
+      <div ref={emblaRef} className="cursor-grab overflow-hidden p-4 active:cursor-grabbing">
         <div className="flex gap-5">
           {Children.toArray(children).map((slide, i) => (
             <div
