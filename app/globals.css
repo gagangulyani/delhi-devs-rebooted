@@ -377,6 +377,22 @@ All colors MUST be HSL.
   animation: stamp 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
+/* Animated content swap (feature rotator) */
+@keyframes feature-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.feature-anim {
+  animation: feature-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
 /* Sliding underline for links */
 .link-slide {
   position: relative;

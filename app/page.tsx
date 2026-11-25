@@ -2,11 +2,6 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import {
   Code2,
-  Heart,
-  Network,
-  Briefcase,
-  BookOpen,
-  Calendar,
   Zap,
   Coffee,
   PartyPopper,
@@ -17,6 +12,7 @@ import { WHATSAPP_INVITE_LINK } from "@/constants/links";
 import { Reveal } from "@/components/editorial/Reveal";
 import { SectionHead, PrintPhoto, Marquee, IconCard, GroupTile } from "@/components/editorial/Poster";
 import { Magnetic, FloatingShapes } from "@/components/editorial/motion";
+import { FeatureRotator } from "@/components/editorial/FeatureRotator";
 
 export const metadata: Metadata = {
   title: "Delhi Devs Rebooted | Connecting Passionate Developers in Delhi NCR",
@@ -34,12 +30,12 @@ const groups = [
 ];
 
 const features = [
-  { icon: Network, title: "Professional Networking", desc: "Connect with devs across Delhi NCR" },
-  { icon: Briefcase, title: "Job Opportunities", desc: "Referrals from people who know you" },
-  { icon: BookOpen, title: "Knowledge Sharing", desc: "Talks, workshops, hands-on" },
-  { icon: Calendar, title: "Community Events", desc: "Hackathons to coffee chats" },
-  { icon: Code2, title: "Project Collaboration", desc: "Find partners, build together" },
-  { icon: Heart, title: "Mentorship", desc: "Learn from seniors, give back" },
+  { icon: "network", title: "Professional Networking", desc: "Connect with devs across Delhi NCR" },
+  { icon: "briefcase", title: "Job Opportunities", desc: "Referrals from people who know you" },
+  { icon: "book", title: "Knowledge Sharing", desc: "Talks, workshops, hands-on" },
+  { icon: "calendar", title: "Community Events", desc: "Hackathons to coffee chats" },
+  { icon: "code", title: "Project Collaboration", desc: "Find partners, build together" },
+  { icon: "heart", title: "Mentorship", desc: "Learn from seniors, give back" },
 ];
 
 const joinFeatures = [
@@ -155,40 +151,11 @@ export default function HomePage() {
             <SectionHead index="02" label="What you get" note={`${features.length} ways`} />
           </div>
         </Reveal>
-        <div className="mx-auto mt-8 w-full max-w-6xl border-t-2 border-foreground px-5 sm:px-8">
-          {features.map((feature, i) => (
-            <Reveal key={feature.title} delay={i * 60}>
-              <article className="group flex items-center gap-5 border-b-2 border-foreground py-6 transition-colors duration-300 hover:bg-foreground sm:gap-8 sm:py-8">
-                <span
-                  aria-hidden="true"
-                  className="font-mono text-4xl font-bold tabular-nums text-primary/25 transition-all duration-300 group-hover:scale-110 group-hover:text-primary sm:text-7xl"
-                >
-                  {String(i + 1).padStart(2, "0")}
-                </span>
-
-                <div className="min-w-0 flex-1">
-                  <h3 className="text-2xl font-extrabold tracking-tight text-foreground transition-colors duration-300 group-hover:text-background sm:text-3xl">
-                    {feature.title}
-                  </h3>
-                  <p className="mt-1 text-sm leading-6 text-muted-foreground transition-colors duration-300 group-hover:text-background/70 sm:text-base">
-                    {feature.desc}
-                  </p>
-                </div>
-
-                <div className="hidden h-14 w-14 shrink-0 items-center justify-center border-2 border-foreground bg-primary/10 transition-colors duration-300 group-hover:border-background group-hover:bg-primary sm:flex">
-                  <feature.icon className="h-7 w-7 text-primary transition-colors duration-300 group-hover:text-primary-foreground" />
-                </div>
-
-                <span
-                  aria-hidden="true"
-                  className="hidden font-mono text-2xl text-primary opacity-0 transition-all duration-300 group-hover:translate-x-1 group-hover:opacity-100 sm:block"
-                >
-                  →
-                </span>
-              </article>
-            </Reveal>
-          ))}
-        </div>
+        <Reveal>
+          <div className="mx-auto mt-12 w-full max-w-6xl px-5 sm:px-8">
+            <FeatureRotator features={features} />
+          </div>
+        </Reveal>
       </section>
 
       {/* ---- GROUPS ---- */}
