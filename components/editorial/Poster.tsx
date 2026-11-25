@@ -109,6 +109,47 @@ export function Marquee({ items, className }: { items: string[]; className?: str
   );
 }
 
+/** Full-width marquee band for a single feature (used by "What you get"). */
+export function FeatureBand({
+  icon: Icon,
+  title,
+  desc,
+  reverse = false,
+  className,
+}: {
+  icon: React.ComponentType<{ className?: string }>;
+  title: string;
+  desc: string;
+  reverse?: boolean;
+  className?: string;
+}) {
+  const row = Array.from({ length: 8 }, (_, i) => (
+    <span key={i} className="flex items-center whitespace-nowrap">
+      <Icon className="h-5 w-5 shrink-0 text-primary" />
+      <span className="ml-3 font-mono text-base font-semibold uppercase tracking-[0.14em] text-foreground">
+        {title}
+      </span>
+      <span className="ml-4 hidden text-sm text-muted-foreground sm:inline">{desc}</span>
+      <span aria-hidden="true" className="mx-10 h-2 w-2 shrink-0 bg-primary" />
+    </span>
+  ));
+
+  return (
+    <div
+      className={cn(
+        "overflow-hidden border-t-2 border-foreground py-4",
+        reverse && "marquee-reverse",
+        className
+      )}
+    >
+      <div className="marquee-track">
+        <div className="flex items-center">{row}</div>
+        <div className="flex items-center">{row}</div>
+      </div>
+    </div>
+  );
+}
+
 /** Icon card: the visual unit for feature/reason/groups content. */
 export function IconCard({
   icon: Icon,

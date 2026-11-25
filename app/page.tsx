@@ -2,6 +2,11 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import {
   Code2,
+  Heart,
+  Network,
+  Briefcase,
+  BookOpen,
+  Calendar,
   Zap,
   Coffee,
   PartyPopper,
@@ -10,9 +15,8 @@ import { events } from "@/lib/event-data";
 import { eventDate } from "@/lib/event-date";
 import { WHATSAPP_INVITE_LINK } from "@/constants/links";
 import { Reveal } from "@/components/editorial/Reveal";
-import { SectionHead, PrintPhoto, Marquee, IconCard, GroupTile } from "@/components/editorial/Poster";
+import { SectionHead, PrintPhoto, Marquee, IconCard, GroupTile, FeatureBand } from "@/components/editorial/Poster";
 import { Magnetic, FloatingShapes } from "@/components/editorial/motion";
-import { FeatureRotator } from "@/components/editorial/FeatureRotator";
 
 export const metadata: Metadata = {
   title: "Delhi Devs Rebooted | Connecting Passionate Developers in Delhi NCR",
@@ -30,12 +34,12 @@ const groups = [
 ];
 
 const features = [
-  { icon: "network", title: "Professional Networking", desc: "Connect with devs across Delhi NCR" },
-  { icon: "briefcase", title: "Job Opportunities", desc: "Referrals from people who know you" },
-  { icon: "book", title: "Knowledge Sharing", desc: "Talks, workshops, hands-on" },
-  { icon: "calendar", title: "Community Events", desc: "Hackathons to coffee chats" },
-  { icon: "code", title: "Project Collaboration", desc: "Find partners, build together" },
-  { icon: "heart", title: "Mentorship", desc: "Learn from seniors, give back" },
+  { icon: Network, title: "Professional Networking", desc: "Connect with devs across Delhi NCR" },
+  { icon: Briefcase, title: "Job Opportunities", desc: "Referrals from people who know you" },
+  { icon: BookOpen, title: "Knowledge Sharing", desc: "Talks, workshops, hands-on" },
+  { icon: Calendar, title: "Community Events", desc: "Hackathons to coffee chats" },
+  { icon: Code2, title: "Project Collaboration", desc: "Find partners, build together" },
+  { icon: Heart, title: "Mentorship", desc: "Learn from seniors, give back" },
 ];
 
 const joinFeatures = [
@@ -151,11 +155,17 @@ export default function HomePage() {
             <SectionHead index="02" label="What you get" note={`${features.length} ways`} />
           </div>
         </Reveal>
-        <Reveal>
-          <div className="mx-auto mt-12 w-full max-w-6xl px-5 sm:px-8">
-            <FeatureRotator features={features} />
-          </div>
-        </Reveal>
+        <div className="mt-8 border-b-2 border-foreground">
+          {features.map((feature, i) => (
+            <FeatureBand
+              key={feature.title}
+              icon={feature.icon}
+              title={feature.title}
+              desc={feature.desc}
+              reverse={i % 2 === 1}
+            />
+          ))}
+        </div>
       </section>
 
       {/* ---- GROUPS ---- */}

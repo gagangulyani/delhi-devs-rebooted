@@ -291,6 +291,10 @@ All colors MUST be HSL.
   animation-play-state: paused;
 }
 
+.marquee-reverse .marquee-track {
+  animation-direction: reverse;
+}
+
 /* ---- film grain (very subtle, print texture) ---- */
 .grain::after {
   content: "";
